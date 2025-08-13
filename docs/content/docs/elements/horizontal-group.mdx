@@ -1,0 +1,182 @@
+---
+title: HorizontalGroup
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A container element that arranges its children horizontally in a row. Extends Group functionality with horizontal layout and reverse capabilities.
+
+## Constructor
+
+```csharp
+new HorizontalGroup(child1, child2, child3);
+new HorizontalGroup(); // Empty horizontal group
+```
+
+## Examples
+
+### Button Layouts
+Common horizontal layout patterns for UI controls:
+
+```csharp
+// Action buttons
+new HorizontalGroup(
+    new Button(new Label("Cancel")),
+    new Button(new Label("Save"))
+)
+.JustifyContent(Justify.FlexEnd);
+
+// Icon and text combinations
+new HorizontalGroup(
+    new Image("Icons/user"),
+    new Label().BindText(ViewModel.Username)
+)
+.AlignItems(Align.Center);
+```
+
+### Form Layouts
+Horizontal arrangements for form elements:
+
+```csharp
+// Input with validation icon
+new HorizontalGroup(
+    new TextField(ViewModel.Email).Flex(1),
+    new Image("Icons/check").BindVisible(ViewModel.IsEmailValid)
+);
+
+// Label and input pairs
+new HorizontalGroup(
+    new Label("Name:").ClassName("form-label"),
+    new TextField(ViewModel.Name).Flex(1)
+);
+```
+
+### Dynamic Content
+Reactive horizontal layouts based on ViewModel:
+
+```csharp
+// Conditional reverse layout
+new HorizontalGroup(
+    new Label("Primary"),
+    new Label("Secondary")
+)
+.BindReverse(ViewModel.IsRightToLeft);
+
+// Dynamic child rendering
+new HorizontalGroup()
+    .BindChildren(
+        ViewModel.ActionItems,
+        item => new Button(new Label(item.Name))
+            .OnClick(_ => ViewModel.ExecuteAction(item))
+    );
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    children: {
+      description: "Array of child elements arranged horizontally",
+      type: "IElement[]",
+      default: "[]",
+    },
+    reverse: {
+      description: "Whether to reverse the order of children (right-to-left)",
+      type: "bool",
+      default: "false",
+    },
+    disabled: {
+      description: "Whether the horizontal group is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the horizontal group is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the horizontal group",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the horizontal group responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Reverse: {
+      description: "Sets the reverse layout direction",
+      type: "(bool = true) => HorizontalGroup",
+    },
+    GetReverse: {
+      description: "Gets the current reverse state",
+      type: "() => bool",
+    },
+    BindReverse: {
+      description: "Binds reverse state to an observable",
+      type: "(Observable<bool>) => HorizontalGroup",
+    },
+    Flex: {
+      description: "Sets flex grow and shrink values",
+      type: "(int flexGrow, int flexShrink = 0) => HorizontalGroup",
+    },
+    JustifyContent: {
+      description: "Sets how children are distributed along the main axis",
+      type: "(Justify) => HorizontalGroup",
+    },
+    AlignItems: {
+      description: "Sets how children are aligned along the cross axis",
+      type: "(Align) => HorizontalGroup",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => HorizontalGroup",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => HorizontalGroup",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => HorizontalGroup",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => HorizontalGroup",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => HorizontalGroup",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => HorizontalGroup",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => HorizontalGroup",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the horizontal group",
+      type: "(StyleSheet) => HorizontalGroup or (string) => HorizontalGroup",
+    }
+  }}
+/>
+
+HorizontalGroup extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).

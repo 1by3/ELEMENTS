@@ -1,0 +1,40 @@
+---
+title: Components
+---
+
+In ELEMENTS, your UI is made up of a series of "Components". A Component is a pairing of a View and a View Model. Your views can also render components within themselves in order to facilitate code re-use and composition.
+
+```csharp
+return new VerticalGroup(
+  new Label("Users"),
+  Component<UserListViewModel, UserListView>()
+);
+```
+
+## Configuring the component
+
+In some cases, you might need to configure the child component, or make it interact with properties of your parent component's view model. The `Component` method can be passed a configure action which receives the instantiated view model for this purpose...
+
+```csharp
+return new VerticalGroup(
+  new Label("Users"),
+  new TextField(ViewModel.SearchQuery).Placeholder("Search users by name..."),
+
+  Component<UserListViewModel, UserListView>(vm => vm.BindNameSearch(ViewModel.SearchQuery)))
+);
+```
+
+This same pattern can be used to expose events from the sub-component...
+
+```csharp
+return new VerticalGroup(
+  new Label("Users"),
+  new TextField(ViewModel.SearchQuery).Placeholder("Search users by name..."),
+
+  Component<UserListViewModel, UserListView>(vm =>
+  {
+    vm.BindNameSearch(ViewModel.SearchQuery));
+    vm.CreateUserClicked += ViewModel.CreateNewUser;
+  })
+);
+```

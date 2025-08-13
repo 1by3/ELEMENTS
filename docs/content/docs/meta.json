@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "---Basics---",
+    "index",
+    "element-properties",
+    "layout-elements",
+    "styling",
+    "---Advanced topics---",
+    "advanced/components",
+    "advanced/rendering",
+    "---Reference---",
+    "elements"
+  ]
+}

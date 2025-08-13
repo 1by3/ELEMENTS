@@ -1,0 +1,206 @@
+---
+title: BaseElement
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+The abstract base class that all ELEMENTS components inherit from. Provides core functionality for styling, events, lifecycle management, and property binding.
+
+## Constructor
+
+BaseElement is an abstract class and cannot be instantiated directly. It is inherited by all other elements.
+
+## Examples
+
+### Basic Property Usage
+All elements inherit these core BaseElement features:
+
+```csharp
+// Basic styling and state
+new Label("Hello World")
+    .ClassName("my-label")
+    .Disabled(false)
+    .Visible(true);
+
+// Reactive property binding
+new Button(new Label("Click me"))
+    .BindDisabled(ViewModel.IsProcessing)
+    .BindVisible(ViewModel.ShowButton)
+    .BindClassName("active", ViewModel.IsActive);
+```
+
+### Advanced Styling
+Elements support comprehensive styling through BaseElement:
+
+```csharp
+// CSS styling and padding/margins
+new TextField(ViewModel.UserInput)
+    .StyleSheet("Styles/form-styles")
+    .ClassName("input-field")
+    .Padding(10)
+    .Margin(5, 10, 5, 10);
+
+// Conditional styling
+new Label("Status")
+    .BindClassName("error", ViewModel.HasError)
+    .BindClassName("success", ViewModel.IsSuccess)
+    .BindClassName("warning", ViewModel.HasWarning);
+```
+
+### Event Handling
+BaseElement provides event registration for all elements:
+
+```csharp
+// Click events on any element
+new Image("icons/help")
+    .OnClick(_ => ViewModel.ShowHelp());
+
+// Custom event registration
+new CustomElement()
+    .RegisterCallback<MouseEnterEvent>(_ => ViewModel.OnHover())
+    .RegisterCallback<MouseLeaveEvent>(_ => ViewModel.OnLeave());
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    name: {
+      description: "The name identifier for the element",
+      type: "string",
+      default: '""',
+    },
+    disabled: {
+      description: "Whether the element is disabled",
+      type: "bool",
+      default: "false",
+    },
+    pickingMode: {
+      description: "How the element responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    },
+    visible: {
+      description: "Whether the element is visible",
+      type: "bool",
+      default: "true",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Name: {
+      description: "Sets the element name",
+      type: "(string) => T",
+    },
+    GetName: {
+      description: "Gets the element name",
+      type: "() => string",
+    },
+    BindName: {
+      description: "Binds name to an observable",
+      type: "(Observable<string>) => T",
+    },
+    Disabled: {
+      description: "Sets disabled state",
+      type: "(bool = true) => T",
+    },
+    GetDisabled: {
+      description: "Gets disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => T",
+    },
+    PickingMode: {
+      description: "Sets how element responds to pointer events",
+      type: "(PickingMode) => T",
+    },
+    GetPickingMode: {
+      description: "Gets the current picking mode",
+      type: "() => PickingMode",
+    },
+    BindPickingMode: {
+      description: "Binds picking mode to an observable",
+      type: "(Observable<PickingMode>) => T",
+    },
+    Visible: {
+      description: "Sets visibility state",
+      type: "(bool) => T",
+    },
+    GetVisible: {
+      description: "Gets visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => T",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the element",
+      type: "(StyleSheet) => T or (string) => T",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => T",
+    },
+    HasClassName: {
+      description: "Checks if element has a CSS class",
+      type: "(string) => bool",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => T",
+    },
+    Padding: {
+      description: "Sets padding (all sides or individual)",
+      type: "(int) => T or (int, int, int, int) => T",
+    },
+    PaddingVertical: {
+      description: "Sets top and bottom padding",
+      type: "(int) => T",
+    },
+    PaddingHorizontal: {
+      description: "Sets left and right padding",
+      type: "(int) => T",
+    },
+    Margin: {
+      description: "Sets margin (all sides or individual)",
+      type: "(int) => T or (int, int, int, int) => T",
+    },
+    MarginVertical: {
+      description: "Sets top and bottom margin",
+      type: "(int) => T",
+    },
+    MarginHorizontal: {
+      description: "Sets left and right margin",
+      type: "(int) => T",
+    },
+    RegisterCallback: {
+      description: "Registers an event callback",
+      type: "<TEvent>(EventCallback<TEvent>) => T",
+    },
+    OnClick: {
+      description: "Registers a click event handler",
+      type: "(EventCallback<ClickEvent>) => T",
+    },
+    Ref: {
+      description: "Sets a reference to the element",
+      type: "(ref T) => T",
+    },
+    Dispose: {
+      description: "Disposes the element and cleans up resources",
+      type: "() => void",
+    },
+    BuildVisualElement: {
+      description: "Builds and returns the Unity VisualElement",
+      type: "() => VisualElement",
+    }
+  }}
+/>
+
+BaseElement is the root class for all ELEMENTS components.

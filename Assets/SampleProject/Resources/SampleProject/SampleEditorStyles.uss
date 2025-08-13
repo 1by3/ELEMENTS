@@ -1,0 +1,24 @@
+.main-view {
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-view .logo {
+    height: 36px;
+    width: auto;
+    margin-bottom: 16px;
+}
+
+.main-view .count-label {
+    margin-bottom: 16px;
+}
+
+.main-view .increment-button {
+    margin-right: 4px;
+}
+
+.main-view .decrement-button {
+    margin-left: 4px;
+}

@@ -1,0 +1,148 @@
+---
+title: Image
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+An image display element for showing Texture2D images. Supports loading from resources, direct texture assignment, and async loading.
+
+## Constructor
+
+```csharp
+new Image(texture2D); // Direct texture
+new Image("path/to/texture"); // Load from Resources
+new Image(asyncTextureTask); // Async loading
+```
+
+## Examples
+
+### Unity Resource Loading
+Load images from Unity's Resources system:
+
+```csharp
+// Load from Resources folder
+new Image("Icons/download-icon")
+    .ClassName("action-icon");
+
+// Conditional icon based on ViewModel state
+new Image()
+    .BindVisible(ViewModel.ShowIcon)
+    .ClassName("status-icon");
+```
+
+### Dynamic Image Selection
+Switch images based on ViewModel properties:
+
+```csharp
+// Different images based on state
+new Image().BindVisible(ViewModel.PlayerAvatar.Select(avatar => avatar != null));
+// Note: Image source binding would require custom implementation
+
+// Icon that changes based on status
+new Group(
+    new Image("Icons/online").BindVisible(ViewModel.IsOnline),
+    new Image("Icons/offline").BindVisible(ViewModel.IsOnline.Select(online => !online))
+);
+```
+
+### UI Icons and Assets
+Common Unity UI image patterns:
+
+```csharp
+// Button with icon
+new Button(
+    new Image("Icons/save"),
+    new Label("Save")
+);
+
+// Status indicator
+new HorizontalGroup(
+    new Image("Icons/health").ClassName("health-icon"),
+    new ProgressBar(ViewModel.Health)
+);
+
+// Conditional visibility based on permissions
+new Image("Icons/admin")
+    .BindVisible(ViewModel.IsAdmin);
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    image: {
+      description: "The Texture2D to display",
+      type: "Texture2D",
+      required: true,
+    },
+    disabled: {
+      description: "Whether the image is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the image is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the image",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the image responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    LoadImageAsync: {
+      description: "Loads an image asynchronously from a Task",
+      type: "(Task<Texture2D>) => void",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => Image",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => Image",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => Image",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => Image",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => Image",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => Image",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the image",
+      type: "(StyleSheet) => Image or (string) => Image",
+    }
+  }}
+/>
+
+Image extends [BaseElement](/docs/elements/base-element).

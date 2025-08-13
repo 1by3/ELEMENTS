@@ -1,0 +1,32 @@
+---
+title: TabList
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A horizontal container specifically designed for organizing TabItem elements. Automatically applies first/last styling to appropriate tabs.
+
+## Constructor
+
+```csharp
+new TabList(
+    new TabItem(new Label("Tab 1")),
+    new TabItem(new Label("Tab 2")),
+    new TabItem(new Label("Tab 3"))
+);
+```
+
+## Properties
+
+TabList inherits all properties from [HorizontalGroup](/docs/elements/horizontal-group), [Group](/docs/elements/group), and [BaseElement](/docs/elements/base-element).
+
+## Automatic Styling
+
+TabList automatically:
+- Applies `tab-list` CSS class
+- Marks the first TabItem with `first` class
+- Marks the last TabItem with `last` class
+
+## Methods
+
+TabList inherits all methods from [HorizontalGroup](/docs/elements/horizontal-group), [Group](/docs/elements/group), and [BaseElement](/docs/elements/base-element).

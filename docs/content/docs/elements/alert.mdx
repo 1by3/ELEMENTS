@@ -1,0 +1,186 @@
+---
+title: Alert
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A dialog-based alert component that displays a title, message, and dismiss button. Extends Dialog functionality.
+
+## Constructor
+
+```csharp
+new Alert("Warning", "This is an alert message");
+```
+
+## Examples
+
+### ViewModel-Triggered Alerts
+Show alerts based on ViewModel state and actions:
+
+```csharp
+// Error alert from ViewModel
+new Alert("Error", "Invalid username or password")
+    .BindOpen(ViewModel.ShowLoginError);
+
+// Success confirmation
+new Alert("Success", "Document saved successfully")
+    .BindOpen(ViewModel.ShowSaveSuccess);
+
+// Warning with action
+new Alert("Warning", "Unsaved changes will be lost")
+    .BindOpen(ViewModel.ShowUnsavedWarning);
+```
+
+### Reactive Alert Messages
+Alert content can be bound to ViewModel properties:
+
+```csharp
+// Dynamic error messages
+var errorAlert = new Alert("Error", "")
+    .BindOpen(ViewModel.ErrorMessage.Select(msg => !string.IsNullOrEmpty(msg)));
+
+// Note: Alert constructor requires fixed strings, but you can create
+// custom alert dialogs using Dialog + DialogContent for reactive content
+```
+
+### Form Validation Alerts
+Common alert patterns for form validation:
+
+```csharp
+// Validation error alert
+new Alert("Validation Error", "Please check the required fields")
+    .BindOpen(ViewModel.HasValidationErrors)
+    .OnClose(() => ViewModel.ClearValidationErrors());
+
+// Network error alert  
+new Alert("Connection Error", "Unable to connect to server")
+    .BindOpen(ViewModel.HasNetworkError);
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    title: {
+      description: "The title text displayed at the top of the alert",
+      type: "string",
+      required: true,
+    },
+    message: {
+      description: "The main message content of the alert",
+      type: "string",
+      required: true,
+    },
+    children: {
+      description: "Array of child elements contained within the alert",
+      type: "IElement[]",
+      default: "[]",
+    },
+    open: {
+      description: "Whether the alert is currently open",
+      type: "bool",
+      default: "false",
+    },
+    disabled: {
+      description: "Whether the alert is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the alert is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the alert",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the alert responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Open: {
+      description: "Opens the alert",
+      type: "(bool = true) => Alert",
+    },
+    Close: {
+      description: "Closes the alert",
+      type: "() => Alert",
+    },
+    GetOpen: {
+      description: "Gets the open state",
+      type: "() => bool",
+    },
+    BindOpen: {
+      description: "Binds open state to an observable",
+      type: "(Observable<bool>) => Alert",
+    },
+    OnClose: {
+      description: "Registers a callback for when alert closes",
+      type: "(Action) => Alert",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => Alert",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => Alert",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => Alert",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => Alert",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => Alert",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => Alert",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the alert",
+      type: "(StyleSheet) => Alert or (string) => Alert",
+    },
+    Flex: {
+      description: "Sets flex grow and shrink values",
+      type: "(int flexGrow, int flexShrink = 0) => Alert",
+    },
+    JustifyContent: {
+      description: "Sets how children are distributed along the main axis",
+      type: "(Justify) => Alert",
+    },
+    AlignItems: {
+      description: "Sets how children are aligned along the cross axis",
+      type: "(Align) => Alert",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => Alert",
+    }
+  }}
+/>
+
+Alert extends [Dialog](/docs/elements/dialog) which extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).

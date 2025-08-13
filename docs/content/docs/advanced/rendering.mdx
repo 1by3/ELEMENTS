@@ -1,0 +1,77 @@
+---
+title: Rendering
+---
+
+ELEMENTS provides a few different ways to render your UI. In the Getting Started guide you learned about Element Portals, which are the default way to render in-game UI with ELEMENTS. The Element Portal sets up the necessary structure to enable elements like `Dialog` to function properly. If you would like more control over rendering, we've got you covered.
+
+## Build a VisualElement
+
+Given any instance of `IElement`, you can call the `BuildVisualElement()` method to convert it to a `VisualElement`. This is the most flexible way of using ELEMENTS. The resulting `VisualElement` can be inserted into your in-game or editor UI wherever you would like.
+
+```csharp
+public class CustomUI : MonoBehaviour
+{
+  [SerializeField] private UIDocument uiDocument;
+
+  private void OnEnable()
+  {
+    var ui = new HorizontalGroup(
+      new Button(new Label("Click me!")),
+      new Button(new Label("No, click me!"))
+    );
+
+    var visualElement = ui.BuildVisualElement();
+
+    uiDocument.rootVisualElement.Add(visualElement);
+  }
+}
+```
+
+## Render a Component in a VisualElement
+
+ELEMENTS provides an extension method to the `VisualElement` class to quickly render a Component inside of a `VisualElement`.
+
+```csharp
+public class CustomUI : MonoBehaviour
+{
+  [SerializeField] private UIDocument uiDocument;
+
+  private void OnEnable()
+  {
+    uiDocument.rootVisualElement.RenderComponent<ExampleViewModel, ExampleView>(visualElement);
+  }
+}
+```
+
+## Render a Component in a UI Document
+
+You can also use the `RenderComponent` method directly on the `UIDocument` to render a Component in the UI Document's root visual element.
+
+```csharp
+public class CustomUI : MonoBehaviour
+{
+  [SerializeField] private UIDocument uiDocument;
+
+  private void OnEnable()
+  {
+    uiDocument.RenderComponent<ExampleViewModel, ExampleView>(visualElement);
+  }
+}
+```
+
+## ELEMENTS powered Editor Windows
+
+You can create a subclass of `ElementEditorWindow` to create a Unity editor window powered by an ELEMENTS component.
+
+```csharp
+public class ExampleEditorWindow : ElementEditorWindow<ExampleViewModel, ExampleView>
+{
+  [MenuItem("ELEMENTS/Sample Window")]
+  public static void ShowPreferences()
+  {
+    var window = GetWindow<SampleEditorWindow>();
+    window.titleContent = new GUIContent("ELEMENTS");
+    window.Show();
+  }
+}
+```

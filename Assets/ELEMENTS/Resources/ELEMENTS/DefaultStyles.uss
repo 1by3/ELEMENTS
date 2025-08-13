@@ -1,0 +1,254 @@
+VisualElement {
+    color: #0f172a;
+}
+
+VisualElement,
+Button,
+Label {
+    margin: 0;
+    padding: 0;
+}
+
+Label {
+    white-space: normal;
+    flex-wrap: wrap;
+}
+
+TextField {
+    padding: 0;
+    margin: 0;
+}
+
+.unity-text-field__placeholder > .unity-base-text-field__input {
+    color: #94a3b8;
+}
+
+TextField TextInput {
+    padding: 8px;
+    border-radius: 8px;
+    border-color: #e2e8f0;
+    border-width: 1px;
+    background-color: #ffffff;
+    height: auto;
+    transition-property: background-color, border-color, border-left-width, border-right-width, border-top-width, border-bottom-width;
+    transition-duration: 0.2s;
+}
+
+TextField:focus TextInput {
+    border-color: #64748b;
+}
+
+Button {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border-color: #e2e8f0;
+    border-width: 1px;
+    background-color: #ffffff;
+    height: auto;
+    transition-property: background-color, border-color;
+    transition-duration: 0.2s;
+}
+
+Button:hover {
+    background-color: #f1f5f9;
+}
+
+Button.unity-disabled:hover {
+    background-color: #ffffff;
+}
+
+Button Label {
+}
+
+Button Image {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+Button Image.rightIcon {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+Button.icon {
+    padding: 8px;
+    width: 34px;
+}
+
+Button.icon Image {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+Button.ghost {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+Button.ghost:hover {
+    background-color: #f1f5f9;
+}
+
+Button.ghost.unity-disabled:hover {
+    background-color: transparent;
+}
+
+Button.pill {
+    border-radius: 18px;
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+}
+
+Button.pill:hover {
+    background-color: #e2e8f0;
+    border-color: #e2e8f0;
+}
+
+Button.pill.unity-disabled:hover {
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+}
+
+Button.pill Label {
+    color: #334155;
+}
+
+.tab-list .tab-item {
+    border-width: 0;
+    margin: 0 2px;
+}
+
+.tab-list .tab-item.first {
+    margin-left: 0;
+}
+
+.tab-list .tab-item.last {
+    margin-right: 0;
+}
+
+.elements-loader {
+    width: 16px;
+    height: 16px;
+}
+
+.elements-loader.large {
+    width: 20px;
+    height: 20px;
+}
+
+.elements-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    align-items: center;
+    justify-content: center;
+    display: none;
+    visibility: hidden;
+
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
+.elements-dialog.open {
+    display: flex;
+    visibility: visible;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.elements-dialog .elements-dialog-content {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 500px;
+    width: 100%;
+
+    opacity: 0;
+    scale: 0.8;
+    transition-property: scale, opacity;
+    transition-duration: 0.2s;
+    transition-delay: 0.2s;
+}
+
+.elements-dialog.open .elements-dialog-content {
+    scale: 1;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.elements-dialog.open .elements-dialog-content Button {
+    width: 100%;
+}
+
+.elements-alert .title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.elements-alert .message {
+    margin-bottom: 16px;
+    color: #64748b;
+}
+
+.m-1 { margin: 4px; }
+.m-2 { margin: 8px; }
+.m-3 { margin: 12px; }
+
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 12px; }
+
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+
+.ml-1 { margin-left: 4px; }
+.ml-2 { margin-left: 8px; }
+.ml-3 { margin-left: 12px; }
+
+.mr-1 { margin-right: 4px; }
+.mr-2 { margin-right: 8px; }
+.mr-3 { margin-right: 12px; }
+
+.mx-1 { margin-left: 4px; margin-right: 4px; }
+.mx-2 { margin-left: 8px; margin-right: 8px; }
+.mx-3 { margin-left: 12px; margin-right: 12px; }
+
+.my-1 { margin-top: 4px; margin-bottom: 4px; }
+.my-2 { margin-top: 8px; margin-bottom: 8px; }
+.my-3 { margin-top: 12px; margin-bottom: 12px; }
+
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 12px; }
+
+.pb-1 { padding-bottom: 4px; }
+.pb-2 { padding-bottom: 8px; }
+.pb-3 { padding-bottom: 12px; }
+
+.pt-1 { padding-top: 4px; }
+.pt-2 { padding-top: 8px; }
+.pt-3 { padding-top: 12px; }
+
+.pl-1 { padding-left: 4px; }
+.pl-2 { padding-left: 8px; }
+.pl-3 { padding-left: 12px; }
+
+.pr-1 { padding-right: 4px; }
+.pr-2 { padding-right: 8px; }
+.pr-3 { padding-right: 12px; }
+
+.px-1 { padding-left: 4px; padding-right: 4px; }
+.px-2 { padding-left: 8px; padding-right: 8px; }
+.px-3 { padding-left: 12px; padding-right: 12px; }
+
+.py-1 { padding-top: 4px; padding-bottom: 4px; }
+.py-2 { padding-top: 8px; padding-bottom: 8px; }
+.py-3 { padding-top: 12px; padding-bottom: 12px; }

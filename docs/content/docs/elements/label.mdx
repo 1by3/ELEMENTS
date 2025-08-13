@@ -1,0 +1,150 @@
+---
+title: Label
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+A text display element for showing read-only text content. Extends BaseElement functionality.
+
+## Constructor
+
+```csharp
+new Label("Hello World");
+new Label(); // Empty label
+new Label(observable); // Bound to observable
+```
+
+## Examples
+
+### ReactiveProperty Binding
+Labels display reactive text from ViewModel properties:
+
+```csharp
+// Direct binding to ReactiveProperty
+new Label().BindText(ViewModel.UserName);
+
+// Constructor binding (preferred for simple cases)
+new Label(ViewModel.WelcomeMessage);
+
+// Transform the observable value
+new Label().BindText(ViewModel.Count.Select(count => $"Items: {count}"));
+```
+
+### Conditional Styling
+Use BindClassName to reactively apply styles:
+
+```csharp
+new Label().BindText(ViewModel.StatusMessage)
+    .BindClassName("error", ViewModel.HasError)
+    .BindClassName("success", ViewModel.IsSuccess);
+
+// Multiple conditional classes
+new Label(ViewModel.PlayerName)
+    .BindClassName("online", ViewModel.IsOnline)
+    .BindClassName("moderator", ViewModel.IsModerator);
+```
+
+### Computed Values
+Combine multiple ReactiveProperties for complex displays:
+
+```csharp
+// Combine multiple observables
+new Label().BindText(
+    ViewModel.Health.CombineLatest(ViewModel.MaxHealth)
+        .Select(values => $"Health: {values.First}/{values.Second}")
+);
+
+// Complex formatting
+new Label().BindText(
+    ViewModel.Score.Select(score => $"Score: {score:N0} points")
+);
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    text: {
+      description: "The text content to display",
+      type: "string",
+      default: '""',
+    },
+    disabled: {
+      description: "Whether the label is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the label is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the label",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the label responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Text: {
+      description: "Sets the text content",
+      type: "(string) => Label",
+    },
+    GetText: {
+      description: "Gets the current text content",
+      type: "() => string",
+    },
+    BindText: {
+      description: "Binds text to an observable",
+      type: "(Observable<string>) => Label",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => Label",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => Label",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => Label",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => Label",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => Label",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => Label",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the label",
+      type: "(StyleSheet) => Label or (string) => Label",
+    }
+  }}
+/>
+
+Label extends [BaseElement](/docs/elements/base-element).

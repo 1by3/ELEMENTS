@@ -1,0 +1,30 @@
+---
+title: Loader
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+An animated loading spinner element that automatically rotates. Extends Image functionality with built-in animation.
+
+## Constructor
+
+```csharp
+new Loader(); // Creates animated loading spinner
+```
+
+## Properties
+
+Loader inherits all properties from [Image](/docs/elements/image) and [BaseElement](/docs/elements/base-element).
+
+The loader automatically:
+- Uses a built-in spinner image (`ELEMENTS/loader-black-24`)
+- Applies `elements-loader` CSS class
+- Rotates 360 degrees per second
+
+## Methods
+
+Loader inherits all methods from [Image](/docs/elements/image) and [BaseElement](/docs/elements/base-element).
+
+## Animation
+
+The loader automatically handles its rotation animation using the update loop. No additional setup required.

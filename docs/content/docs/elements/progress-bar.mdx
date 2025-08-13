@@ -1,0 +1,155 @@
+---
+title: ProgressBar
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+A progress indicator element that displays completion progress as a visual bar. Extends BaseElement functionality.
+
+## Constructor
+
+```csharp
+new ProgressBar(0.5f); // 50% progress
+new ProgressBar(); // 0% progress
+new ProgressBar(observable); // Bound to observable
+```
+
+## Examples
+
+### ReactiveProperty Progress Binding
+ProgressBars display progress from ViewModel ReactiveProperties:
+
+```csharp
+// Direct binding to progress property
+new ProgressBar(ViewModel.DownloadProgress);
+
+// Explicit binding
+new ProgressBar()
+    .BindProgress(ViewModel.UploadProgress);
+
+// Transform percentage to float (0-1)
+new ProgressBar()
+    .BindProgress(ViewModel.PercentComplete.Select(p => p / 100f));
+```
+
+### Computed Progress Values
+Calculate progress from multiple ReactiveProperties:
+
+```csharp
+// Health bar from current/max health
+new ProgressBar()
+    .BindProgress(
+        ViewModel.CurrentHealth.CombineLatest(ViewModel.MaxHealth)
+            .Select(values => (float)values.First / values.Second)
+    )
+    .ClassName("health-bar");
+
+// Task completion progress
+new ProgressBar()
+    .BindProgress(
+        ViewModel.CompletedTasks.CombineLatest(ViewModel.TotalTasks)
+            .Select(values => (float)values.First / values.Second)
+    );
+```
+
+### Progress with Status Display
+Combine progress bars with reactive labels:
+
+```csharp
+new VerticalGroup(
+    new Label().BindText(ViewModel.StatusMessage),
+    new ProgressBar(ViewModel.Progress),
+    new Label().BindText(
+        ViewModel.Progress.Select(p => $"{p:P0} Complete")
+    )
+);
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    progress: {
+      description: 'The progress value between 0.0 and 1.0',
+      type: 'float',
+      default: '0f',
+    },
+    disabled: {
+      description: "Whether the progress bar is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the progress bar is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the progress bar",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the progress bar responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Progress: {
+      description: 'Sets the progress value',
+      type: '(float) => ProgressBar',
+    },
+    GetProgress: {
+      description: 'Gets the current progress value',
+      type: '() => float',
+    },
+    BindProgress: {
+      description: 'Binds progress to an observable',
+      type: '(Observable<float>) => ProgressBar',
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => ProgressBar",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => ProgressBar",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => ProgressBar",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => ProgressBar",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => ProgressBar",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => ProgressBar",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the progress bar",
+      type: "(StyleSheet) => ProgressBar or (string) => ProgressBar",
+    }
+  }}
+/>
+
+ProgressBar extends [BaseElement](/docs/elements/base-element).

@@ -1,0 +1,32 @@
+---
+title: ScrollView
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A scrollable container element that allows content to overflow and be scrolled. Extends Group functionality with scrolling capabilities.
+
+## Constructor
+
+```csharp
+new ScrollView(
+    new Label("Item 1"),
+    new Label("Item 2"),
+    new Label("Item 3")
+    // ... many more items
+);
+new ScrollView(); // Empty scroll view
+```
+
+## Properties
+
+ScrollView inherits all properties from [Group](/docs/elements/group) and [BaseElement](/docs/elements/base-element).
+
+## Methods
+
+ScrollView inherits all methods from [Group](/docs/elements/group) and [BaseElement](/docs/elements/base-element), including:
+
+- Child management (BindChildren)
+- Layout methods (Flex, JustifyContent, AlignItems)
+- Built-in vertical and horizontal scrolling
+- Scroll bars appear automatically when content overflows

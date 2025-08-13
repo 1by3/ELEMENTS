@@ -1,0 +1,65 @@
+---
+title: Layout Elements
+---
+
+ELEMENTS uses a Flex Box based layout system, just like UI Toolkit. This is made easily accessible using layout elements called Groups.
+
+There are two main types of group: `VerticalGroup`, and `HorizontalGroup`. As the names suggest, these elements render their children either vertically or horizontally. You can also easily control the alignment of the children within these groups.
+
+## Examples
+
+To create a `VerticalGroup`...
+
+```csharp
+return new VerticalGroup(
+  child,
+  child
+  child
+)
+```
+
+<Example title="Vertical Group">
+  <VerticalGroup>
+    <Label>Child</Label>
+    <Label>Child</Label>
+    <Label>Child</Label>
+  </VerticalGroup>
+</Example>
+
+To create a `HorizontalGroup`...
+
+```csharp
+return new HorizontalGroup(
+  child,
+  child,
+  child
+)
+```
+
+<Example title="Horizontal Group">
+  <HorizontalGroup>
+    <Label>Child</Label>
+    <Label>Child</Label>
+    <Label>Child</Label>
+  </HorizontalGroup>
+</Example>
+
+## Alignment and justification
+
+Typically alignment and justification on a group are controlled using USS, however ELEMENTS provides handy convenience methods to easily adjust this.
+
+```csharp
+return new HorizontalGroup(
+  child,
+  child,
+  child
+).AlignItems(Align.Center).JustifyContent(Justify.SpaceBetween)
+```
+
+<Example title="Horizontal Group">
+  <HorizontalGroup className="items-center justify-between">
+    <Label>Child</Label>
+    <Label>Child</Label>
+    <Label>Child</Label>
+  </HorizontalGroup>
+</Example>

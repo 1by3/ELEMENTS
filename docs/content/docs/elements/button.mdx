@@ -1,0 +1,160 @@
+---
+title: Button
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A clickable button element that can contain child elements. Extends Group functionality.
+
+## Constructor
+
+```csharp
+new Button(new Label("Click me"));
+new Button(new Image(texture), new Label("Icon Button"));
+```
+
+## Examples
+
+### Click Event Handling
+Buttons handle click events by calling methods on your ViewModel:
+
+```csharp
+new Button(new Label("Save"))
+    .OnClick(_ => ViewModel.SaveDocument());
+
+new Button(new Label("Delete"))
+    .OnClick(_ => ViewModel.DeleteItem())
+    .BindDisabled(ViewModel.IsDeleting);
+```
+
+### Reactive Content
+Button content can be bound to ViewModel properties:
+
+```csharp
+// Button text bound to ViewModel
+new Button(new Label().BindText(ViewModel.ButtonText));
+
+// Icon + Text with reactive visibility
+new Button(
+    new Image("Icons/download").BindVisible(ViewModel.ShowIcon),
+    new Label().BindText(ViewModel.ButtonLabel)
+);
+
+// Loading state example
+new Button(
+    new HorizontalGroup(
+        new Loader().BindVisible(ViewModel.IsLoading),
+        new Label().BindText(ViewModel.IsLoading.Select(loading => 
+            loading ? "Saving..." : "Save"))
+    )
+).BindDisabled(ViewModel.IsLoading);
+```
+
+### State Management
+Buttons can reactively respond to ViewModel state:
+
+```csharp
+new Button(new Label("Submit"))
+    .ClassName("primary-button")
+    .BindDisabled(ViewModel.IsSubmitting)
+    .BindVisible(ViewModel.CanSubmit)
+    .BindClassName("loading", ViewModel.IsSubmitting)
+    .OnClick(_ => ViewModel.SubmitForm());
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    children: {
+      description: "Array of child elements contained within the button",
+      type: "IElement[]",
+      default: "[]",
+    },
+    disabled: {
+      description: "Whether the button is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the button is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the button",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the button responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    OnClick: {
+      description: "Registers a click event handler",
+      type: "(EventCallback<ClickEvent>) => Button",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => Button",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => Button",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => Button",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => Button",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => Button",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => Button",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the button",
+      type: "(StyleSheet) => Button or (string) => Button",
+    },
+    Flex: {
+      description: "Sets flex grow and shrink values",
+      type: "(int flexGrow, int flexShrink = 0) => Button",
+    },
+    JustifyContent: {
+      description: "Sets how children are distributed along the main axis",
+      type: "(Justify) => Button",
+    },
+    AlignItems: {
+      description: "Sets how children are aligned along the cross axis",
+      type: "(Align) => Button",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => Button",
+    }
+  }}
+/>
+
+Button extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).

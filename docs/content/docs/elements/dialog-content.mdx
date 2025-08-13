@@ -1,0 +1,29 @@
+---
+title: DialogContent
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A specialized container element designed for dialog content. Extends VerticalGroup with dialog-specific styling.
+
+## Constructor
+
+```csharp
+new DialogContent(
+    new Label("Dialog Title"),
+    new Label("Dialog message content"),
+    new Button(new Label("OK"))
+);
+```
+
+## Properties
+
+DialogContent inherits all properties from [VerticalGroup](/docs/elements/vertical-group), [Group](/docs/elements/group), and [BaseElement](/docs/elements/base-element).
+
+## Methods
+
+DialogContent inherits all methods from [VerticalGroup](/docs/elements/vertical-group), [Group](/docs/elements/group), and [BaseElement](/docs/elements/base-element), including:
+
+- Layout methods (Flex, JustifyContent, AlignItems, Reverse)
+- Child management (BindChildren)
+- Styling and theming with `elements-dialog-content` CSS class applied automatically

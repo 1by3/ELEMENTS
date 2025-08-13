@@ -1,0 +1,216 @@
+---
+title: TabItem
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A specialized button element designed for use in tab interfaces. Extends Button functionality with active state and position management.
+
+## Constructor
+
+```csharp
+new TabItem(new Label("Tab Title"));
+new TabItem(new Image(icon), new Label("Tab with Icon"));
+```
+
+## Examples
+
+### ViewModel Tab State
+TabItems bind to ReactiveProperty for active state:
+
+```csharp
+// Tab bound to ViewModel enum
+new TabItem(new Label("Dashboard"))
+    .BindActive(ViewModel.CurrentTab.Select(tab => tab == TabType.Dashboard))
+    .OnClick(_ => ViewModel.SetActiveTab(TabType.Dashboard));
+
+new TabItem(new Label("Settings"))
+    .BindActive(ViewModel.CurrentTab.Select(tab => tab == TabType.Settings))
+    .OnClick(_ => ViewModel.SetActiveTab(TabType.Settings));
+```
+
+### Dynamic Tab Content
+Tabs can display reactive content from ViewModel:
+
+```csharp
+// Tab with notification badge
+new TabItem(
+    new Label("Messages"),
+    new Label().BindText(ViewModel.UnreadCount.Select(c => $"({c})"))
+        .BindVisible(ViewModel.UnreadCount.Select(c => c > 0))
+        .ClassName("badge")
+)
+.BindActive(ViewModel.CurrentTab.Select(t => t == TabType.Messages))
+.OnClick(_ => ViewModel.SetActiveTab(TabType.Messages));
+```
+
+### Complete Tab Interface with Components
+Build full tab interfaces using ViewModel and Components:
+
+```csharp
+// Tab list bound to ViewModel
+new TabList(
+    new TabItem(new Label("Users"))
+        .BindActive(ViewModel.CurrentTab.Select(t => t == TabType.Users))
+        .OnClick(_ => ViewModel.SetActiveTab(TabType.Users)),
+        
+    new TabItem(new Label("Roles"))
+        .BindActive(ViewModel.CurrentTab.Select(t => t == TabType.Roles))
+        .OnClick(_ => ViewModel.SetActiveTab(TabType.Roles))
+);
+
+// Tab content using components
+ViewModel.CurrentTab.Select(tab => tab switch {
+    TabType.Users => Component<UserListViewModel, UserListView>(),
+    TabType.Roles => Component<RoleListViewModel, RoleListView>(),
+    _ => new Label("Select a tab")
+});
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    children: {
+      description: "Array of child elements contained within the tab item",
+      type: "IElement[]",
+      default: "[]",
+    },
+    active: {
+      description: "Whether this tab is currently active/selected",
+      type: "bool",
+      default: "false",
+    },
+    first: {
+      description: "Whether this is the first tab in a TabList",
+      type: "bool",
+      default: "false",
+    },
+    last: {
+      description: "Whether this is the last tab in a TabList",
+      type: "bool",
+      default: "false",
+    },
+    disabled: {
+      description: "Whether the tab item is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the tab item is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the tab item",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the tab item responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Active: {
+      description: "Sets the active state",
+      type: "(bool = true) => TabItem",
+    },
+    GetActive: {
+      description: "Gets the active state",
+      type: "() => bool",
+    },
+    BindActive: {
+      description: "Binds active state to an observable",
+      type: "(Observable<bool>) => TabItem",
+    },
+    First: {
+      description: "Marks this as the first tab",
+      type: "(bool = true) => TabItem",
+    },
+    GetFirst: {
+      description: "Gets the first tab state",
+      type: "() => bool",
+    },
+    BindFirst: {
+      description: "Binds first state to an observable",
+      type: "(Observable<bool>) => TabItem",
+    },
+    Last: {
+      description: "Marks this as the last tab",
+      type: "(bool = true) => TabItem",
+    },
+    GetLast: {
+      description: "Gets the last tab state",
+      type: "() => bool",
+    },
+    BindLast: {
+      description: "Binds last state to an observable",
+      type: "(Observable<bool>) => TabItem",
+    },
+    OnClick: {
+      description: "Registers a click event handler",
+      type: "(EventCallback<ClickEvent>) => TabItem",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => TabItem",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => TabItem",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => TabItem",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => TabItem",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => TabItem",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => TabItem",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the tab item",
+      type: "(StyleSheet) => TabItem or (string) => TabItem",
+    },
+    Flex: {
+      description: "Sets flex grow and shrink values",
+      type: "(int flexGrow, int flexShrink = 0) => TabItem",
+    },
+    JustifyContent: {
+      description: "Sets how children are distributed along the main axis",
+      type: "(Justify) => TabItem",
+    },
+    AlignItems: {
+      description: "Sets how children are aligned along the cross axis",
+      type: "(Align) => TabItem",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => TabItem",
+    }
+  }}
+/>
+
+TabItem extends [Button](/docs/elements/button) which extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).

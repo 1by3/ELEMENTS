@@ -1,0 +1,47 @@
+---
+title: Element Properties
+---
+
+ELEMENTS follows a convention for manipulating the properties of elements in your UI. You may choose to implement this same convention in your own elements for consistency.
+
+## Setting a property
+
+To set an element's property, you call a method matching the property name, passing in the value you want to set.
+
+```csharp
+return new Label().Text("New Label Text");
+```
+
+Often times, if the property is a boolean value, you can omit the passed value and `true` will be used as a default.
+
+```csharp
+new Label("I'm visible").Visible();
+new Label("I'm visible").Visible(true);
+
+new Label("I'm hidden").Visible(false);
+```
+
+## Getting a property
+
+To read the current value of an element's property, call a method matching the property name prefixed with `Get`...
+
+```csharp
+var labelText = new Label("Hello World").GetText();
+var labelVisible = new Label("Hello World").GetVisible();
+```
+
+## Binding a property
+
+To bind an element's property to an observable (i.e. set the property whenever the observable value changes), call a method matching the property name prefixed with `Bind`...
+
+```csharp
+new Label().BindText(ViewModel.LabelText);
+new Label().BindVisible(ViewModel.IsVisible);
+```
+
+You can also pass an Observable property to the constructor of an element rather than calling the relevant binding methods...
+
+```csharp
+new Label(ViewModel.LabelText);
+new TextField(ViewModel.TextFieldValue);
+```

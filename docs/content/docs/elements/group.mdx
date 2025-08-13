@@ -1,0 +1,171 @@
+---
+title: Group
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+An abstract container element that can hold and manage child elements. Provides layout and child management functionality.
+
+## Constructor
+
+```csharp
+new Group(child1, child2, child3);
+new Group(); // Empty group
+```
+
+## Examples
+
+### Layout Control
+Groups use flexbox layout with convenience methods:
+
+```csharp
+// Center content
+new Group(
+    new Label("Centered Content"),
+    new Button(new Label("Action"))
+)
+.JustifyContent(Justify.Center)
+.AlignItems(Align.Center);
+
+// Evenly spaced buttons
+new HorizontalGroup(
+    new Button(new Label("Cancel")),
+    new Button(new Label("Save"))
+)
+.JustifyContent(Justify.SpaceBetween);
+```
+
+### Dynamic Children from ViewModel
+Bind children to ReactiveProperty collections:
+
+```csharp
+// Dynamic list of items from ViewModel
+new Group()
+    .BindChildren(
+        ViewModel.Items,
+        item => new Button(new Label(item.Name))
+            .OnClick(_ => ViewModel.SelectItem(item))
+    );
+
+// User list with reactive filtering
+new Group()
+    .BindChildren(
+        ViewModel.FilteredUsers,
+        user => new HorizontalGroup(
+            new Label(user.Name),
+            new Label(user.Email).ClassName("email")
+        )
+    );
+```
+
+### Form Layouts with ReactiveProperty
+Build reactive forms using ViewModel properties:
+
+```csharp
+new VerticalGroup(
+    new Label("User Settings"),
+    new TextField(ViewModel.Username).Placeholder("Username"),
+    new TextField(ViewModel.Email).Placeholder("Email"),
+    new HorizontalGroup(
+        new Button(new Label("Cancel"))
+            .OnClick(_ => ViewModel.Cancel()),
+        new Button(new Label("Save"))
+            .OnClick(_ => ViewModel.Save())
+            .BindDisabled(ViewModel.IsValid.Select(v => !v))
+    ).JustifyContent(Justify.FlexEnd)
+)
+.AlignItems(Align.Stretch);
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    children: {
+      description: "Array of child elements contained within this group",
+      type: "IElement[]",
+      default: "[]",
+    },
+    disabled: {
+      description: "Whether the group is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the group is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the group",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the group responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Flex: {
+      description: "Sets flex grow and shrink values",
+      type: "(int flexGrow, int flexShrink = 0) => Group",
+    },
+    JustifyContent: {
+      description: "Sets how children are distributed along the main axis",
+      type: "(Justify) => Group",
+    },
+    AlignItems: {
+      description: "Sets how children are aligned along the cross axis",
+      type: "(Align) => Group",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => Group",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => Group",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => Group",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => Group",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => Group",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => Group",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => Group",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the group",
+      type: "(StyleSheet) => Group or (string) => Group",
+    }
+  }}
+/>
+
+Group extends [BaseElement](/docs/elements/base-element).

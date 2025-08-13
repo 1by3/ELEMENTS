@@ -1,0 +1,225 @@
+---
+title: TextField
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+An input field element for collecting user text input. Supports placeholder text, password mode, multiline mode, and read-only state.
+
+## Constructor
+
+```csharp
+new TextField();
+new TextField(observable); // Bound to observable
+```
+
+## Examples
+
+### Two-Way ReactiveProperty Binding
+TextFields provide automatic two-way binding with ReactiveProperty:
+
+```csharp
+// Constructor binding (preferred)
+new TextField(ViewModel.UserInput)
+    .Placeholder("Enter your name...");
+
+// Explicit binding
+new TextField()
+    .BindText(ViewModel.UserInput)
+    .Placeholder("Enter your name...");
+
+// When user types, ViewModel.UserInput.Value updates automatically
+// When ViewModel.UserInput.Value changes, the field updates
+```
+
+### Form Fields
+Common form field patterns:
+
+```csharp
+// Password field
+new TextField(ViewModel.Password)
+    .Password(true)
+    .Placeholder("Enter password");
+
+// Email field with validation
+new TextField(ViewModel.Email)
+    .Placeholder("Enter email address")
+    .BindClassName("error", ViewModel.HasEmailError);
+
+// Multiline text area
+new TextField(ViewModel.Description)
+    .Multiline(true)
+    .Placeholder("Enter description...");
+```
+
+### Reactive State Management
+Fields can respond to ViewModel state:
+
+```csharp
+// Read-only state based on permissions
+new TextField(ViewModel.ApiKey)
+    .BindReadOnly(ViewModel.IsReadOnly)
+    .BindClassName("readonly", ViewModel.IsReadOnly);
+
+// Dynamic placeholder based on context
+new TextField(ViewModel.SearchQuery)
+    .BindPlaceholder(ViewModel.SearchContext.Select(context => 
+        $"Search {context}..."));
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    text: {
+      description: "The current text value of the field",
+      type: "string",
+      default: '""',
+    },
+    placeholder: {
+      description: "Placeholder text shown when field is empty",
+      type: "string",
+      default: '""',
+    },
+    password: {
+      description: "Whether to hide input text (password field)",
+      type: "bool",
+      default: "false",
+    },
+    multiline: {
+      description: "Whether to allow multiple lines of text",
+      type: "bool",
+      default: "false",
+    },
+    readOnly: {
+      description: "Whether the field is read-only",
+      type: "bool",
+      default: "false",
+    },
+    disabled: {
+      description: "Whether the field is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the field is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the field",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the field responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Text: {
+      description: "Sets the text value",
+      type: "(string) => TextField",
+    },
+    GetText: {
+      description: "Gets the current text value",
+      type: "() => string",
+    },
+    BindText: {
+      description: "Binds text to an observable",
+      type: "(Observable<string>) => TextField",
+    },
+    Placeholder: {
+      description: "Sets the placeholder text",
+      type: "(string) => TextField",
+    },
+    GetPlaceholder: {
+      description: "Gets the current placeholder text",
+      type: "() => string",
+    },
+    BindPlaceholder: {
+      description: "Binds placeholder to an observable",
+      type: "(Observable<string>) => TextField",
+    },
+    Password: {
+      description: "Sets password mode",
+      type: "(bool = true) => TextField",
+    },
+    GetPassword: {
+      description: "Gets the password mode state",
+      type: "() => bool",
+    },
+    BindPassword: {
+      description: "Binds password mode to an observable",
+      type: "(Observable<bool>) => TextField",
+    },
+    Multiline: {
+      description: "Sets multiline mode",
+      type: "(bool = true) => TextField",
+    },
+    GetMultiline: {
+      description: "Gets the multiline mode state",
+      type: "() => bool",
+    },
+    BindMultiline: {
+      description: "Binds multiline mode to an observable",
+      type: "(Observable<bool>) => TextField",
+    },
+    ReadOnly: {
+      description: "Sets read-only state",
+      type: "(bool = true) => TextField",
+    },
+    GetReadOnly: {
+      description: "Gets the read-only state",
+      type: "() => bool",
+    },
+    BindReadOnly: {
+      description: "Binds read-only state to an observable",
+      type: "(Observable<bool>) => TextField",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => TextField",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => TextField",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => TextField",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => TextField",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => TextField",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => TextField",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the field",
+      type: "(StyleSheet) => TextField or (string) => TextField",
+    }
+  }}
+/>
+
+TextField extends [BaseElement](/docs/elements/base-element).

@@ -1,0 +1,41 @@
+---
+title: VerticalGroup
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A container element that arranges its children vertically in a column. Extends Group functionality with vertical layout and reverse capabilities.
+
+## Constructor
+
+```csharp
+new VerticalGroup(child1, child2, child3);
+new VerticalGroup(); // Empty vertical group
+```
+
+## Properties
+
+VerticalGroup inherits all properties from [Group](/docs/elements/group) and [BaseElement](/docs/elements/base-element).
+
+<TypeTable
+  type={{
+    reverse: {
+      description: "Whether to reverse the order of children (bottom-to-top)",
+      type: "bool",
+      default: "false",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Reverse: {
+      description: "Sets the reverse layout direction",
+      type: "(bool = true) => VerticalGroup",
+    }
+  }}
+/>
+
+VerticalGroup also inherits all methods from [Group](/docs/elements/group) and [BaseElement](/docs/elements/base-element).
