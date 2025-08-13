@@ -1,6 +1,6 @@
 using R3;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class ProgressBar<T> : BaseElement<T> where T : ProgressBar<T>
     {

@@ -1,4 +1,4 @@
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class Button<T> : Group<T> where T : Button<T>
     {

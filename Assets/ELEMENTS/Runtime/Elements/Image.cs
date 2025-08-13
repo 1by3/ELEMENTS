@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class Image<T> : BaseElement<T> where T : Image<T>
     {

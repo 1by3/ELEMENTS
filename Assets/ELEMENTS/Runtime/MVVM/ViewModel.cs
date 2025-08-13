@@ -1,4 +1,4 @@
-namespace ELEMENTS.Scripts.MVVM
+namespace ELEMENTS.MVVM
 {
     public abstract class ViewModel
     {

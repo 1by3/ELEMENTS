@@ -1,9 +1,9 @@
 using System;
-using ELEMENTS.Scripts.Helpers;
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.Helpers;
+using ELEMENTS.MVVM;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Extensions
+namespace ELEMENTS.Extensions
 {
     public static class VisualElementExtensions
     {

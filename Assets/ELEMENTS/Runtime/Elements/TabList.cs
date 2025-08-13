@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class TabList<T> : HorizontalGroup<T> where T : TabList<T>
     {

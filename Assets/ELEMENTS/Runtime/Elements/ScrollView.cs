@@ -1,4 +1,4 @@
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class ScrollView<T> : Group<T> where T : ScrollView<T>
     {

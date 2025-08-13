@@ -1,4 +1,4 @@
-using ELEMENTS.Scripts.Editor;
+using ELEMENTS.Editor;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,4 +1,4 @@
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.MVVM;
 using R3;
 
 namespace SampleProject.Scripts

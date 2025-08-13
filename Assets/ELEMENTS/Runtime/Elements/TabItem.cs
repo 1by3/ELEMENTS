@@ -1,6 +1,6 @@
 using R3;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class TabItem<T> : Button<T> where T : TabItem<T>
     {

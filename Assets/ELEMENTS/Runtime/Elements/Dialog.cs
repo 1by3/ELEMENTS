@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using R3;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class Dialog<T> : Group<T> where T : Dialog<T>
     {

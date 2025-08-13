@@ -1,9 +1,9 @@
 using System;
-using ELEMENTS.Scripts.Elements;
-using ELEMENTS.Scripts.Helpers;
+using ELEMENTS.Elements;
+using ELEMENTS.Helpers;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.MVVM
+namespace ELEMENTS.MVVM
 {
     public abstract class View<TViewModel> where TViewModel : ViewModel
     {

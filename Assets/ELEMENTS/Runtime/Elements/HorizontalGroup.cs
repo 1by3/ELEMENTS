@@ -1,7 +1,7 @@
 using R3;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class HorizontalGroup<T> : Group<T> where T : HorizontalGroup<T>
     {

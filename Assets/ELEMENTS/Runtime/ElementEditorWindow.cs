@@ -1,8 +1,8 @@
-using ELEMENTS.Scripts.Extensions;
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.MVVM;
+using ELEMENTS.Extensions;
 using UnityEditor;
 
-namespace ELEMENTS.Scripts.Editor
+namespace ELEMENTS.Editor
 {
     public class ElementEditorWindow<TViewModel, TView> : EditorWindow
         where TViewModel : ViewModel

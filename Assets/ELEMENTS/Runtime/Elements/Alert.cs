@@ -1,4 +1,4 @@
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class Alert<T> : Dialog<T> where T : Alert<T>
     {

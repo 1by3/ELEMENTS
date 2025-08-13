@@ -1,6 +1,6 @@
 using R3;
 
-namespace ELEMENTS.Scripts.Helpers
+namespace ELEMENTS.Helpers
 {
     public static class If
     {

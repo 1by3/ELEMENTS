@@ -1,4 +1,4 @@
-using ELEMENTS.Scripts;
+using ELEMENTS;
 
 namespace SampleProject.Scripts
 {

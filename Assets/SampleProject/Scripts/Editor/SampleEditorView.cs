@@ -1,5 +1,5 @@
-using ELEMENTS.Scripts.Elements;
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.Elements;
+using ELEMENTS.MVVM;
 using R3;
 
 namespace SampleProject.Scripts.Editor

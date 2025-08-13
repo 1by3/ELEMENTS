@@ -1,7 +1,7 @@
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.MVVM;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Extensions
+namespace ELEMENTS.Extensions
 {
     public static class UIDocumentExtensions
     {

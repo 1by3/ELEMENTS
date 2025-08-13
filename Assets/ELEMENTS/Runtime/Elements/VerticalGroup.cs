@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class VerticalGroup<T> : Group<T> where T : VerticalGroup<T>
     {

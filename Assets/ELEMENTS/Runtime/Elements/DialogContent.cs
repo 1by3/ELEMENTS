@@ -1,4 +1,4 @@
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class DialogContent<T> : VerticalGroup<T> where T : DialogContent<T>
     {

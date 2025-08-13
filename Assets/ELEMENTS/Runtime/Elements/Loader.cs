@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class Loader<T> : Image<T> where T : Loader<T>
     {

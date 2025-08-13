@@ -4,7 +4,7 @@ using R3;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public abstract class BaseElement<T> : IDisposable, IElement where T : IElement
     {

@@ -1,7 +1,7 @@
 using System;
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.MVVM;
 
-namespace ELEMENTS.Scripts.Helpers
+namespace ELEMENTS.Helpers
 {
     public static class ComponentFactory
     {

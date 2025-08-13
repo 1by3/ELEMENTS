@@ -1,7 +1,7 @@
 using R3;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public class TextField<T> : BaseElement<T> where T : TextField<T>
     {

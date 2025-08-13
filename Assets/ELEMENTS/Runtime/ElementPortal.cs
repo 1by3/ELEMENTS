@@ -1,12 +1,13 @@
 using System;
-using ELEMENTS.Scripts.Extensions;
-using ELEMENTS.Scripts.MVVM;
+using ELEMENTS.MVVM;
+using ELEMENTS.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts
+namespace ELEMENTS
 {
-    public class ElementPortal : MonoBehaviour
+    [RequireComponent(typeof(UIDocument))]
+    public abstract class ElementPortal : MonoBehaviour
     {
         public static ElementPortal Instance { get; private set; }
 
@@ -15,18 +16,20 @@ namespace ELEMENTS.Scripts
         protected VisualElement ComponentRoot;
         protected VisualElement PortalRoot;
 
-        [SerializeField] protected UIDocument uiDocument;
+        protected UIDocument UIDocument;
 
         protected void Awake()
         {
             Instance = this;
+            UIDocument = GetComponent<UIDocument>();
         }
 
         protected virtual void OnEnable()
         {
             Instance = this;
+            UIDocument = GetComponent<UIDocument>();
 
-            uiDocument.rootVisualElement.Clear();
+            UIDocument.rootVisualElement.Clear();
 
             ComponentRoot = new VisualElement
             {
@@ -54,8 +57,8 @@ namespace ELEMENTS.Scripts
                 pickingMode = PickingMode.Ignore
             };
 
-            uiDocument.rootVisualElement.Add(ComponentRoot);
-            uiDocument.rootVisualElement.Add(PortalRoot);
+            UIDocument.rootVisualElement.Add(ComponentRoot);
+            UIDocument.rootVisualElement.Add(PortalRoot);
         }
 
         protected virtual void Update()
@@ -83,7 +86,7 @@ namespace ELEMENTS.Scripts
 
         public void StyleSheet(StyleSheet styleSheet)
         {
-            uiDocument.rootVisualElement.styleSheets.Add(styleSheet);
+            UIDocument.rootVisualElement.styleSheets.Add(styleSheet);
         }
 
         public void StyleSheet(string styleSheetPath)
