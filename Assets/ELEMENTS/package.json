@@ -1,0 +1,18 @@
+{
+  "name": "co.1by3.elements",
+  "version": "1.0.0",
+  "displayName": "ELEMENTS",
+  "description": "A code-first, MVVM based UI framework for Unity",
+  "unity": "2022.3",
+  "documentationUrl": "https://elements.1by3.co",
+  "author": {
+    "name": "1by3"
+  },
+  "keywords": [
+    "ui",
+    "framework",
+    "mvvm",
+    "elements",
+    "uitoolkit"
+  ]
+}
