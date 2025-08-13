@@ -53,11 +53,15 @@ Now, in the View's `Render` method, you can return the "markup" for your View. H
 ```csharp
 public class ExampleView : View<ExampleViewModel>
 {
-  public IElement Render()
+  public ExampleView(ExampleViewModel viewModel) : base(viewModel)
+  {
+  }
+
+  protected override IElement Render()
   {
     return new VerticalGroup(
-      new Label("The button has been clicked 0 times."),
-      new Button(new Label("Click Me!"))
+        new Label("The button has been clicked 0 times."),
+        new Button(new Label("Click Me!"))
     );
   }
 }
@@ -139,15 +143,20 @@ The `ElementPortal` class dervies from `MonoBehaviour` so you can now drag this 
 Next, render the component you built above inside of the portal...
 
 ```csharp
-public class MyElementPortal : ElementPortal
+public class GameElementPortal : ElementPortal
 {
   protected override void OnEnable()
   {
+    base.OnEnable();
+    StyleSheet("ELEMENTS/DefaultStyles");
     RenderComponent<ExampleViewModel, ExampleView>();
   }
 }
 ```
 
-Note that we used the `OnEnable` method. This is an important detail that allows your UI to update when Unity reloads your game if you make code changes. If your UI is disappearing on reload, this might be why.
+A couple of notes...
+
+- We called the `StyleSheet` method and passed it the resource path to the default ELEMENTS stylesheet. This is optional, but highly recommended for a good starting point with styles.
+- We used the `OnEnable` method. This is an important detail that allows your UI to update when Unity reloads your game if you make code changes. If your UI is disappearing on reload, this might be why.
 
 If you start your game, you should see your UI on the screen!
