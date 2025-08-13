@@ -5,6 +5,7 @@
   "description": "A code-first, MVVM based UI framework for Unity",
   "unity": "2022.3",
   "documentationUrl": "https://elements.1by3.co",
+  "license": "https://github.com/1by3/ELEMENTS/blob/main/LICENSE.md",
   "author": {
     "name": "1by3"
   },
