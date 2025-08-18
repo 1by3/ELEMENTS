@@ -4,7 +4,7 @@ using System.Linq;
 using R3;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Scripts.Elements
+namespace ELEMENTS.Elements
 {
     public abstract class Group<T> : BaseElement<T> where T : Group<T>
     {
