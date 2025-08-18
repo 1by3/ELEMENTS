@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using HolospaceAPI.Client;
 using R3;
 
-namespace ELEMENTS.Helpers
+namespace ELEMENTS.Scripts.Helpers
 {
     public static class If
     {
@@ -11,12 +14,12 @@ namespace ELEMENTS.Helpers
 
         public static Observable<bool> Equal<T>(Observable<T> property, T equalTo)
         {
-            return property.Select(v => v.Equals(equalTo));
+            return property.Select(v => v == null ? equalTo == null : v.Equals(equalTo));
         }
 
         public static Observable<bool> NotEqual<T>(Observable<T> property, T equalTo)
         {
-            return property.Select(v => !v.Equals(equalTo));
+            return property.Select(v => !(v == null ? equalTo == null : v.Equals(equalTo)));
         }
 
         public static Observable<bool> NullOrEmpty(Observable<string> property)
@@ -37,6 +40,51 @@ namespace ELEMENTS.Helpers
         public static Observable<bool> NotNull<T>(Observable<T> property)
         {
             return property.Select(v => v != null);
+        }
+
+        public static Observable<bool> True(Observable<bool> property)
+        {
+            return property.Select(p => p);
+        }
+
+        public static Observable<bool> False(Observable<bool> property)
+        {
+            return property.Select(p => !p);
+        }
+
+        public static Observable<bool> Not(Observable<bool> property)
+        {
+            return False(property);
+        }
+
+        public static Observable<bool> Empty<T>(Observable<T[]> property)
+        {
+            return property.Select(v => v == null || v.Length == 0);
+        }
+
+        public static Observable<bool> NotEmpty<T>(Observable<T[]> property)
+        {
+            return property.Select(v => v is { Length: > 0 });
+        }
+
+        public static Observable<bool> Empty<T>(Observable<ICollection<T>> property)
+        {
+            return property.Select(v => v == null || v.Count == 0);
+        }
+
+        public static Observable<bool> NotEmpty<T>(Observable<ICollection<T>> property)
+        {
+            return property.Select(v => v is { Count: > 0 });
+        }
+
+        public static Observable<bool> Empty<TK, TV>(Observable<Dictionary<TK, TV>> property)
+        {
+            return property.Select(v => v == null || v.Count == 0);
+        }
+
+        public static Observable<bool> NotEmpty<TK, TV>(Observable<Dictionary<TK, TV>> property)
+        {
+            return property.Select(v => v is { Count: > 0 });
         }
     }
 }

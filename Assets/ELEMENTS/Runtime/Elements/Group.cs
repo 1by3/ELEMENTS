@@ -4,7 +4,7 @@ using System.Linq;
 using R3;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Elements
+namespace ELEMENTS.Scripts.Elements
 {
     public abstract class Group<T> : BaseElement<T> where T : Group<T>
     {
@@ -33,9 +33,15 @@ namespace ELEMENTS.Elements
         {
             VisualElement.Clear();
 
-            foreach (var child in Children)
+            for (var index = 0; index < Children.Count; index++)
             {
-                VisualElement.Add(child.BuildVisualElement());
+                var child = Children[index];
+                var childElement = child.BuildVisualElement();
+                if (childElement == null) continue;
+                if (index == 0) childElement.AddToClassList("first-child");
+                if (index == Children.Count - 1) childElement.AddToClassList("last-child");
+                childElement.AddToClassList(index % 2 == 0 ? "even-child" : "odd-child");
+                VisualElement.Add(childElement);
             }
 
             return base.BuildVisualElement();

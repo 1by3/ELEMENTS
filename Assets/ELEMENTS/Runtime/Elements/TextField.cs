@@ -1,7 +1,8 @@
+using System;
 using R3;
 using UnityEngine.UIElements;
 
-namespace ELEMENTS.Elements
+namespace ELEMENTS.Scripts.Elements
 {
     public class TextField<T> : BaseElement<T> where T : TextField<T>
     {
@@ -13,7 +14,7 @@ namespace ELEMENTS.Elements
             VisualElement = new UnityEngine.UIElements.TextField();
         }
 
-        public TextField(Observable<string> text) : this()
+        public TextField(ReactiveProperty<string> text) : this()
         {
             BindText(text);
         }
@@ -29,8 +30,9 @@ namespace ELEMENTS.Elements
             return ((UnityEngine.UIElements.TextField)VisualElement).value;
         }
 
-        public T BindText(Observable<string> text)
+        public T BindText(ReactiveProperty<string> text)
         {
+            OnChange(newValue => text.Value = newValue);
             Disposables.Add(text.Subscribe(nv => Text(nv)));
             return (T)this;
         }
@@ -108,6 +110,12 @@ namespace ELEMENTS.Elements
             return (T)this;
         }
 
+        public T OnChange(Action<string> handler)
+        {
+            ((UnityEngine.UIElements.TextField)VisualElement).RegisterValueChangedCallback(evt => handler(evt.newValue));
+            return (T)this;
+        }
+
         private void OnFocusIn()
         {
             if (!((UnityEngine.UIElements.TextField)VisualElement).ClassListContains(placeholderClass)) return;
@@ -126,6 +134,6 @@ namespace ELEMENTS.Elements
     public class TextField : TextField<TextField>
     {
         public TextField() : base() { }
-        public TextField(Observable<string> text) : base(text) { }
+        public TextField(ReactiveProperty<string> text) : base(text) { }
     }
 }
