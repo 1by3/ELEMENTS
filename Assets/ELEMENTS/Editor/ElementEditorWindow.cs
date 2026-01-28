@@ -4,6 +4,8 @@ using UnityEditor;
 
 namespace ELEMENTS.Editor
 {
+    #if UNITY_EDITOR
+
     public class ElementEditorWindow<TViewModel, TView> : EditorWindow
         where TViewModel : ViewModel
         where TView : View<TViewModel>
@@ -13,4 +15,6 @@ namespace ELEMENTS.Editor
             rootVisualElement.RenderComponent<TViewModel, TView>();
         }
     }
+
+    #endif
 }
