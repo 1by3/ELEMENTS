@@ -2,7 +2,7 @@ namespace ELEMENTS.Elements
 {
     public class Alert<T> : Dialog<T> where T : Alert<T>
     {
-        public Alert(string title, string message)
+        public Alert(ElementPortal portal, string title, string message) : base(portal)
         {
             Children.Add(
                 new DialogContent(
@@ -18,7 +18,7 @@ namespace ELEMENTS.Elements
 
     public class Alert : Alert<Alert>
     {
-        public Alert(string title, string message) : base(title, message)
+        public Alert(ElementPortal portal, string title, string message) : base(portal, title, message)
         {
         }
     }

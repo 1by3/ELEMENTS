@@ -10,27 +10,7 @@ namespace ELEMENTS.Elements
     {
         protected VisualElement VisualElement = new();
         protected readonly List<IDisposable> Disposables = new();
-        protected bool RendersInPortal = false;
-
-        protected event EventHandler<float> OnUpdate
-        {
-            add
-            {
-                if (ElementPortal.Instance == null)
-                {
-                    throw new Exception("No ElementPortal present in the scene. Please add one to the scene before using elements with Update handlers.");
-                }
-                ElementPortal.Instance.OnUpdate += value;
-            }
-            remove
-            {
-                if (ElementPortal.Instance == null)
-                {
-                    throw new Exception("No ElementPortal present in the scene. Please add one to the scene before using elements with Update handlers.");
-                }
-                ElementPortal.Instance.OnUpdate -= value;
-            }
-        }
+        protected ElementPortal RenderInPortal;
 
         public T Ref(ref T bound)
         {
@@ -175,18 +155,13 @@ namespace ELEMENTS.Elements
 
         public virtual VisualElement BuildVisualElement()
         {
-            if (!RendersInPortal)
+            if (RenderInPortal == null)
             {
                 return VisualElement;
             }
 
-            if (ElementPortal.Instance == null)
-            {
-                throw new Exception("No ElementPortal present in the scene. Please add one to the scene before using portal-based elements.");
-            }
-
-            ElementPortal.Instance.RemoveFromPortal(VisualElement);
-            ElementPortal.Instance.AddToPortal(VisualElement);
+            RenderInPortal.RemoveFromPortal(VisualElement);
+            RenderInPortal.AddToPortal(VisualElement);
 
             return null;
         }

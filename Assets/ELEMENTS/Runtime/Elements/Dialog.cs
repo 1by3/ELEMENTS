@@ -11,9 +11,9 @@ namespace ELEMENTS.Elements
         private List<Action> onCloseActions = new();
         private bool openBound;
 
-        public Dialog(params IElement[] children) : base(children)
+        public Dialog(ElementPortal portal, params IElement[] children) : base(children)
         {
-            RendersInPortal = true;
+            RenderInPortal = portal;
             VisualElement.AddToClassList("elements-dialog");
         }
 
@@ -67,7 +67,7 @@ namespace ELEMENTS.Elements
 
     public class Dialog : Dialog<Dialog>
     {
-        public Dialog(params IElement[] children) : base(children)
+        public Dialog(ElementPortal portal, params IElement[] children) : base(portal, children)
         {
         }
     }

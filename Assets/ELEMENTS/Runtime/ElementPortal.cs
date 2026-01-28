@@ -9,10 +9,6 @@ namespace ELEMENTS
     [RequireComponent(typeof(UIDocument))]
     public abstract class ElementPortal : MonoBehaviour
     {
-        public static ElementPortal Instance { get; private set; }
-
-        public EventHandler<float> OnUpdate { get; set; }
-
         protected VisualElement ComponentRoot;
         protected VisualElement PortalRoot;
 
@@ -20,13 +16,11 @@ namespace ELEMENTS
 
         protected void Awake()
         {
-            Instance = this;
             UIDocument = GetComponent<UIDocument>();
         }
 
         protected virtual void OnEnable()
         {
-            Instance = this;
             UIDocument = GetComponent<UIDocument>();
 
             UIDocument.rootVisualElement.Clear();
@@ -59,11 +53,6 @@ namespace ELEMENTS
 
             UIDocument.rootVisualElement.Add(ComponentRoot);
             UIDocument.rootVisualElement.Add(PortalRoot);
-        }
-
-        protected virtual void Update()
-        {
-            OnUpdate?.Invoke(this, Time.deltaTime);
         }
 
         public void AddToPortal(VisualElement element)

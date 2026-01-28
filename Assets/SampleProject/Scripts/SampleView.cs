@@ -1,6 +1,8 @@
+using ELEMENTS;
 using ELEMENTS.Elements;
 using ELEMENTS.MVVM;
 using R3;
+using UnityEngine;
 
 namespace SampleProject.Scripts
 {
@@ -13,7 +15,7 @@ namespace SampleProject.Scripts
         protected override IElement Render()
         {
             return new VerticalGroup(
-                new Alert("Hello world", "how are you?")
+                new Alert(Object.FindFirstObjectByType<ElementPortal>(), "Hello world", "how are you?")
                     .BindOpen(ViewModel.AlertOpen)
                     .OnClose(() => ViewModel.CloseAlert()),
 
