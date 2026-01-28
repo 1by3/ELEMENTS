@@ -17,13 +17,6 @@ namespace ELEMENTS
         protected void Awake()
         {
             UIDocument = GetComponent<UIDocument>();
-        }
-
-        protected virtual void OnEnable()
-        {
-            UIDocument = GetComponent<UIDocument>();
-
-            UIDocument.rootVisualElement.Clear();
 
             ComponentRoot = new VisualElement
             {
@@ -50,6 +43,12 @@ namespace ELEMENTS
                 },
                 pickingMode = PickingMode.Ignore
             };
+        }
+
+        protected virtual void OnEnable()
+        {
+            UIDocument = GetComponent<UIDocument>();
+            UIDocument.rootVisualElement.Clear();
 
             UIDocument.rootVisualElement.Add(ComponentRoot);
             UIDocument.rootVisualElement.Add(PortalRoot);
