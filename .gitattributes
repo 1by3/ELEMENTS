@@ -157,5 +157,8 @@ Assets/Plugins/**       linguist-vendored
 # Spine export file for Unity
 *.skel.bytes            lfs
 
+# Exclude docs images from LFS (Vercel doesn't support LFS by default)
+docs/public/**          -filter
+
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
