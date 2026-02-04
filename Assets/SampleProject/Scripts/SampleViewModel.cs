@@ -27,5 +27,15 @@ namespace SampleProject.Scripts
         {
             Count.Value--;
         }
+
+        public void Reset()
+        {
+            Count.Value = 0;
+        }
+
+        public void Double()
+        {
+            Count.Value *= 2;
+        }
     }
 }

@@ -1,0 +1,112 @@
+---
+title: MenuDivider
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A horizontal line element used to visually separate groups of menu items within a ContextMenu.
+
+## Constructor
+
+```csharp
+new MenuDivider();
+```
+
+## Examples
+
+### Grouping Menu Items
+Use dividers to organize related menu items into logical groups:
+
+```csharp
+new ContextMenu(portal,
+    // Edit group
+    new MenuItem("Cut", () => Cut()),
+    new MenuItem("Copy", () => Copy()),
+    new MenuItem("Paste", () => Paste()),
+
+    new MenuDivider(),
+
+    // Selection group
+    new MenuItem("Select All", () => SelectAll()),
+    new MenuItem("Deselect", () => Deselect()),
+
+    new MenuDivider(),
+
+    // Danger zone
+    new MenuItem("Delete", () => Delete())
+);
+```
+
+### Conditional Dividers
+Show or hide dividers based on application state:
+
+```csharp
+new ContextMenu(portal,
+    new MenuItem("Save", () => Save()),
+    new MenuItem("Save As...", () => SaveAs()),
+
+    new MenuDivider()
+        .BindVisible(ViewModel.HasRecentFiles),
+
+    // Recent files section only shown when there are recent files
+    new MenuItem("Recent File 1", () => OpenRecent(0))
+        .BindVisible(ViewModel.HasRecentFiles),
+    new MenuItem("Recent File 2", () => OpenRecent(1))
+        .BindVisible(ViewModel.HasRecentFiles)
+);
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    disabled: {
+      description: "Whether the divider is disabled (has no visual effect)",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the divider is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the divider",
+      type: "string",
+      default: '""',
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => MenuDivider",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => MenuDivider",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => MenuDivider",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => MenuDivider",
+    }
+  }}
+/>
+
+## CSS Classes
+
+- `.elements-menu-divider` - The divider element (styled as a horizontal line)
+
+MenuDivider extends [BaseElement](/docs/elements/base-element).

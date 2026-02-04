@@ -9,6 +9,24 @@ namespace ELEMENTS
     [RequireComponent(typeof(UIDocument))]
     public abstract class ElementPortal : MonoBehaviour
     {
+        public bool IsUIFocused => UIDocument.rootVisualElement.focusController.focusedElement != null;
+
+        public bool IsUIHovered
+        {
+            get
+            {
+                var panel = UIDocument.rootVisualElement?.panel;
+                if (panel == null) return false;
+
+                // Convert screen position to panel coordinates (handles DPI scaling and Y-axis inversion)
+                var panelPosition = RuntimePanelUtils.ScreenToPanel(panel, Input.mousePosition);
+                var pickedElement = panel.Pick(panelPosition);
+
+                // Return true if we hit something other than the root or null
+                return pickedElement != null && pickedElement != UIDocument.rootVisualElement;
+            }
+        }
+
         protected VisualElement ComponentRoot;
         protected VisualElement PortalRoot;
 
@@ -82,6 +100,17 @@ namespace ELEMENTS
             var styleSheet = Resources.Load<StyleSheet>(styleSheetPath);
             if (styleSheet == null) throw new Exception($"StyleSheet not found at path: {styleSheetPath}");
             StyleSheet(styleSheet);
+        }
+
+        public Rect GetPortalBounds()
+        {
+            return PortalRoot.worldBound;
+        }
+
+        public Vector2 ScreenToPanel(Vector2 screenPosition)
+        {
+            var panel = UIDocument.rootVisualElement.panel;
+            return RuntimePanelUtils.ScreenToPanel(panel, screenPosition);
         }
     }
 }

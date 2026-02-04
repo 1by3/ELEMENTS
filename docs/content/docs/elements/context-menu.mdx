@@ -1,0 +1,255 @@
+---
+title: ContextMenu
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A floating context menu element that renders in a portal overlay. Used for dropdown menus, right-click menus, and action menus. Contains MenuItem and MenuDivider children.
+
+## Constructor
+
+```csharp
+var portal = Object.FindFirstObjectByType<ElementPortal>();
+
+new ContextMenu(portal,
+    new MenuItem("Edit", () => Edit()),
+    new MenuItem("Duplicate", () => Duplicate()),
+    new MenuDivider(),
+    new MenuItem("Delete", () => Delete())
+);
+```
+
+## Examples
+
+### Dropdown Menu (Left-Click)
+Attach a dropdown menu to a button that opens on click:
+
+```csharp
+var optionsMenu = new ContextMenu(portal,
+    new MenuItem("Option 1", () => SelectOption(1)),
+    new MenuItem("Option 2", () => SelectOption(2)),
+    new MenuItem("Option 3", () => SelectOption(3))
+);
+
+new Button(new Label("Options"))
+    .WithContextMenu(optionsMenu);
+```
+
+### Right-Click Context Menu
+Attach a context menu that opens at cursor position on right-click:
+
+```csharp
+var contextMenu = new ContextMenu(portal,
+    new MenuItem("Cut", () => Cut()),
+    new MenuItem("Copy", () => Copy()),
+    new MenuItem("Paste", () => Paste())
+);
+
+new Label("Right-click me")
+    .WithRightClickMenu(contextMenu);
+```
+
+### Menu with Icons
+Menu items can include icons from Resources:
+
+```csharp
+new ContextMenu(portal,
+    new MenuItem("Icons/edit", "Edit", () => Edit()),
+    new MenuItem("Icons/copy", "Duplicate", () => Duplicate()),
+    new MenuDivider(),
+    new MenuItem("Icons/trash", "Delete", () => Delete())
+);
+```
+
+### Scene Object Context Menu
+Open a context menu from game code (e.g., after raycasting to a scene object):
+
+```csharp
+// In your MonoBehaviour
+void Update()
+{
+    if (Input.GetMouseButtonDown(1)) // Right click
+    {
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out var hit))
+        {
+            // Configure menu based on clicked object
+            ConfigureMenuForObject(hit.collider.gameObject);
+
+            // Open at cursor position with proper coordinate conversion
+            myContextMenu.OpenAtCursor();
+        }
+    }
+}
+```
+
+### Dynamic Menu Items
+Use BindChildren to create menu items from reactive data:
+
+```csharp
+var recentFiles = new ReactiveProperty<string[]>(new[] { "file1.txt", "file2.txt" });
+
+new ContextMenu(portal)
+    .BindChildren(recentFiles, fileName =>
+        new MenuItem(fileName, () => OpenFile(fileName))
+    );
+```
+
+### Programmatic Open/Close
+Control menu state programmatically:
+
+```csharp
+var menu = new ContextMenu(portal,
+    new MenuItem("Action", () => DoAction())
+);
+
+// Open at specific screen position
+menu.OpenAtScreenPosition(new Vector2(100, 200));
+
+// Open at current cursor
+menu.OpenAtCursor();
+
+// Close the menu
+menu.Close();
+
+// Bind to reactive state
+menu.BindOpen(ViewModel.ShowMenu);
+```
+
+### Nested with Callbacks
+Register callbacks for when the menu closes:
+
+```csharp
+new ContextMenu(portal,
+    new MenuItem("Save", () => Save()),
+    new MenuItem("Cancel", () => Cancel())
+)
+.OnClose(() => Debug.Log("Menu closed"));
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    children: {
+      description: "Array of MenuItem and MenuDivider elements",
+      type: "IElement[]",
+      default: "[]",
+    },
+    open: {
+      description: "Whether the menu is currently open",
+      type: "bool",
+      default: "false",
+    },
+    disabled: {
+      description: "Whether the menu is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the menu is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the menu",
+      type: "string",
+      default: '""',
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Open: {
+      description: "Opens the menu",
+      type: "(bool = true) => ContextMenu",
+    },
+    Close: {
+      description: "Closes the menu",
+      type: "() => ContextMenu",
+    },
+    GetOpen: {
+      description: "Gets the open state",
+      type: "() => bool",
+    },
+    BindOpen: {
+      description: "Binds open state to an observable",
+      type: "(Observable<bool>) => ContextMenu",
+    },
+    OnClose: {
+      description: "Registers a callback for when menu closes",
+      type: "(Action) => ContextMenu",
+    },
+    Position: {
+      description: "Positions the menu at panel coordinates",
+      type: "(float x, float y) => ContextMenu or (Vector2) => ContextMenu",
+    },
+    OpenAtScreenPosition: {
+      description: "Opens menu at screen position with proper coordinate conversion",
+      type: "(Vector2 screenPosition) => ContextMenu",
+    },
+    OpenAtCursor: {
+      description: "Opens menu at current mouse cursor position",
+      type: "() => ContextMenu",
+    },
+    AnchorTo: {
+      description: "Positions menu relative to an element",
+      type: "(VisualElement, AnchorPosition = Below) => ContextMenu",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => ContextMenu",
+    }
+  }}
+/>
+
+## Extension Methods
+
+These extension methods are available in the `ELEMENTS.Extensions` namespace:
+
+<TypeTable
+  type={{
+    WithContextMenu: {
+      description: "Opens menu anchored below element on left-click",
+      type: "(ContextMenu) => T",
+    },
+    WithRightClickMenu: {
+      description: "Opens menu at cursor position on right-click",
+      type: "(ContextMenu) => T",
+    }
+  }}
+/>
+
+## AnchorPosition Enum
+
+<TypeTable
+  type={{
+    Below: {
+      description: "Position menu below the anchor element",
+      type: "AnchorPosition",
+    },
+    Above: {
+      description: "Position menu above the anchor element",
+      type: "AnchorPosition",
+    },
+    Left: {
+      description: "Position menu to the left of the anchor element",
+      type: "AnchorPosition",
+    },
+    Right: {
+      description: "Position menu to the right of the anchor element",
+      type: "AnchorPosition",
+    }
+  }}
+/>
+
+## CSS Classes
+
+- `.elements-context-menu` - The menu container
+- `.elements-context-menu.open` - Applied when menu is open
+- `.elements-context-menu-backdrop` - Invisible backdrop for click-outside detection
+
+ContextMenu extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).

@@ -29,6 +29,11 @@ namespace ELEMENTS.Elements
             return VisualElement.name;
         }
 
+        public VisualElement GetVisualElement()
+        {
+            return VisualElement;
+        }
+
         public T BindName(Observable<string> name)
         {
             Disposables.Add(name.Subscribe(nv => Name(nv)));
