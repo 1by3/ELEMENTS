@@ -20,6 +20,7 @@ namespace ELEMENTS.Elements
         private readonly VisualElement backdrop;
         private readonly List<Action> onCloseActions = new();
         private bool openBound;
+        private bool ignoreNextPointerDown;
 
         public ContextMenu(ElementPortal portal, params IElement[] children) : base(children)
         {
@@ -30,7 +31,15 @@ namespace ELEMENTS.Elements
 
             backdrop = new VisualElement();
             backdrop.AddToClassList("elements-context-menu-backdrop");
-            backdrop.RegisterCallback<PointerDownEvent>(_ => Close());
+            backdrop.RegisterCallback<PointerDownEvent>(_ =>
+            {
+                if (ignoreNextPointerDown)
+                {
+                    ignoreNextPointerDown = false;
+                    return;
+                }
+                Close();
+            });
         }
 
         public T Open(bool open = true)
@@ -41,6 +50,8 @@ namespace ELEMENTS.Elements
             }
             else if (!openBound)
             {
+                // Ignore the next pointer down to prevent the opening click from immediately closing
+                ignoreNextPointerDown = true;
                 backdrop.AddToClassList("open");
                 ClassName("open");
             }
@@ -107,6 +118,10 @@ namespace ELEMENTS.Elements
         public T OpenAtScreenPosition(Vector2 screenPosition)
         {
             var panelPosition = portal.ScreenToPanel(screenPosition);
+            // Correct Y coordinate - ScreenToPanel doesn't fully convert for UI Toolkit's coordinate system
+            // where Y=0 is at the top, not the bottom
+            var portalBounds = portal.GetPortalBounds();
+            panelPosition.y = portalBounds.height - panelPosition.y;
             Position(panelPosition);
             BuildVisualElement();
             Open();
