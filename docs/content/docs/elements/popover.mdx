@@ -172,6 +172,23 @@ popover.OnClose(() => Debug.Log("Popover closed"));
   }}
 />
 
+## Extension Methods
+
+These extension methods are available in the `ELEMENTS.Extensions` namespace and work with any `Popover` (including `ContextMenu`):
+
+<TypeTable
+  type={{
+    WithContextMenu: {
+      description: "Opens popover anchored below element on left-click",
+      type: "(Popover) => T",
+    },
+    WithRightClickMenu: {
+      description: "Opens popover at cursor position on right-click",
+      type: "(Popover) => T",
+    }
+  }}
+/>
+
 ## AnchorPosition Enum
 
 <TypeTable

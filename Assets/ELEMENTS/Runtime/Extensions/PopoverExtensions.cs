@@ -1,16 +1,14 @@
 using ELEMENTS.Elements;
-using UnityEngine;
 using UnityEngine.UIElements;
-using ContextMenu = ELEMENTS.Elements.ContextMenu;
 
 namespace ELEMENTS.Extensions
 {
-    public static class ContextMenuExtensions
+    public static class PopoverExtensions
     {
         /// <summary>
-        /// Opens the context menu on left-click, anchored below the element.
+        /// Opens the popover on left-click, anchored below the element.
         /// </summary>
-        public static T WithContextMenu<T>(this T element, ContextMenu menu) where T : BaseElement<T>
+        public static T WithContextMenu<T>(this T element, Popover menu) where T : BaseElement<T>
         {
             element.RegisterCallback<ClickEvent>(evt =>
             {
@@ -24,9 +22,9 @@ namespace ELEMENTS.Extensions
         }
 
         /// <summary>
-        /// Opens the context menu on right-click at the cursor position.
+        /// Opens the popover on right-click at the cursor position.
         /// </summary>
-        public static T WithRightClickMenu<T>(this T element, ContextMenu menu) where T : BaseElement<T>
+        public static T WithRightClickMenu<T>(this T element, Popover menu) where T : BaseElement<T>
         {
             element.RegisterCallback<PointerDownEvent>(evt =>
             {
@@ -40,6 +38,5 @@ namespace ELEMENTS.Extensions
 
             return element;
         }
-
     }
 }
