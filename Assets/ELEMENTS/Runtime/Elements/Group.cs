@@ -15,15 +15,22 @@ namespace ELEMENTS.Elements
             Children = new List<IElement>(children);
         }
 
+        public T SetChildren(params IElement[] children)
+        {
+            Children.Clear();
+            Children.AddRange(children);
+            VisualElement.Clear();
+            BuildVisualElement();
+
+            return (T)this;
+        }
+
         public T BindChildren<TChild>(Observable<TChild[]> array, Func<TChild, IElement> converter)
         {
             Disposables.Add(array.Subscribe(newItems =>
             {
                 var childElements = newItems.Select(converter).ToArray();
-                Children.Clear();
-                Children.AddRange(childElements);
-                VisualElement.Clear();
-                BuildVisualElement();
+                SetChildren(childElements);
             }));
 
             return (T)this;

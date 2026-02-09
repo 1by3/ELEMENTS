@@ -125,6 +125,10 @@ new VerticalGroup(
       description: "Sets how children are aligned along the cross axis",
       type: "(Align) => Group",
     },
+    SetChildren: {
+      description: "Replaces all children and rebuilds the visual element",
+      type: "(params IElement[]) => void",
+    },
     BindChildren: {
       description: "Binds children to an observable array with converter function",
       type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => Group",
