@@ -1,0 +1,204 @@
+---
+title: Popover
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A generic floating element that renders in a portal overlay with backdrop dismiss, positioning, and open/close state management. Used as a base for context menus, tooltips, dropdowns, and other floating content.
+
+## Constructor
+
+```csharp
+var portal = Object.FindFirstObjectByType<ElementPortal>();
+
+new Popover(portal,
+    new Label("Popover content goes here")
+);
+```
+
+## Examples
+
+### Custom Dropdown
+Build a custom dropdown with arbitrary content:
+
+```csharp
+var dropdown = new Popover(portal,
+    new VerticalGroup(
+        new Label("Choose a color:"),
+        new Button(new Label("Red")).OnClick(_ => SelectColor("red")),
+        new Button(new Label("Blue")).OnClick(_ => SelectColor("blue")),
+        new Button(new Label("Green")).OnClick(_ => SelectColor("green"))
+    )
+);
+
+new Button(new Label("Pick Color"))
+    .OnClick(_ =>
+    {
+        dropdown.AnchorTo(button.GetVisualElement(), AnchorPosition.Below);
+        dropdown.BuildVisualElement();
+        dropdown.Open();
+    });
+```
+
+### Anchored Info Panel
+Show an info panel anchored to an element:
+
+```csharp
+var infoPanel = new Popover(portal,
+    new VerticalGroup(
+        new Label("Details").ClassName("title"),
+        new Label("Additional information about this item.")
+    )
+);
+
+new Button(new Label("Info"))
+    .OnClick(_ =>
+    {
+        infoPanel.AnchorTo(infoButton.GetVisualElement(), AnchorPosition.Right);
+        infoPanel.BuildVisualElement();
+        infoPanel.Open();
+    });
+```
+
+### Notification Popup
+Show a temporary notification at a screen position:
+
+```csharp
+var notification = new Popover(portal,
+    new Label("Item saved successfully!")
+);
+
+notification.OpenAtScreenPosition(new Vector2(Screen.width / 2, 100));
+```
+
+### Programmatic Control
+Control popover state programmatically:
+
+```csharp
+var popover = new Popover(portal,
+    new Label("Controlled popover")
+);
+
+// Open/close
+popover.Open();
+popover.Close();
+
+// Check state
+bool isOpen = popover.GetOpen();
+
+// Bind to reactive state
+popover.BindOpen(ViewModel.ShowPopover);
+
+// Register close callback
+popover.OnClose(() => Debug.Log("Popover closed"));
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    children: {
+      description: "Array of child elements displayed inside the popover",
+      type: "IElement[]",
+      default: "[]",
+    },
+    open: {
+      description: "Whether the popover is currently open",
+      type: "bool",
+      default: "false",
+    },
+    disabled: {
+      description: "Whether the popover is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the popover is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the popover",
+      type: "string",
+      default: '""',
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Open: {
+      description: "Opens the popover",
+      type: "(bool = true) => Popover",
+    },
+    Close: {
+      description: "Closes the popover",
+      type: "() => Popover",
+    },
+    GetOpen: {
+      description: "Gets the open state",
+      type: "() => bool",
+    },
+    BindOpen: {
+      description: "Binds open state to an observable",
+      type: "(Observable<bool>) => Popover",
+    },
+    OnClose: {
+      description: "Registers a callback for when popover closes",
+      type: "(Action) => Popover",
+    },
+    Position: {
+      description: "Positions the popover at panel coordinates",
+      type: "(float x, float y) => Popover or (Vector2) => Popover",
+    },
+    OpenAtScreenPosition: {
+      description: "Opens popover at screen position with proper coordinate conversion",
+      type: "(Vector2 screenPosition) => Popover",
+    },
+    OpenAtCursor: {
+      description: "Opens popover at current mouse cursor position",
+      type: "() => Popover",
+    },
+    AnchorTo: {
+      description: "Positions popover relative to an element",
+      type: "(VisualElement, AnchorPosition = Below) => Popover",
+    },
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => Popover",
+    }
+  }}
+/>
+
+## AnchorPosition Enum
+
+<TypeTable
+  type={{
+    Below: {
+      description: "Position popover below the anchor element",
+      type: "AnchorPosition",
+    },
+    Above: {
+      description: "Position popover above the anchor element",
+      type: "AnchorPosition",
+    },
+    Left: {
+      description: "Position popover to the left of the anchor element",
+      type: "AnchorPosition",
+    },
+    Right: {
+      description: "Position popover to the right of the anchor element",
+      type: "AnchorPosition",
+    }
+  }}
+/>
+
+## CSS Classes
+
+- `.elements-popover` - The popover container
+- `.elements-popover.open` - Applied when popover is open
+- `.elements-popover-backdrop` - Invisible backdrop for click-outside detection
+
+Popover extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).

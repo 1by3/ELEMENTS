@@ -253,15 +253,9 @@ Button.pill Label {
 .py-2 { padding-top: 8px; padding-bottom: 8px; }
 .py-3 { padding-top: 12px; padding-bottom: 12px; }
 
-/* Context Menu Container */
-.elements-context-menu {
+/* Popover */
+.elements-popover {
     position: absolute;
-    background-color: #ffffff;
-    border-radius: 8px;
-    border-width: 1px;
-    border-color: #e2e8f0;
-    padding: 4px 0;
-    min-width: 160px;
     display: none;
     opacity: 0;
     scale: 0.95;
@@ -269,10 +263,34 @@ Button.pill Label {
     transition-duration: 0.15s;
 }
 
-.elements-context-menu.open {
+.elements-popover.open {
     display: flex;
     opacity: 1;
     scale: 1;
+}
+
+.elements-popover-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    display: none;
+}
+
+.elements-popover-backdrop.open {
+    display: flex;
+}
+
+/* Context Menu Container */
+.elements-context-menu {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #e2e8f0;
+    padding: 4px 0;
+    min-width: 160px;
 }
 
 /* Menu Item */
@@ -318,19 +336,4 @@ Button.pill Label {
     height: 1px;
     background-color: #e2e8f0;
     margin: 4px 12px;
-}
-
-/* Backdrop for click-outside detection */
-.elements-context-menu-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: transparent;
-    display: none;
-}
-
-.elements-context-menu-backdrop.open {
-    display: flex;
 }

@@ -1,6 +1,6 @@
 {
   "name": "co.1by3.elements",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "displayName": "ELEMENTS",
   "description": "A code-first, MVVM based UI framework for Unity",
   "unity": "6000.0",
