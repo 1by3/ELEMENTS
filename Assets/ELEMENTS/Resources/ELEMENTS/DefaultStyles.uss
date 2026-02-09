@@ -261,6 +261,10 @@ Button.pill Label {
     scale: 0.95;
     transition-property: opacity, scale;
     transition-duration: 0.15s;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #e2e8f0;
 }
 
 .elements-popover.open {
@@ -285,10 +289,6 @@ Button.pill Label {
 
 /* Context Menu Container */
 .elements-context-menu {
-    background-color: #ffffff;
-    border-radius: 8px;
-    border-width: 1px;
-    border-color: #e2e8f0;
     padding: 4px 0;
     min-width: 160px;
 }
