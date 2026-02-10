@@ -5,6 +5,7 @@
     "element-properties",
     "layout-elements",
     "styling",
+    "utility-classes",
     "---Advanced topics---",
     "advanced/components",
     "advanced/rendering",

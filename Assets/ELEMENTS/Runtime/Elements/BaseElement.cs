@@ -89,13 +89,13 @@ namespace ELEMENTS.Elements
 
         public T ClassName(string className, bool enabled = true)
         {
-            if (enabled)
+            var classes = className.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var cls in classes)
             {
-                VisualElement.AddToClassList(className);
-            }
-            else
-            {
-                VisualElement.RemoveFromClassList(className);
+                if (enabled)
+                    VisualElement.AddToClassList(cls);
+                else
+                    VisualElement.RemoveFromClassList(cls);
             }
 
             return (T)(object)this;
@@ -103,7 +103,12 @@ namespace ELEMENTS.Elements
 
         public bool HasClassName(string className)
         {
-            return VisualElement.ClassListContains(className);
+            var classes = className.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var cls in classes)
+            {
+                if (!VisualElement.ClassListContains(cls)) return false;
+            }
+            return true;
         }
 
         public T BindClassName(string className, Observable<bool> enabled)

@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(git lfs:*)",
-      "Bash(ls -la \"D:\\\\ELEMENTS\\\\docs\"\" 2>/dev/null || echo \"docs directory not found \")"
+      "Bash(ls -la \"D:\\\\ELEMENTS\\\\docs\"\" 2>/dev/null || echo \"docs directory not found \")",
+      "WebSearch",
+      "WebFetch(domain:docs.unity3d.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.zoboui.com)",
+      "WebFetch(domain:zoboui.com)"
     ]
   }
 }

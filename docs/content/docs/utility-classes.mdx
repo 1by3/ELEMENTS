@@ -1,0 +1,194 @@
+---
+title: Utility Classes
+---
+
+ELEMENTS ships with gap utility classes out of the box and recommends [ZoboUI](https://github.com/oyacamp/zoboui) for a comprehensive Tailwind-style utility class system in Unity.
+
+## ZoboUI
+
+ZoboUI is an open-source (Apache 2.0) Unity package that generates Tailwind-inspired USS utility classes. Instead of hand-writing USS for every style, you can use familiar utility classes like `bg-slate-800`, `rounded-lg`, and `p-4` directly in your ELEMENTS code.
+
+### Installation
+
+Install via OpenUPM:
+
+```bash
+openupm add com.oyacamp.zoboui
+```
+
+Or add the Git URL to your `Packages/manifest.json`:
+
+```json
+{
+  "dependencies": {
+    "com.oyacamp.zoboui": "https://github.com/oyacamp/zoboui.git"
+  }
+}
+```
+
+### Loading stylesheets
+
+Load both the ELEMENTS default styles and ZoboUI's generated stylesheet in your `ElementPortal`:
+
+```csharp
+public class MyElementPortal : ElementPortal
+{
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        StyleSheet("ELEMENTS/DefaultStyles");
+        StyleSheet("Path/To/ZoboUI/Generated");
+        RenderComponent<MyViewModel, MyView>();
+    }
+}
+```
+
+Then use utility classes in your View:
+
+```csharp
+public class MyView : View<MyViewModel>
+{
+    public MyView(MyViewModel viewModel) : base(viewModel) { }
+
+    protected override IElement Render()
+    {
+        return new VerticalGroup(
+            new Label("Hello, ZoboUI!")
+                .ClassName("text-lg font-bold text-slate-900"),
+            new Label("Styled with utility classes.")
+                .ClassName("text-sm text-slate-500")
+        ).ClassName("p-6 bg-white rounded-lg");
+    }
+}
+```
+
+### Space-separated classes
+
+ELEMENTS' `ClassName` method accepts space-separated class names, so you can apply multiple utilities in a single call:
+
+```csharp
+new Label("Card Title")
+    .ClassName("text-lg font-semibold text-slate-800 mb-2");
+```
+
+This is equivalent to chaining multiple `ClassName` calls:
+
+```csharp
+new Label("Card Title")
+    .ClassName("text-lg")
+    .ClassName("font-semibold")
+    .ClassName("text-slate-800")
+    .ClassName("mb-2");
+```
+
+### ZoboUI naming conventions
+
+USS has stricter identifier rules than CSS. ZoboUI adapts Tailwind names:
+
+| Tailwind | ZoboUI (USS) | Reason |
+|----------|-------------|--------|
+| `hover:bg-blue-500` | `hover_bg-blue-500` | Colons not allowed, uses `_` |
+| `w-1/2` | `w-1of2` | Slashes not allowed |
+| `-translate-x-4` | `minus-translate-x-4` | Leading dash not allowed |
+| `opacity-0.5` | `opacity-0point5` | Dots not allowed in class names |
+
+See the [ZoboUI documentation](https://github.com/oyacamp/zoboui) for the full list of naming adaptations.
+
+## Built-in gap utilities
+
+USS does not support the CSS `gap` property. ELEMENTS provides gap utility classes that emulate it using child margins and ELEMENTS' [child pseudo-classes](#child-pseudo-classes).
+
+### Vertical gap
+
+Use `gap-y-{n}` on a `VerticalGroup` to add spacing between children:
+
+```csharp
+new VerticalGroup(
+    new Label("First"),
+    new Label("Second"),
+    new Label("Third")
+).ClassName("gap-y-2"); // 8px between each item
+```
+
+### Horizontal gap
+
+Use `gap-x-{n}` on a `HorizontalGroup` to add spacing between children:
+
+```csharp
+new HorizontalGroup(
+    new Button(new Label("Cancel")),
+    new Button(new Label("Save"))
+).ClassName("gap-x-3"); // 12px between buttons
+```
+
+### Both axes
+
+Use `gap-{n}` to apply spacing on both axes at once:
+
+```csharp
+new Group(
+    new Label("A"),
+    new Label("B"),
+    new Label("C")
+).ClassName("gap-4"); // 16px on both axes
+```
+
+### Scale
+
+| Class suffix | Value |
+|-------------|-------|
+| `0` | 0px |
+| `1` | 4px |
+| `2` | 8px |
+| `3` | 12px |
+| `4` | 16px |
+| `5` | 20px |
+| `6` | 24px |
+| `8` | 32px |
+
+All three variants (`gap-{n}`, `gap-x-{n}`, `gap-y-{n}`) are available at every step in the scale.
+
+## Child pseudo-classes
+
+ELEMENTS automatically applies pseudo-classes to children of any `Group`:
+
+| Class | Applied to |
+|-------|-----------|
+| `.first-child` | The first child element |
+| `.last-child` | The last child element |
+| `.even-child` | Children at even indices (0, 2, 4...) |
+| `.odd-child` | Children at odd indices (1, 3, 5...) |
+
+You can target these in your USS stylesheets:
+
+```css
+/* Zebra-stripe rows */
+.my-list > .even-child {
+    background-color: #f8fafc;
+}
+
+.my-list > .odd-child {
+    background-color: #ffffff;
+}
+
+/* Remove bottom border on last item */
+.my-list > .last-child {
+    border-bottom-width: 0;
+}
+```
+
+The gap utilities use these pseudo-classes internally — `.first-child` resets the margin to zero so the first item has no leading space.
+
+## USS limitations
+
+Some Tailwind features rely on CSS properties that USS does not support:
+
+| Feature | Reason |
+|---------|--------|
+| `gap` / `grid-gap` | Not supported in USS — use ELEMENTS gap utilities instead |
+| CSS Grid (`grid-cols-*`) | USS only supports Flexbox |
+| `backdrop-blur`, `filter` | No filter support in USS |
+| `transition` (arbitrary) | USS transitions are limited to specific properties |
+| CSS variables (`var()`) | Not supported in USS |
+| Media queries | Not supported in USS |
+| `z-index` stacking | USS uses element order, not z-index |

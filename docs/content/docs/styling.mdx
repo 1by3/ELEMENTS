@@ -2,7 +2,7 @@
 title: Styling
 ---
 
-ELEMENTS allows you to style your UI using Unit's USS. If you're familiar with CSS from web development, you'll be right at home.
+ELEMENTS allows you to style your UI using Unity's USS. If you're familiar with CSS from web development, you'll be right at home.
 
 ## Loading stylesheets
 
@@ -39,7 +39,13 @@ And then style it in a stylesheet...
   <Label className="text-pink-500">My Label</Label>
 </Example>
 
-To add multiple classes, call `ClassName` repeatedly...
+To add multiple classes, pass a space-separated string...
+
+```csharp
+new Label("My Label").ClassName("fancy-label another-class");
+```
+
+You can also chain multiple `ClassName` calls if you prefer...
 
 ```csharp
 new Label("My Label")
@@ -82,3 +88,7 @@ Name is also a bindable property, so you can bind it to a value in your view mod
 ```csharp
 return new Label("My Label").BindName(ViewModel.LabelName);
 ```
+
+## Utility classes
+
+ELEMENTS ships with a small set of built-in [utility classes](/docs/utility-classes) (gap utilities). For a full Tailwind-style utility class system, we recommend pairing ELEMENTS with [ZoboUI](https://github.com/oyacamp/zoboui). See the [Utility Classes](/docs/utility-classes) page for setup instructions and usage examples.
