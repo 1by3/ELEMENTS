@@ -8,7 +8,7 @@ namespace ELEMENTS.Extensions
         /// <summary>
         /// Opens the popover on left-click, anchored below the element.
         /// </summary>
-        public static T WithContextMenu<T>(this T element, Popover menu) where T : BaseElement<T>
+        public static T WithContextMenu<T, TPopover>(this T element, Popover<TPopover> menu) where T : BaseElement<T> where TPopover : Popover<TPopover>
         {
             element.RegisterCallback<ClickEvent>(evt =>
             {
@@ -24,7 +24,7 @@ namespace ELEMENTS.Extensions
         /// <summary>
         /// Opens the popover on right-click at the cursor position.
         /// </summary>
-        public static T WithRightClickMenu<T>(this T element, Popover menu) where T : BaseElement<T>
+        public static T WithRightClickMenu<T, TPopover>(this T element, Popover<TPopover> menu) where T : BaseElement<T> where TPopover : Popover<TPopover>
         {
             element.RegisterCallback<PointerDownEvent>(evt =>
             {
