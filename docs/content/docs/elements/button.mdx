@@ -16,50 +16,50 @@ new Button(new Image(texture), new Label("Icon Button"));
 ## Examples
 
 ### Click Event Handling
-Buttons handle click events by calling methods on your ViewModel:
+Buttons handle click events:
 
 ```csharp
 new Button(new Label("Save"))
-    .OnClick(_ => ViewModel.SaveDocument());
+    .OnClick(_ => SaveDocument());
 
 new Button(new Label("Delete"))
-    .OnClick(_ => ViewModel.DeleteItem())
-    .BindDisabled(ViewModel.IsDeleting);
+    .OnClick(_ => DeleteItem())
+    .BindDisabled(IsDeleting);
 ```
 
 ### Reactive Content
-Button content can be bound to ViewModel properties:
+Button content can be bound to reactive properties:
 
 ```csharp
-// Button text bound to ViewModel
-new Button(new Label().BindText(ViewModel.ButtonText));
+// Button text bound to property
+new Button(new Label().BindText(ButtonText));
 
 // Icon + Text with reactive visibility
 new Button(
-    new Image("Icons/download").BindVisible(ViewModel.ShowIcon),
-    new Label().BindText(ViewModel.ButtonLabel)
+    new Image("Icons/download").BindVisible(ShowIcon),
+    new Label().BindText(ButtonLabel)
 );
 
 // Loading state example
 new Button(
     new HorizontalGroup(
-        new Loader().BindVisible(ViewModel.IsLoading),
-        new Label().BindText(ViewModel.IsLoading.Select(loading => 
+        new Loader().BindVisible(IsLoading),
+        new Label().BindText(IsLoading.Select(loading =>
             loading ? "Saving..." : "Save"))
     )
-).BindDisabled(ViewModel.IsLoading);
+).BindDisabled(IsLoading);
 ```
 
 ### State Management
-Buttons can reactively respond to ViewModel state:
+Buttons can reactively respond to state:
 
 ```csharp
 new Button(new Label("Submit"))
     .ClassName("primary-button")
-    .BindDisabled(ViewModel.IsSubmitting)
-    .BindVisible(ViewModel.CanSubmit)
-    .BindClassName("loading", ViewModel.IsSubmitting)
-    .OnClick(_ => ViewModel.SubmitForm());
+    .BindDisabled(IsSubmitting)
+    .BindVisible(CanSubmit)
+    .BindClassName("loading", IsSubmitting)
+    .OnClick(_ => SubmitForm());
 ```
 
 ## Properties

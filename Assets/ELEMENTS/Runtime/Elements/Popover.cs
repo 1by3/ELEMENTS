@@ -22,6 +22,8 @@ namespace ELEMENTS.Elements
         private bool openBound;
         private bool ignoreNextPointerDown;
 
+        public Popover(params IElement[] children) : this(ElementPortal.Current, children) { }
+
         public Popover(ElementPortal portal, params IElement[] children) : base(children)
         {
             this.portal = portal;
@@ -221,8 +223,7 @@ namespace ELEMENTS.Elements
 
     public class Popover : Popover<Popover>
     {
-        public Popover(ElementPortal portal, params IElement[] children) : base(portal, children)
-        {
-        }
+        public Popover(params IElement[] children) : base(children) { }
+        public Popover(ElementPortal portal, params IElement[] children) : base(portal, children) { }
     }
 }

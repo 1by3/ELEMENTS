@@ -2,7 +2,7 @@
 title: Rendering
 ---
 
-ELEMENTS provides a few different ways to render your UI. In the Getting Started guide you learned about Element Portals, which are the default way to render in-game UI with ELEMENTS. The Element Portal sets up the necessary structure to enable elements like `Dialog` to function properly. If you would like more control over rendering, we've got you covered.
+ELEMENTS provides a few different ways to render your UI.
 
 ## Build a VisualElement
 
@@ -29,7 +29,7 @@ public class CustomUI : MonoBehaviour
 
 ## Render a Component in a VisualElement
 
-ELEMENTS provides an extension method to the `VisualElement` class to quickly render a Component inside of a `VisualElement`.
+ELEMENTS provides an extension method on `VisualElement` to quickly render a Component.
 
 ```csharp
 public class CustomUI : MonoBehaviour
@@ -38,14 +38,14 @@ public class CustomUI : MonoBehaviour
 
   private void OnEnable()
   {
-    uiDocument.rootVisualElement.RenderComponent<ExampleViewModel, ExampleView>(visualElement);
+    uiDocument.rootVisualElement.RenderComponent<ExampleComponent>();
   }
 }
 ```
 
 ## Render a Component in a UI Document
 
-You can also use the `RenderComponent` method directly on the `UIDocument` to render a Component in the UI Document's root visual element.
+You can also use the `RenderComponent` method directly on the `UIDocument`.
 
 ```csharp
 public class CustomUI : MonoBehaviour
@@ -54,22 +54,30 @@ public class CustomUI : MonoBehaviour
 
   private void OnEnable()
   {
-    uiDocument.RenderComponent<ExampleViewModel, ExampleView>(visualElement);
+    uiDocument.RenderComponent<ExampleComponent>();
   }
 }
 ```
+
+## ElementPortal for floating elements
+
+If your UI uses floating elements like `Dialog`, `Popover`, `Alert`, or `ContextMenu`, you need an `ElementPortal` in your scene. The portal creates an overlay surface that these elements render into.
+
+Add the `ElementPortal` component to a GameObject in your scene. It requires a `UIDocument` on the same GameObject — one will be added automatically.
+
+Floating elements use `ElementPortal.Current` by default, so you don't need to pass the portal reference manually. If you need to target a specific portal, you can pass it explicitly to the constructor.
 
 ## ELEMENTS powered Editor Windows
 
 You can create a subclass of `ElementEditorWindow` to create a Unity editor window powered by an ELEMENTS component.
 
 ```csharp
-public class ExampleEditorWindow : ElementEditorWindow<ExampleViewModel, ExampleView>
+public class ExampleEditorWindow : ElementEditorWindow<ExampleComponent>
 {
   [MenuItem("ELEMENTS/Sample Window")]
   public static void ShowPreferences()
   {
-    var window = GetWindow<SampleEditorWindow>();
+    var window = GetWindow<ExampleEditorWindow>();
     window.titleContent = new GUIContent("ELEMENTS");
     window.Show();
   }

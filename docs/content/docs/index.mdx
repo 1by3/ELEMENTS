@@ -8,23 +8,17 @@ ELEMENTS can be easily added to almost any Unity project, so long as you are usi
 
 ### Install R3
 
-1. Install [R3](https://github.com/Cysharp/R3) from NuGet using [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity). After installing NuGetForUnity, open NuGet > Manage NuGet Packages, search for "R3", and install the latest stable version.
+ELEMENTS depends on [R3](https://github.com/Cysharp/R3). Install it from NuGet using [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) — search for "R3" and install the latest stable version.
 
-![Installing R3 in NuGetForUnity](/r3-via-nuget.png)
+### Install ELEMENTS
 
-### Install ELEMENTS via UPM
-
-2. Click on Window > Package Manager. Click the "+" button in the top left corner, and select "Add package from git URL...".
-
-![Installing via Git URL](/install-via-git-url.png)
-
-3. Enter the following Git URL for ELEMENTS...
+Add ELEMENTS via the Unity Package Manager using the following git URL:
 
 ```
 https://github.com/1by3/ELEMENTS.git?path=Assets/ELEMENTS
 ```
 
-You can specify a specific commit, branch, or release tag version to install by appending it with a `#` in between...
+You can pin a specific version by appending a tag:
 
 ```
 https://github.com/1by3/ELEMENTS.git?path=Assets/ELEMENTS#1.0.0
@@ -32,131 +26,92 @@ https://github.com/1by3/ELEMENTS.git?path=Assets/ELEMENTS#1.0.0
 
 ## Your first Component
 
-In ELEMENTS, your UI is made up of a series of "Components". A Component is a pairing of a View and a View Model.
+In ELEMENTS, your UI is made up of a series of "Components". A Component is a single class that contains both your state and your UI definition.
 
-### Building a View
+### Building a Component
 
-The View in your Component houses the code that actually defines your UI. Start by making a class that inherits from `View<T>` where `T` is the type of your View Model. We'll cover the View Model shortly, for now, here's some example code...
+Start by making a class that inherits from `Component`. Override the `Render` method to return the element tree that defines your UI...
 
 ```csharp
-public class ExampleView : View<ExampleViewModel>
+public class ExampleComponent : Component
 {
-  public IElement Render()
-  {
-    // Return your elements here
-  }
+    protected override IElement Render()
+    {
+        return new VerticalGroup(
+            new Label("The button has been clicked 0 times."),
+            new Button(new Label("Click Me!"))
+        );
+    }
 }
 ```
 
-Now, in the View's `Render` method, you can return the "markup" for your View. Here's a basic View that shows a Label and a Button stacked on top of each other...
-
-```csharp
-public class ExampleView : View<ExampleViewModel>
-{
-  public ExampleView(ExampleViewModel viewModel) : base(viewModel)
-  {
-  }
-
-  protected override IElement Render()
-  {
-    return new VerticalGroup(
-        new Label("The button has been clicked 0 times."),
-        new Button(new Label("Click Me!"))
-    );
-  }
-}
-```
-
-<Example title="ExampleView">
+<Example title="ExampleComponent">
   <div>
     <Label>The button has been clicked 0 times.</Label>
     <Button variant="outline">Click Me!</Button>
   </div>
 </Example>
 
-We'll talk more about the elements used (`VerticalGroup`, `Label`, and `Button`) shortly. For now, let's talk about how we can make this static UI interactive with a View Model.
+We'll talk more about the elements used (`VerticalGroup`, `Label`, and `Button`) shortly. For now, let's talk about how we can make this static UI interactive with state.
 
-### Building a View Model
+### Adding State
 
-A View Model is paired with your View and provides the data and logic to power your UI. This decoupling ensures that your UI code stays organized and scalable. To create a View Model, define a class that inherits from `ViewModel`. Remember that our View from the last step inherited from `View<ExampleViewModel>`. Now, we're defining `ExampleViewModel`...
+State lives directly on your Component as fields. Use `ReactiveProperty` to make state that automatically updates the UI when it changes...
 
 ```csharp
-public class ExampleViewModel : ViewModel
+public class ExampleComponent : Component
 {
+    public readonly ReactiveProperty<int> Count = new(0);
 
+    public void Increment()
+    {
+        Count.Value += 1;
+    }
+
+    protected override IElement Render()
+    {
+        return new VerticalGroup(
+            new Label()
+                .BindText(Count.Select(count => $"The button has been clicked {count} times.")),
+            new Button(new Label("Click Me!"))
+                .OnClick(_ => Increment())
+        );
+    }
 }
 ```
 
-The View Model instance can be accessed from your View using the `View` property. This will be shown momentarily. First, let's define a `ReactiveProperty` to house a integer which will represent how many times the button has been clicked, as well as a method to increment it...
-
-```csharp
-public class ExampleViewModel : ViewModel
-{
-  public readonly ReactiveProperty<int> Count = new(0);
-
-  public void Increment()
-  {
-    Count.Value += 1;
-  }
-}
-```
-
-Note that we made the `Count` property `readonly`. We do not want anything changing `Count` since the actual value is contained within `Count.Value`.
-
-### Binding the View and View Model
-
-Now that we have a View and a View Model, we can bind our View to the View Model. Here's what our View will look like once it's been bound...
-
-```csharp
-public class ExampleView : View<ExampleViewModel>
-{
-  public IElement Render()
-  {
-    return new VerticalGroup(
-      new Label()
-        .BindText(ViewModel.Count.Select(count => $"The button has been clicked {count} times.")),
-      new Button(new Label("Click Me!"))
-        .OnClick(_ => ViewModel.Increment())
-    );
-  }
-}
-```
-
-We've done a couple of things here. First, we've bound the `Text` property of our `Label` to a transformed version of the `ViewModel.Count` property. This will make the text of the label update each time `ViewModel.Count` is changed. We've also mapped the `Increment` method of our View Model to be called when the `Button` is clicked.
+We've done a couple of things here. First, we've bound the `Text` property of our `Label` to a transformed version of the `Count` property. This will make the text of the label update each time `Count` is changed. We've also mapped the `Increment` method to be called when the `Button` is clicked.
 
 You now have a dynamic and interactive UI built with ELEMENTS!
 
 ## Rendering your UI
 
-The easiest way to render your UI is to create an Element Portal. An Element Portal is a wrapper around a UI Toolkit `UIDocument`. It sets up the container structure for ELEMENTS to function correctly, particularly elements like `Dialog` and `Alert`.
-
-Start by creating your own Element Portal class...
+The simplest way to render your UI is from a `MonoBehaviour` using the `RenderComponent` extension method on a `UIDocument`...
 
 ```csharp
-public class MyElementPortal : ElementPortal
+public class GameUI : MonoBehaviour
 {
-}
-```
+    [SerializeField] private UIDocument uiDocument;
 
-The `ElementPortal` class dervies from `MonoBehaviour` so you can now drag this script onto an object in your scene. Also create a `UIDocument` on that same object, and connect it to the element portal component.
-
-Next, render the component you built above inside of the portal...
-
-```csharp
-public class GameElementPortal : ElementPortal
-{
-  protected override void OnEnable()
-  {
-    base.OnEnable();
-    StyleSheet("ELEMENTS/DefaultStyles");
-    RenderComponent<ExampleViewModel, ExampleView>();
-  }
+    private void OnEnable()
+    {
+        uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+        uiDocument.RenderComponent<ExampleComponent>();
+    }
 }
 ```
 
 A couple of notes...
 
-- We called the `StyleSheet` method and passed it the resource path to the default ELEMENTS stylesheet. This is optional, but highly recommended for a good starting point with styles.
+- We loaded the default ELEMENTS stylesheet onto the UIDocument using the `AddStyleSheet` helper. This is optional, but highly recommended for a good starting point with styles. For more on styling, including Tailwind-style utility classes, see [Utility Classes](/docs/utility-classes).
 - We used the `OnEnable` method. This is an important detail that allows your UI to update when Unity reloads your game if you make code changes. If your UI is disappearing on reload, this might be why.
 
 If you start your game, you should see your UI on the screen!
+
+## Setting up an ElementPortal
+
+If your UI uses floating elements like `Dialog`, `Popover`, `Alert`, or `ContextMenu`, you need an `ElementPortal` in your scene. The portal creates an overlay surface that these elements render into.
+
+Add the `ElementPortal` component to a GameObject in your scene. It requires a `UIDocument` on the same GameObject — one will be added automatically.
+
+When an `ElementPortal` is enabled, it becomes available as `ElementPortal.Current`. Floating elements like `Dialog` and `Popover` use this automatically, so you don't need to pass the portal reference manually.

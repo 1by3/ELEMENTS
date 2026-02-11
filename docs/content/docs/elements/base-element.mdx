@@ -23,10 +23,14 @@ new Label("Hello World")
     .Visible(true);
 
 // Reactive property binding
+var IsProcessing = new ReactiveProperty<bool>(false);
+var ShowButton = new ReactiveProperty<bool>(true);
+var IsActive = new ReactiveProperty<bool>(false);
+
 new Button(new Label("Click me"))
-    .BindDisabled(ViewModel.IsProcessing)
-    .BindVisible(ViewModel.ShowButton)
-    .BindClassName("active", ViewModel.IsActive);
+    .BindDisabled(IsProcessing)
+    .BindVisible(ShowButton)
+    .BindClassName("active", IsActive);
 ```
 
 ### Advanced Styling
@@ -34,17 +38,23 @@ Elements support comprehensive styling through BaseElement:
 
 ```csharp
 // CSS styling and padding/margins
-new TextField(ViewModel.UserInput)
+var UserInput = new ReactiveProperty<string>("");
+
+new TextField(UserInput)
     .StyleSheet("Styles/form-styles")
     .ClassName("input-field")
     .Padding(10)
     .Margin(5, 10, 5, 10);
 
 // Conditional styling
+var HasError = new ReactiveProperty<bool>(false);
+var IsSuccess = new ReactiveProperty<bool>(false);
+var HasWarning = new ReactiveProperty<bool>(false);
+
 new Label("Status")
-    .BindClassName("error", ViewModel.HasError)
-    .BindClassName("success", ViewModel.IsSuccess)
-    .BindClassName("warning", ViewModel.HasWarning);
+    .BindClassName("error", HasError)
+    .BindClassName("success", IsSuccess)
+    .BindClassName("warning", HasWarning);
 ```
 
 ### Event Handling
@@ -53,12 +63,12 @@ BaseElement provides event registration for all elements:
 ```csharp
 // Click events on any element
 new Image("icons/help")
-    .OnClick(_ => ViewModel.ShowHelp());
+    .OnClick(_ => ShowHelp());
 
 // Custom event registration
-new CustomElement()
-    .RegisterCallback<MouseEnterEvent>(_ => ViewModel.OnHover())
-    .RegisterCallback<MouseLeaveEvent>(_ => ViewModel.OnLeave());
+new Label("Hover me")
+    .RegisterCallback<MouseEnterEvent>(_ => OnHover())
+    .RegisterCallback<MouseLeaveEvent>(_ => OnLeave());
 ```
 
 ## Properties

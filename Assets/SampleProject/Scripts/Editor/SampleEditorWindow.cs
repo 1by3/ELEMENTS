@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SampleProject.Scripts.Editor
 {
-    public class SampleEditorWindow : ElementEditorWindow<SampleViewModel, SampleEditorView>
+    public class SampleEditorWindow : ElementEditorWindow<SampleEditorComponent>
     {
         [MenuItem("ELEMENTS/Sample Window")]
         public static void ShowPreferences()

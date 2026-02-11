@@ -20,28 +20,28 @@ new Image(asyncTextureTask); // Async loading
 Load images from Unity's Resources system:
 
 ```csharp
+var ShowIcon = new ReactiveProperty<bool>(true);
+
 // Load from Resources folder
 new Image("Icons/download-icon")
     .ClassName("action-icon");
 
-// Conditional icon based on ViewModel state
+// Conditional icon based on state
 new Image()
-    .BindVisible(ViewModel.ShowIcon)
+    .BindVisible(ShowIcon)
     .ClassName("status-icon");
 ```
 
 ### Dynamic Image Selection
-Switch images based on ViewModel properties:
+Switch images based on reactive properties:
 
 ```csharp
-// Different images based on state
-new Image().BindVisible(ViewModel.PlayerAvatar.Select(avatar => avatar != null));
-// Note: Image source binding would require custom implementation
+var IsOnline = new ReactiveProperty<bool>(true);
 
 // Icon that changes based on status
 new Group(
-    new Image("Icons/online").BindVisible(ViewModel.IsOnline),
-    new Image("Icons/offline").BindVisible(ViewModel.IsOnline.Select(online => !online))
+    new Image("Icons/online").BindVisible(IsOnline),
+    new Image("Icons/offline").BindVisible(IsOnline.Select(online => !online))
 );
 ```
 
@@ -49,6 +49,9 @@ new Group(
 Common Unity UI image patterns:
 
 ```csharp
+var Health = new ReactiveProperty<float>(1f);
+var IsAdmin = new ReactiveProperty<bool>(false);
+
 // Button with icon
 new Button(
     new Image("Icons/save"),
@@ -58,12 +61,12 @@ new Button(
 // Status indicator
 new HorizontalGroup(
     new Image("Icons/health").ClassName("health-icon"),
-    new ProgressBar(ViewModel.Health)
+    new ProgressBar(Health)
 );
 
 // Conditional visibility based on permissions
 new Image("Icons/admin")
-    .BindVisible(ViewModel.IsAdmin);
+    .BindVisible(IsAdmin);
 ```
 
 ## Properties

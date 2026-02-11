@@ -35,13 +35,19 @@ var labelVisible = new Label("Hello World").GetVisible();
 To bind an element's property to an observable (i.e. set the property whenever the observable value changes), call a method matching the property name prefixed with `Bind`...
 
 ```csharp
-new Label().BindText(ViewModel.LabelText);
-new Label().BindVisible(ViewModel.IsVisible);
+var LabelText = new ReactiveProperty<string>("Hello");
+var IsVisible = new ReactiveProperty<bool>(true);
+
+new Label().BindText(LabelText);
+new Label().BindVisible(IsVisible);
 ```
 
 You can also pass an Observable property to the constructor of an element rather than calling the relevant binding methods...
 
 ```csharp
-new Label(ViewModel.LabelText);
-new TextField(ViewModel.TextFieldValue);
+var LabelText = new ReactiveProperty<string>("Hello");
+var TextFieldValue = new ReactiveProperty<string>("");
+
+new Label(LabelText);
+new TextField(TextFieldValue);
 ```

@@ -2,39 +2,49 @@
 title: Components
 ---
 
-In ELEMENTS, your UI is made up of a series of "Components". A Component is a pairing of a View and a View Model. Your views can also render components within themselves in order to facilitate code re-use and composition.
+In ELEMENTS, your UI is made up of a series of "Components". A Component is a single class that extends `Component` and implements `IElement`, so it composes into element trees just like any other element.
 
 ```csharp
 return new VerticalGroup(
   new Label("Users"),
-  Component<UserListViewModel, UserListView>()
+  new UserList()
 );
 ```
 
 ## Configuring the component
 
-In some cases, you might need to configure the child component, or make it interact with properties of your parent component's view model. The `Component` method can be passed a configure action which receives the instantiated view model for this purpose...
+Components receive configuration through constructors or public methods. Pass reactive properties through constructors to enable communication between parent and child components...
 
 ```csharp
 return new VerticalGroup(
   new Label("Users"),
-  new TextField(ViewModel.SearchQuery).Placeholder("Search users by name..."),
+  new TextField(SearchQuery).Placeholder("Search users by name..."),
 
-  Component<UserListViewModel, UserListView>(vm => vm.BindNameSearch(ViewModel.SearchQuery)))
+  new UserList(SearchQuery)
 );
 ```
 
 This same pattern can be used to expose events from the sub-component...
 
 ```csharp
-return new VerticalGroup(
-  new Label("Users"),
-  new TextField(ViewModel.SearchQuery).Placeholder("Search users by name..."),
+public class UserList : Component
+{
+    public Action<User> OnUserSelected;
 
-  Component<UserListViewModel, UserListView>(vm =>
-  {
-    vm.BindNameSearch(ViewModel.SearchQuery));
-    vm.CreateUserClicked += ViewModel.CreateNewUser;
-  })
-);
+    private readonly Observable<string> searchQuery;
+
+    public UserList(Observable<string> searchQuery)
+    {
+        this.searchQuery = searchQuery;
+    }
+
+    protected override IElement Render()
+    {
+        // Use searchQuery to filter, call OnUserSelected when clicked
+    }
+}
+
+// In parent Component's Render:
+var userList = new UserList(SearchQuery);
+userList.OnUserSelected = user => SelectUser(user);
 ```

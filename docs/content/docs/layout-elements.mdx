@@ -63,3 +63,34 @@ return new HorizontalGroup(
     <Label>Child</Label>
   </HorizontalGroup>
 </Example>
+
+## Child pseudo-classes
+
+ELEMENTS automatically applies pseudo-classes to children of any `Group`. These classes are applied when `BuildVisualElement()` is called and can be targeted in your USS stylesheets for positional styling.
+
+| Class | Applied to |
+|-------|-----------|
+| `.first-child` | The first child element |
+| `.last-child` | The last child element |
+| `.even-child` | Children at even indices (0, 2, 4...) |
+| `.odd-child` | Children at odd indices (1, 3, 5...) |
+
+You can target these in your USS stylesheets:
+
+```css
+/* Zebra-stripe rows */
+.my-list > .even-child {
+    background-color: #f8fafc;
+}
+
+.my-list > .odd-child {
+    background-color: #ffffff;
+}
+
+/* Remove bottom border on last item */
+.my-list > .last-child {
+    border-bottom-width: 0;
+}
+```
+
+These pseudo-classes are also used internally by the built-in [gap utility classes](/docs/utility-classes#built-in-gap-utilities) — `.first-child` resets the margin to zero so the first item has no leading space.

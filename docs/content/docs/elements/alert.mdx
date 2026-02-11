@@ -14,30 +14,30 @@ new Alert("Warning", "This is an alert message");
 
 ## Examples
 
-### ViewModel-Triggered Alerts
-Show alerts based on ViewModel state and actions:
+### Reactive Alerts
+Show alerts based on state:
 
 ```csharp
-// Error alert from ViewModel
+// Error alert
 new Alert("Error", "Invalid username or password")
-    .BindOpen(ViewModel.ShowLoginError);
+    .BindOpen(ShowLoginError);
 
 // Success confirmation
 new Alert("Success", "Document saved successfully")
-    .BindOpen(ViewModel.ShowSaveSuccess);
+    .BindOpen(ShowSaveSuccess);
 
 // Warning with action
 new Alert("Warning", "Unsaved changes will be lost")
-    .BindOpen(ViewModel.ShowUnsavedWarning);
+    .BindOpen(ShowUnsavedWarning);
 ```
 
 ### Reactive Alert Messages
-Alert content can be bound to ViewModel properties:
+Alert content can be bound to properties:
 
 ```csharp
 // Dynamic error messages
 var errorAlert = new Alert("Error", "")
-    .BindOpen(ViewModel.ErrorMessage.Select(msg => !string.IsNullOrEmpty(msg)));
+    .BindOpen(ErrorMessage.Select(msg => !string.IsNullOrEmpty(msg)));
 
 // Note: Alert constructor requires fixed strings, but you can create
 // custom alert dialogs using Dialog + DialogContent for reactive content
@@ -49,12 +49,12 @@ Common alert patterns for form validation:
 ```csharp
 // Validation error alert
 new Alert("Validation Error", "Please check the required fields")
-    .BindOpen(ViewModel.HasValidationErrors)
-    .OnClose(() => ViewModel.ClearValidationErrors());
+    .BindOpen(HasValidationErrors)
+    .OnClose(() => ClearValidationErrors());
 
-// Network error alert  
+// Network error alert
 new Alert("Connection Error", "Unable to connect to server")
-    .BindOpen(ViewModel.HasNetworkError);
+    .BindOpen(HasNetworkError);
 ```
 
 ## Properties

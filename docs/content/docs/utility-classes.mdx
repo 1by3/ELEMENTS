@@ -28,28 +28,27 @@ Or add the Git URL to your `Packages/manifest.json`:
 
 ### Loading stylesheets
 
-Load both the ELEMENTS default styles and ZoboUI's generated stylesheet in your `ElementPortal`:
+Load both the ELEMENTS default styles and ZoboUI's generated stylesheet in your MonoBehaviour, then render your Component:
 
 ```csharp
-public class MyElementPortal : ElementPortal
+public class GameUI : MonoBehaviour
 {
-    protected override void OnEnable()
+    [SerializeField] private UIDocument uiDocument;
+
+    private void OnEnable()
     {
-        base.OnEnable();
-        StyleSheet("ELEMENTS/DefaultStyles");
-        StyleSheet("Path/To/ZoboUI/Generated");
-        RenderComponent<MyViewModel, MyView>();
+        uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+        uiDocument.AddStyleSheet("Path/To/ZoboUI/Generated");
+        uiDocument.RenderComponent<MyComponent>();
     }
 }
 ```
 
-Then use utility classes in your View:
+Then use utility classes in your Component:
 
 ```csharp
-public class MyView : View<MyViewModel>
+public class MyComponent : Component
 {
-    public MyView(MyViewModel viewModel) : base(viewModel) { }
-
     protected override IElement Render()
     {
         return new VerticalGroup(

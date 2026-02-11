@@ -1,0 +1,41 @@
+---
+title: Input
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+`ElementsUI` provides static properties for checking whether any UI in the scene is focused or hovered. This is useful for suppressing game input when the player is interacting with UI.
+
+## Example
+
+```csharp
+using ELEMENTS.Helpers;
+
+void Update()
+{
+    // Skip game input when a UI element has focus (e.g., a text field)
+    if (ElementsUI.IsUIFocused) return;
+
+    // Skip game input when the mouse is over any UI element
+    if (ElementsUI.IsUIHovered) return;
+
+    // Handle game input...
+}
+```
+
+Both properties check every `UIDocument` in the scene, not just a specific one.
+
+## Properties
+
+<TypeTable
+  type={{
+    IsUIFocused: {
+      description: "Returns true if any element across any UIDocument currently has focus",
+      type: "bool",
+    },
+    IsUIHovered: {
+      description: "Returns true if the mouse is over a visible element (ignoring root elements with PickingMode.Ignore)",
+      type: "bool",
+    },
+  }}
+/>

@@ -1,4 +1,3 @@
-using ELEMENTS.MVVM;
 using ELEMENTS.Extensions;
 using UnityEditor;
 
@@ -6,13 +5,11 @@ namespace ELEMENTS.Editor
 {
     #if UNITY_EDITOR
 
-    public class ElementEditorWindow<TViewModel, TView> : EditorWindow
-        where TViewModel : ViewModel
-        where TView : View<TViewModel>
+    public class ElementEditorWindow<T> : EditorWindow where T : Component, new()
     {
         protected void CreateGUI()
         {
-            rootVisualElement.RenderComponent<TViewModel, TView>();
+            rootVisualElement.RenderComponent<T>();
         }
     }
 

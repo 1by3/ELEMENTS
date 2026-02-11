@@ -17,46 +17,62 @@ new Label(observable); // Bound to observable
 ## Examples
 
 ### ReactiveProperty Binding
-Labels display reactive text from ViewModel properties:
+Labels display reactive text from ReactiveProperty fields:
 
 ```csharp
+var UserName = new ReactiveProperty<string>("Player1");
+var WelcomeMessage = new ReactiveProperty<string>("Welcome!");
+var Count = new ReactiveProperty<int>(0);
+
 // Direct binding to ReactiveProperty
-new Label().BindText(ViewModel.UserName);
+new Label().BindText(UserName);
 
 // Constructor binding (preferred for simple cases)
-new Label(ViewModel.WelcomeMessage);
+new Label(WelcomeMessage);
 
 // Transform the observable value
-new Label().BindText(ViewModel.Count.Select(count => $"Items: {count}"));
+new Label().BindText(Count.Select(count => $"Items: {count}"));
 ```
 
 ### Conditional Styling
 Use BindClassName to reactively apply styles:
 
 ```csharp
-new Label().BindText(ViewModel.StatusMessage)
-    .BindClassName("error", ViewModel.HasError)
-    .BindClassName("success", ViewModel.IsSuccess);
+var StatusMessage = new ReactiveProperty<string>("");
+var HasError = new ReactiveProperty<bool>(false);
+var IsSuccess = new ReactiveProperty<bool>(false);
+
+new Label().BindText(StatusMessage)
+    .BindClassName("error", HasError)
+    .BindClassName("success", IsSuccess);
 
 // Multiple conditional classes
-new Label(ViewModel.PlayerName)
-    .BindClassName("online", ViewModel.IsOnline)
-    .BindClassName("moderator", ViewModel.IsModerator);
+var PlayerName = new ReactiveProperty<string>("Player1");
+var IsOnline = new ReactiveProperty<bool>(true);
+var IsModerator = new ReactiveProperty<bool>(false);
+
+new Label(PlayerName)
+    .BindClassName("online", IsOnline)
+    .BindClassName("moderator", IsModerator);
 ```
 
 ### Computed Values
 Combine multiple ReactiveProperties for complex displays:
 
 ```csharp
+var Health = new ReactiveProperty<int>(100);
+var MaxHealth = new ReactiveProperty<int>(100);
+var Score = new ReactiveProperty<int>(0);
+
 // Combine multiple observables
 new Label().BindText(
-    ViewModel.Health.CombineLatest(ViewModel.MaxHealth)
+    Health.CombineLatest(MaxHealth)
         .Select(values => $"Health: {values.First}/{values.Second}")
 );
 
 // Complex formatting
 new Label().BindText(
-    ViewModel.Score.Select(score => $"Score: {score:N0} points")
+    Score.Select(score => $"Score: {score:N0} points")
 );
 ```
 

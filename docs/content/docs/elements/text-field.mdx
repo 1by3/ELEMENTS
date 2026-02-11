@@ -20,16 +20,16 @@ TextFields provide automatic two-way binding with ReactiveProperty:
 
 ```csharp
 // Constructor binding (preferred)
-new TextField(ViewModel.UserInput)
+new TextField(UserInput)
     .Placeholder("Enter your name...");
 
 // Explicit binding
 new TextField()
-    .BindText(ViewModel.UserInput)
+    .BindText(UserInput)
     .Placeholder("Enter your name...");
 
-// When user types, ViewModel.UserInput.Value updates automatically
-// When ViewModel.UserInput.Value changes, the field updates
+// When user types, UserInput.Value updates automatically
+// When UserInput.Value changes, the field updates
 ```
 
 ### Form Fields
@@ -37,33 +37,33 @@ Common form field patterns:
 
 ```csharp
 // Password field
-new TextField(ViewModel.Password)
+new TextField(Password)
     .Password(true)
     .Placeholder("Enter password");
 
 // Email field with validation
-new TextField(ViewModel.Email)
+new TextField(Email)
     .Placeholder("Enter email address")
-    .BindClassName("error", ViewModel.HasEmailError);
+    .BindClassName("error", HasEmailError);
 
 // Multiline text area
-new TextField(ViewModel.Description)
+new TextField(Description)
     .Multiline(true)
     .Placeholder("Enter description...");
 ```
 
 ### Reactive State Management
-Fields can respond to ViewModel state:
+Fields can respond to state:
 
 ```csharp
 // Read-only state based on permissions
-new TextField(ViewModel.ApiKey)
-    .BindReadOnly(ViewModel.IsReadOnly)
-    .BindClassName("readonly", ViewModel.IsReadOnly);
+new TextField(ApiKey)
+    .BindReadOnly(IsReadOnly)
+    .BindClassName("readonly", IsReadOnly);
 
 // Dynamic placeholder based on context
-new TextField(ViewModel.SearchQuery)
-    .BindPlaceholder(ViewModel.SearchContext.Select(context => 
+new TextField(SearchQuery)
+    .BindPlaceholder(SearchContext.Select(context =>
         $"Search {context}..."));
 ```
 

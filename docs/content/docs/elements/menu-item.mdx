@@ -25,7 +25,7 @@ new MenuItem(editIcon, "Edit", () => Edit());
 Simple text menu items with click handlers:
 
 ```csharp
-new ContextMenu(portal,
+new ContextMenu(
     new MenuItem("Cut", () => Cut()),
     new MenuItem("Copy", () => Copy()),
     new MenuItem("Paste", () => Paste())
@@ -36,7 +36,7 @@ new ContextMenu(portal,
 Add icons to menu items for better visual recognition:
 
 ```csharp
-new ContextMenu(portal,
+new ContextMenu(
     new MenuItem("Icons/cut", "Cut", () => Cut()),
     new MenuItem("Icons/copy", "Copy", () => Copy()),
     new MenuItem("Icons/paste", "Paste", () => Paste())
@@ -54,7 +54,9 @@ new MenuItem("Edit", () => Edit())
 Disable menu items based on application state:
 
 ```csharp
-new ContextMenu(portal,
+var IsLocked = new ReactiveProperty<bool>(false);
+
+new ContextMenu(
     new MenuItem("Cut", () => Cut())
         .Disabled(!hasSelection),
     new MenuItem("Copy", () => Copy())
@@ -65,7 +67,7 @@ new ContextMenu(portal,
 
 // Or with reactive binding
 new MenuItem("Delete", () => Delete())
-    .BindDisabled(ViewModel.IsLocked);
+    .BindDisabled(IsLocked);
 ```
 
 ### Dynamic Label

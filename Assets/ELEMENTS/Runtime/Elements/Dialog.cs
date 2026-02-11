@@ -11,6 +11,8 @@ namespace ELEMENTS.Elements
         private List<Action> onCloseActions = new();
         private bool openBound;
 
+        public Dialog(params IElement[] children) : this(ElementPortal.Current, children) { }
+
         public Dialog(ElementPortal portal, params IElement[] children) : base(children)
         {
             RenderInPortal = portal;
@@ -67,8 +69,7 @@ namespace ELEMENTS.Elements
 
     public class Dialog : Dialog<Dialog>
     {
-        public Dialog(ElementPortal portal, params IElement[] children) : base(portal, children)
-        {
-        }
+        public Dialog(params IElement[] children) : base(children) { }
+        public Dialog(ElementPortal portal, params IElement[] children) : base(portal, children) { }
     }
 }

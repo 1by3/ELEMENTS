@@ -35,22 +35,26 @@ new HorizontalGroup(
 .JustifyContent(Justify.SpaceBetween);
 ```
 
-### Dynamic Children from ViewModel
+### Dynamic Children
 Bind children to ReactiveProperty collections:
 
 ```csharp
-// Dynamic list of items from ViewModel
+// Dynamic list of items
+var Items = new ReactiveProperty<Item[]>(Array.Empty<Item>());
+
 new Group()
     .BindChildren(
-        ViewModel.Items,
+        Items,
         item => new Button(new Label(item.Name))
-            .OnClick(_ => ViewModel.SelectItem(item))
+            .OnClick(_ => SelectItem(item))
     );
 
 // User list with reactive filtering
+var FilteredUsers = new ReactiveProperty<User[]>(Array.Empty<User>());
+
 new Group()
     .BindChildren(
-        ViewModel.FilteredUsers,
+        FilteredUsers,
         user => new HorizontalGroup(
             new Label(user.Name),
             new Label(user.Email).ClassName("email")
@@ -59,19 +63,23 @@ new Group()
 ```
 
 ### Form Layouts with ReactiveProperty
-Build reactive forms using ViewModel properties:
+Build reactive forms:
 
 ```csharp
+var Username = new ReactiveProperty<string>("");
+var Email = new ReactiveProperty<string>("");
+var IsValid = new ReactiveProperty<bool>(false);
+
 new VerticalGroup(
     new Label("User Settings"),
-    new TextField(ViewModel.Username).Placeholder("Username"),
-    new TextField(ViewModel.Email).Placeholder("Email"),
+    new TextField(Username).Placeholder("Username"),
+    new TextField(Email).Placeholder("Email"),
     new HorizontalGroup(
         new Button(new Label("Cancel"))
-            .OnClick(_ => ViewModel.Cancel()),
+            .OnClick(_ => Cancel()),
         new Button(new Label("Save"))
-            .OnClick(_ => ViewModel.Save())
-            .BindDisabled(ViewModel.IsValid.Select(v => !v))
+            .OnClick(_ => Save())
+            .BindDisabled(IsValid.Select(v => !v))
     ).JustifyContent(Justify.FlexEnd)
 )
 .AlignItems(Align.Stretch);

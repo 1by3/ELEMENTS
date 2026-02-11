@@ -9,9 +9,7 @@ A generic floating element that renders in a portal overlay with backdrop dismis
 ## Constructor
 
 ```csharp
-var portal = Object.FindFirstObjectByType<ElementPortal>();
-
-new Popover(portal,
+new Popover(
     new Label("Popover content goes here")
 );
 ```
@@ -22,7 +20,7 @@ new Popover(portal,
 Build a custom dropdown with arbitrary content:
 
 ```csharp
-var dropdown = new Popover(portal,
+var dropdown = new Popover(
     new VerticalGroup(
         new Label("Choose a color:"),
         new Button(new Label("Red")).OnClick(_ => SelectColor("red")),
@@ -44,7 +42,7 @@ new Button(new Label("Pick Color"))
 Show an info panel anchored to an element:
 
 ```csharp
-var infoPanel = new Popover(portal,
+var infoPanel = new Popover(
     new VerticalGroup(
         new Label("Details").ClassName("title"),
         new Label("Additional information about this item.")
@@ -64,7 +62,7 @@ new Button(new Label("Info"))
 Show a temporary notification at a screen position:
 
 ```csharp
-var notification = new Popover(portal,
+var notification = new Popover(
     new Label("Item saved successfully!")
 );
 
@@ -75,7 +73,7 @@ notification.OpenAtScreenPosition(new Vector2(Screen.width / 2, 100));
 Control popover state programmatically:
 
 ```csharp
-var popover = new Popover(portal,
+var popover = new Popover(
     new Label("Controlled popover")
 );
 
@@ -87,7 +85,7 @@ popover.Close();
 bool isOpen = popover.GetOpen();
 
 // Bind to reactive state
-popover.BindOpen(ViewModel.ShowPopover);
+popover.BindOpen(ShowPopover);
 
 // Register close callback
 popover.OnClose(() => Debug.Log("Popover closed"));

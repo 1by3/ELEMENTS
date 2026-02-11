@@ -216,7 +216,7 @@ namespace ELEMENTS.Elements
 
         public T Margin(int margin)
         {
-            return Padding(margin, margin, margin, margin);
+            return Margin(margin, margin, margin, margin);
         }
 
         public T MarginVertical(int margin)

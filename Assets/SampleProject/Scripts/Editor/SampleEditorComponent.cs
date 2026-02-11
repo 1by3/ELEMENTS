@@ -1,14 +1,15 @@
+using ELEMENTS;
 using ELEMENTS.Elements;
-using ELEMENTS.MVVM;
 using R3;
 
 namespace SampleProject.Scripts.Editor
 {
-    public class SampleEditorView : View<SampleViewModel>
+    public class SampleEditorComponent : Component
     {
-        public SampleEditorView(SampleViewModel viewModel) : base(viewModel)
-        {
-        }
+        public readonly ReactiveProperty<int> Count = new(0);
+
+        public void Increment() => Count.Value++;
+        public void Decrement() => Count.Value--;
 
         protected override IElement Render()
         {
@@ -16,15 +17,15 @@ namespace SampleProject.Scripts.Editor
                 new Image("SampleProject/logo_wide_color")
                     .ClassName("logo"),
 
-                new Label(ViewModel.Count.Select(count => $"Count: {count}"))
+                new Label(Count.Select(count => $"Count: {count}"))
                     .ClassName("count-label"),
 
                 new HorizontalGroup(
                     new Button(new Label("Increment"))
-                        .OnClick(_ => ViewModel.Increment())
+                        .OnClick(_ => Increment())
                         .ClassName("increment-button"),
                     new Button(new Label("Decrement"))
-                        .OnClick(_ => ViewModel.Decrement())
+                        .OnClick(_ => Decrement())
                         .ClassName("decrement-button")
                 )
             ).ClassName("main-view").StyleSheet("SampleProject/SampleEditorStyles");

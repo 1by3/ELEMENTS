@@ -4,6 +4,8 @@ namespace ELEMENTS.Elements
 {
     public class ContextMenu<T> : Popover<T> where T : ContextMenu<T>
     {
+        public ContextMenu(params IElement[] children) : this(ElementPortal.Current, children) { }
+
         public ContextMenu(ElementPortal portal, params IElement[] children) : base(portal, children)
         {
             VisualElement.AddToClassList("elements-context-menu");
@@ -32,9 +34,8 @@ namespace ELEMENTS.Elements
 
     public class ContextMenu : ContextMenu<ContextMenu>
     {
-        public ContextMenu(ElementPortal portal, params IElement[] children) : base(portal, children)
-        {
-        }
+        public ContextMenu(params IElement[] children) : base(children) { }
+        public ContextMenu(ElementPortal portal, params IElement[] children) : base(portal, children) { }
     }
 
     public interface IMenuChild

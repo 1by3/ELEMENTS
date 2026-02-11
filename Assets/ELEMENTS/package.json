@@ -1,8 +1,8 @@
 {
   "name": "co.1by3.elements",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "displayName": "ELEMENTS",
-  "description": "A code-first, MVVM based UI framework for Unity",
+  "description": "A code-first, component based UI framework for Unity",
   "unity": "6000.0",
   "documentationUrl": "https://elements.1by3.co",
   "license": "https://github.com/1by3/ELEMENTS/blob/main/LICENSE.md",

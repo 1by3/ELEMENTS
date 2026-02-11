@@ -15,54 +15,54 @@ new TabItem(new Image(icon), new Label("Tab with Icon"));
 
 ## Examples
 
-### ViewModel Tab State
+### Tab State
 TabItems bind to ReactiveProperty for active state:
 
 ```csharp
-// Tab bound to ViewModel enum
+// Tab bound to enum
 new TabItem(new Label("Dashboard"))
-    .BindActive(ViewModel.CurrentTab.Select(tab => tab == TabType.Dashboard))
-    .OnClick(_ => ViewModel.SetActiveTab(TabType.Dashboard));
+    .BindActive(CurrentTab.Select(tab => tab == TabType.Dashboard))
+    .OnClick(_ => SetActiveTab(TabType.Dashboard));
 
 new TabItem(new Label("Settings"))
-    .BindActive(ViewModel.CurrentTab.Select(tab => tab == TabType.Settings))
-    .OnClick(_ => ViewModel.SetActiveTab(TabType.Settings));
+    .BindActive(CurrentTab.Select(tab => tab == TabType.Settings))
+    .OnClick(_ => SetActiveTab(TabType.Settings));
 ```
 
 ### Dynamic Tab Content
-Tabs can display reactive content from ViewModel:
+Tabs can display reactive content:
 
 ```csharp
 // Tab with notification badge
 new TabItem(
     new Label("Messages"),
-    new Label().BindText(ViewModel.UnreadCount.Select(c => $"({c})"))
-        .BindVisible(ViewModel.UnreadCount.Select(c => c > 0))
+    new Label().BindText(UnreadCount.Select(c => $"({c})"))
+        .BindVisible(UnreadCount.Select(c => c > 0))
         .ClassName("badge")
 )
-.BindActive(ViewModel.CurrentTab.Select(t => t == TabType.Messages))
-.OnClick(_ => ViewModel.SetActiveTab(TabType.Messages));
+.BindActive(CurrentTab.Select(t => t == TabType.Messages))
+.OnClick(_ => SetActiveTab(TabType.Messages));
 ```
 
 ### Complete Tab Interface with Components
-Build full tab interfaces using ViewModel and Components:
+Build full tab interfaces using Components:
 
 ```csharp
-// Tab list bound to ViewModel
+// Tab list
 new TabList(
     new TabItem(new Label("Users"))
-        .BindActive(ViewModel.CurrentTab.Select(t => t == TabType.Users))
-        .OnClick(_ => ViewModel.SetActiveTab(TabType.Users)),
-        
+        .BindActive(CurrentTab.Select(t => t == TabType.Users))
+        .OnClick(_ => SetActiveTab(TabType.Users)),
+
     new TabItem(new Label("Roles"))
-        .BindActive(ViewModel.CurrentTab.Select(t => t == TabType.Roles))
-        .OnClick(_ => ViewModel.SetActiveTab(TabType.Roles))
+        .BindActive(CurrentTab.Select(t => t == TabType.Roles))
+        .OnClick(_ => SetActiveTab(TabType.Roles))
 );
 
 // Tab content using components
-ViewModel.CurrentTab.Select(tab => tab switch {
-    TabType.Users => Component<UserListViewModel, UserListView>(),
-    TabType.Roles => Component<RoleListViewModel, RoleListView>(),
+CurrentTab.Select(tab => tab switch {
+    TabType.Users => (IElement)new UserList(),
+    TabType.Roles => (IElement)new RoleList(),
     _ => new Label("Select a tab")
 });
 ```

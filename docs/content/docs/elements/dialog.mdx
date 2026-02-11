@@ -19,24 +19,24 @@ new Dialog(
 
 ## Examples
 
-### ViewModel-Controlled Dialog
-Dialogs are controlled by ReactiveProperty in your ViewModel:
+### Controlled Dialog
+Dialogs are controlled by ReactiveProperty:
 
 ```csharp
-// Dialog bound to ViewModel state
+// Dialog bound to state
 new Dialog(
     new DialogContent(
         new Label("Confirm Delete"),
         new Label("Are you sure you want to delete this item?"),
         new HorizontalGroup(
             new Button(new Label("Cancel"))
-                .OnClick(_ => ViewModel.CloseConfirmDialog()),
+                .OnClick(_ => CloseConfirmDialog()),
             new Button(new Label("Delete"))
-                .OnClick(_ => ViewModel.ConfirmDelete())
+                .OnClick(_ => ConfirmDelete())
         )
     )
 )
-.BindOpen(ViewModel.ShowConfirmDialog);
+.BindOpen(ShowConfirmDialog);
 ```
 
 ### Form Dialog
@@ -46,21 +46,21 @@ Use dialogs for complex forms with validation:
 new Dialog(
     new DialogContent(
         new Label("Edit User"),
-        new TextField(ViewModel.EditingUser.Name)
+        new TextField(EditingUser.Name)
             .Placeholder("Name"),
-        new TextField(ViewModel.EditingUser.Email)
+        new TextField(EditingUser.Email)
             .Placeholder("Email"),
         new HorizontalGroup(
             new Button(new Label("Cancel"))
-                .OnClick(_ => ViewModel.CancelEdit()),
+                .OnClick(_ => CancelEdit()),
             new Button(new Label("Save"))
-                .OnClick(_ => ViewModel.SaveUser())
-                .BindDisabled(ViewModel.IsFormValid.Select(v => !v))
+                .OnClick(_ => SaveUser())
+                .BindDisabled(IsFormValid.Select(v => !v))
         )
     )
 )
-.BindOpen(ViewModel.ShowEditDialog)
-.OnClose(() => ViewModel.CancelEdit());
+.BindOpen(ShowEditDialog)
+.OnClose(() => CancelEdit());
 ```
 
 ### Component Dialog
@@ -70,12 +70,10 @@ Dialogs can render sub-components:
 new Dialog(
     new DialogContent(
         new Label("User List"),
-        Component<UserListViewModel, UserListView>(vm => {
-            vm.BindSelectedUser(ViewModel.SelectedUser);
-        })
+        new UserList(SelectedUser)
     )
 )
-.BindOpen(ViewModel.ShowUserList);
+.BindOpen(ShowUserList);
 ```
 
 ## Properties

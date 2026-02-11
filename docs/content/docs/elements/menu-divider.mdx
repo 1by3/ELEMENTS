@@ -18,7 +18,7 @@ new MenuDivider();
 Use dividers to organize related menu items into logical groups:
 
 ```csharp
-new ContextMenu(portal,
+new ContextMenu(
     // Edit group
     new MenuItem("Cut", () => Cut()),
     new MenuItem("Copy", () => Copy()),
@@ -41,18 +41,20 @@ new ContextMenu(portal,
 Show or hide dividers based on application state:
 
 ```csharp
-new ContextMenu(portal,
+var HasRecentFiles = new ReactiveProperty<bool>(true);
+
+new ContextMenu(
     new MenuItem("Save", () => Save()),
     new MenuItem("Save As...", () => SaveAs()),
 
     new MenuDivider()
-        .BindVisible(ViewModel.HasRecentFiles),
+        .BindVisible(HasRecentFiles),
 
     // Recent files section only shown when there are recent files
     new MenuItem("Recent File 1", () => OpenRecent(0))
-        .BindVisible(ViewModel.HasRecentFiles),
+        .BindVisible(HasRecentFiles),
     new MenuItem("Recent File 2", () => OpenRecent(1))
-        .BindVisible(ViewModel.HasRecentFiles)
+        .BindVisible(HasRecentFiles)
 );
 ```
 

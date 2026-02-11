@@ -17,37 +17,47 @@ new ProgressBar(observable); // Bound to observable
 ## Examples
 
 ### ReactiveProperty Progress Binding
-ProgressBars display progress from ViewModel ReactiveProperties:
+ProgressBars display progress from ReactiveProperty fields:
 
 ```csharp
+var DownloadProgress = new ReactiveProperty<float>(0f);
+var UploadProgress = new ReactiveProperty<float>(0f);
+var PercentComplete = new ReactiveProperty<int>(0);
+
 // Direct binding to progress property
-new ProgressBar(ViewModel.DownloadProgress);
+new ProgressBar(DownloadProgress);
 
 // Explicit binding
 new ProgressBar()
-    .BindProgress(ViewModel.UploadProgress);
+    .BindProgress(UploadProgress);
 
 // Transform percentage to float (0-1)
 new ProgressBar()
-    .BindProgress(ViewModel.PercentComplete.Select(p => p / 100f));
+    .BindProgress(PercentComplete.Select(p => p / 100f));
 ```
 
 ### Computed Progress Values
 Calculate progress from multiple ReactiveProperties:
 
 ```csharp
+var CurrentHealth = new ReactiveProperty<int>(80);
+var MaxHealth = new ReactiveProperty<int>(100);
+
 // Health bar from current/max health
 new ProgressBar()
     .BindProgress(
-        ViewModel.CurrentHealth.CombineLatest(ViewModel.MaxHealth)
+        CurrentHealth.CombineLatest(MaxHealth)
             .Select(values => (float)values.First / values.Second)
     )
     .ClassName("health-bar");
 
 // Task completion progress
+var CompletedTasks = new ReactiveProperty<int>(3);
+var TotalTasks = new ReactiveProperty<int>(10);
+
 new ProgressBar()
     .BindProgress(
-        ViewModel.CompletedTasks.CombineLatest(ViewModel.TotalTasks)
+        CompletedTasks.CombineLatest(TotalTasks)
             .Select(values => (float)values.First / values.Second)
     );
 ```
@@ -56,11 +66,14 @@ new ProgressBar()
 Combine progress bars with reactive labels:
 
 ```csharp
+var StatusMessage = new ReactiveProperty<string>("Downloading...");
+var Progress = new ReactiveProperty<float>(0f);
+
 new VerticalGroup(
-    new Label().BindText(ViewModel.StatusMessage),
-    new ProgressBar(ViewModel.Progress),
+    new Label().BindText(StatusMessage),
+    new ProgressBar(Progress),
     new Label().BindText(
-        ViewModel.Progress.Select(p => $"{p:P0} Complete")
+        Progress.Select(p => $"{p:P0} Complete")
     )
 );
 ```

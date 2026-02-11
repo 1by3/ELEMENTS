@@ -9,9 +9,7 @@ A floating context menu element that renders in a portal overlay. Used for dropd
 ## Constructor
 
 ```csharp
-var portal = Object.FindFirstObjectByType<ElementPortal>();
-
-new ContextMenu(portal,
+new ContextMenu(
     new MenuItem("Edit", () => Edit()),
     new MenuItem("Duplicate", () => Duplicate()),
     new MenuDivider(),
@@ -25,7 +23,7 @@ new ContextMenu(portal,
 Attach a dropdown menu to a button that opens on click:
 
 ```csharp
-var optionsMenu = new ContextMenu(portal,
+var optionsMenu = new ContextMenu(
     new MenuItem("Option 1", () => SelectOption(1)),
     new MenuItem("Option 2", () => SelectOption(2)),
     new MenuItem("Option 3", () => SelectOption(3))
@@ -39,7 +37,7 @@ new Button(new Label("Options"))
 Attach a context menu that opens at cursor position on right-click:
 
 ```csharp
-var contextMenu = new ContextMenu(portal,
+var contextMenu = new ContextMenu(
     new MenuItem("Cut", () => Cut()),
     new MenuItem("Copy", () => Copy()),
     new MenuItem("Paste", () => Paste())
@@ -53,7 +51,7 @@ new Label("Right-click me")
 Menu items can include icons from Resources:
 
 ```csharp
-new ContextMenu(portal,
+new ContextMenu(
     new MenuItem("Icons/edit", "Edit", () => Edit()),
     new MenuItem("Icons/copy", "Duplicate", () => Duplicate()),
     new MenuDivider(),
@@ -89,7 +87,7 @@ Use BindChildren to create menu items from reactive data:
 ```csharp
 var recentFiles = new ReactiveProperty<string[]>(new[] { "file1.txt", "file2.txt" });
 
-new ContextMenu(portal)
+new ContextMenu()
     .BindChildren(recentFiles, fileName =>
         new MenuItem(fileName, () => OpenFile(fileName))
     );
@@ -99,7 +97,7 @@ new ContextMenu(portal)
 Control menu state programmatically:
 
 ```csharp
-var menu = new ContextMenu(portal,
+var menu = new ContextMenu(
     new MenuItem("Action", () => DoAction())
 );
 
@@ -113,14 +111,14 @@ menu.OpenAtCursor();
 menu.Close();
 
 // Bind to reactive state
-menu.BindOpen(ViewModel.ShowMenu);
+menu.BindOpen(ShowMenu);
 ```
 
 ### Nested with Callbacks
 Register callbacks for when the menu closes:
 
 ```csharp
-new ContextMenu(portal,
+new ContextMenu(
     new MenuItem("Save", () => Save()),
     new MenuItem("Cancel", () => Cancel())
 )

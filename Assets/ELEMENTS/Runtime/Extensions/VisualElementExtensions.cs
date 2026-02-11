@@ -1,20 +1,18 @@
 using System;
 using ELEMENTS.Helpers;
-using ELEMENTS.MVVM;
 using UnityEngine.UIElements;
 
 namespace ELEMENTS.Extensions
 {
     public static class VisualElementExtensions
     {
-        public static (TViewModel, TView) RenderComponent<TViewModel, TView>(this VisualElement visualElement, Action<TViewModel> configure = null)
-            where TViewModel : ViewModel
-            where TView : View<TViewModel>
+        public static T RenderComponent<T>(this VisualElement visualElement, Action<T> configure = null)
+            where T : Component, new()
         {
-           var (viewModel, view) = ComponentFactory.CreateComponent<TViewModel, TView>(configure);
+            var component = ComponentFactory.Create<T>(configure);
             visualElement.Clear();
-            visualElement.Add(view.BuildVisualElement());
-            return (viewModel, view);
+            visualElement.Add(component.BuildVisualElement());
+            return component;
         }
     }
 }

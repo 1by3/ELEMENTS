@@ -27,9 +27,11 @@ new HorizontalGroup(
 .JustifyContent(Justify.FlexEnd);
 
 // Icon and text combinations
+var Username = new ReactiveProperty<string>("Player1");
+
 new HorizontalGroup(
     new Image("Icons/user"),
-    new Label().BindText(ViewModel.Username)
+    new Label().BindText(Username)
 )
 .AlignItems(Align.Center);
 ```
@@ -38,36 +40,44 @@ new HorizontalGroup(
 Horizontal arrangements for form elements:
 
 ```csharp
+var Email = new ReactiveProperty<string>("");
+var IsEmailValid = new ReactiveProperty<bool>(false);
+var Name = new ReactiveProperty<string>("");
+
 // Input with validation icon
 new HorizontalGroup(
-    new TextField(ViewModel.Email).Flex(1),
-    new Image("Icons/check").BindVisible(ViewModel.IsEmailValid)
+    new TextField(Email).Flex(1),
+    new Image("Icons/check").BindVisible(IsEmailValid)
 );
 
 // Label and input pairs
 new HorizontalGroup(
     new Label("Name:").ClassName("form-label"),
-    new TextField(ViewModel.Name).Flex(1)
+    new TextField(Name).Flex(1)
 );
 ```
 
 ### Dynamic Content
-Reactive horizontal layouts based on ViewModel:
+Reactive horizontal layouts:
 
 ```csharp
+var IsRightToLeft = new ReactiveProperty<bool>(false);
+
 // Conditional reverse layout
 new HorizontalGroup(
     new Label("Primary"),
     new Label("Secondary")
 )
-.BindReverse(ViewModel.IsRightToLeft);
+.BindReverse(IsRightToLeft);
 
 // Dynamic child rendering
+var ActionItems = new ReactiveProperty<ActionItem[]>(Array.Empty<ActionItem>());
+
 new HorizontalGroup()
     .BindChildren(
-        ViewModel.ActionItems,
+        ActionItems,
         item => new Button(new Label(item.Name))
-            .OnClick(_ => ViewModel.ExecuteAction(item))
+            .OnClick(_ => ExecuteAction(item))
     );
 ```
 
