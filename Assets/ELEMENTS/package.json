@@ -1,13 +1,16 @@
 {
   "name": "co.1by3.elements",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.0",
   "displayName": "ELEMENTS",
   "description": "A code-first, component based UI framework for Unity",
   "unity": "6000.0",
   "documentationUrl": "https://elements.1by3.co",
-  "license": "https://github.com/1by3/ELEMENTS/blob/main/LICENSE.md",
+  "license": "MIT",
+  "licensesUrl": "https://github.com/1by3/ELEMENTS/blob/main/LICENSE",
+  "changelogUrl": "https://github.com/1by3/ELEMENTS/blob/main/Assets/ELEMENTS/CHANGELOG.md",
   "author": {
-    "name": "1by3"
+    "name": "1by3",
+    "url": "https://1by3.co"
   },
   "keywords": [
     "ui",

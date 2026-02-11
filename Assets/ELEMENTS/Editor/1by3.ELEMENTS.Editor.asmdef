@@ -1,0 +1,17 @@
+{
+    "name": "1by3.ELEMENTS.Editor",
+    "references": [
+        "1by3.ELEMENTS"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
