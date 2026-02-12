@@ -11,7 +11,7 @@ namespace SampleProject.Scripts
         private void OnEnable()
         {
             uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
-            uiDocument.RenderComponent<SampleComponent>();
+            uiDocument.RenderElement(new SampleComponent());
         }
     }
 }

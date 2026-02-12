@@ -6,7 +6,7 @@ ELEMENTS provides a few different ways to render your UI.
 
 ## Build a VisualElement
 
-Given any instance of `IElement`, you can call the `BuildVisualElement()` method to convert it to a `VisualElement`. This is the most flexible way of using ELEMENTS. The resulting `VisualElement` can be inserted into your in-game or editor UI wherever you would like.
+Given any instance of `IElement` or `Component`, you can call the `BuildVisualElement()` method to convert it to a `VisualElement`. This is the most flexible way of using ELEMENTS. The resulting `VisualElement` can be inserted into your in-game or editor UI wherever you would like.
 
 ```csharp
 public class CustomUI : MonoBehaviour
@@ -38,7 +38,7 @@ public class CustomUI : MonoBehaviour
 
   private void OnEnable()
   {
-    uiDocument.rootVisualElement.RenderComponent<ExampleComponent>();
+    uiDocument.rootVisualElement.RenderElement(new ExampleComponent());
   }
 }
 ```
@@ -54,8 +54,42 @@ public class CustomUI : MonoBehaviour
 
   private void OnEnable()
   {
-    uiDocument.RenderComponent<ExampleComponent>();
+    uiDocument.RenderElement(new ExampleComponent());
   }
+}
+```
+
+## ELEMENTS powered Editor Windows
+
+You can also use the `RenderComponent` method on an `EditorWindow`...
+
+```csharp
+public class ExampleEditorWindow : EditorWindow
+{
+  [MenuItem("ELEMENTS/Sample Window")]
+  public static void ShowPreferences()
+  {
+    var window = GetWindow<ExampleEditorWindow>();
+    window.titleContent = new GUIContent("ELEMENTS");
+    window.RenderElement(new ExampleComponent());
+    window.Show();
+  }
+}
+```
+
+Or, alternatively you can structure your custom EditorWindow like this...
+
+```csharp
+public class ExampleEditorWindow : EditorWindow
+{
+    [MenuItem("ELEMENTS/Sample Window")]
+    public static void ShowPreferences() => GetWindow<ExampleEditorWindow>().Show();
+
+    private void OnEnable()
+    {
+        titleContent = new GUIContent("ELEMENTS");
+        this.RenderElement(new ExampleComponent());
+    }
 }
 ```
 
@@ -67,19 +101,10 @@ Add the `ElementPortal` component to a GameObject in your scene. It requires a `
 
 Floating elements use `ElementPortal.Current` by default, so you don't need to pass the portal reference manually. If you need to target a specific portal, you can pass it explicitly to the constructor.
 
-## ELEMENTS powered Editor Windows
+## Additive rendering
 
-You can create a subclass of `ElementEditorWindow` to create a Unity editor window powered by an ELEMENTS component.
+By default, when you use `RenderElement` it will replace the contents of whatever you are rendering to. If you would prefer to append your UI to whatever already exists, you can pass an optional `additive: true` parameter...
 
-```csharp
-public class ExampleEditorWindow : ElementEditorWindow<ExampleComponent>
-{
-  [MenuItem("ELEMENTS/Sample Window")]
-  public static void ShowPreferences()
-  {
-    var window = GetWindow<ExampleEditorWindow>();
-    window.titleContent = new GUIContent("ELEMENTS");
-    window.Show();
-  }
-}
+```
+uiDocument.RenderElement(new ExampleComponent(), additive: true);
 ```

@@ -2,7 +2,7 @@
 title: Getting Started
 ---
 
-ELEMENTS can be easily added to almost any Unity project, so long as you are using **Unity 6** or above. Backwards compatibility is planned, but a low priority at this time.
+ELEMENTS can be easily added to any Unity project, running Unity 6 or above. Unity 6.3+ is recommended to take full advantage of UI Toolkit's shader support and in world UI support.
 
 ## Installation
 
@@ -56,37 +56,59 @@ We'll talk more about the elements used (`VerticalGroup`, `Label`, and `Button`)
 
 ### Adding State
 
-State lives directly on your Component as fields. Use `ReactiveProperty` to make state that automatically updates the UI when it changes...
+State lives directly on your Component as fields. Use R3 `Observable` and `ReactiveProperty` to make state that automatically updates the UI when it changes...
 
 ```csharp
 public class ExampleComponent : Component
 {
-    public readonly ReactiveProperty<int> Count = new(0);
-
-    public void Increment()
-    {
-        Count.Value += 1;
-    }
+    public readonly ReactiveProperty<string> Name = new("");
 
     protected override IElement Render()
     {
         return new VerticalGroup(
-            new Label()
-                .BindText(Count.Select(count => $"The button has been clicked {count} times.")),
-            new Button(new Label("Click Me!"))
-                .OnClick(_ => Increment())
+            new Label("What's your name?"),
+            new TextField(Name),
+            new HorizontalGroup(
+                new Label("Hello, "),
+                new Label(Name)
+            )
         );
     }
 }
 ```
 
-We've done a couple of things here. First, we've bound the `Text` property of our `Label` to a transformed version of the `Count` property. This will make the text of the label update each time `Count` is changed. We've also mapped the `Increment` method to be called when the `Button` is clicked.
+The code above creates a `ReactiveProperty<string>` which holds the user's name. By passing this into the `TextField` constructor, we bind the text in the text field to the property. By passing it into the `Label` constructor, we bind the text of the Label to it as well.
 
-You now have a dynamic and interactive UI built with ELEMENTS!
+A common pattern you might encounter is the need to transform data in your Component. Take this counter example...
+
+```csharp
+public class Counter : Component
+{
+    public readonly ReactiveProperty<int> Count = new(0);
+
+    protected override IElement Render()
+    {
+        return new VerticalGroup(
+            new HorizontalGroup(
+                new Label("The current count is:"),
+                new Label(Count.Select(v => v.ToString()))
+            ),
+            new HorizontalGroup(
+                new Button(new Label("Decrement"))
+                    .OnClick(_ => Count.Value--),
+                new Button(new Label("Increment"))
+                    .OnClick(_ => Count.Value++)
+            )
+        );
+    }
+}
+```
+
+Since `Count` is a `ReactiveProperty<int>`, it cannot be directly passed to `Label` which requires `Observable<string>`. Therefore, we use LINQ to transform the value into a string type.
 
 ## Rendering your UI
 
-The simplest way to render your UI is from a `MonoBehaviour` using the `RenderComponent` extension method on a `UIDocument`...
+ELEMENTS provides a variety of extension methods for rendering your UI. The default is to render your UI into a `UIDocument`...
 
 ```csharp
 public class GameUI : MonoBehaviour
@@ -96,7 +118,7 @@ public class GameUI : MonoBehaviour
     private void OnEnable()
     {
         uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
-        uiDocument.RenderComponent<ExampleComponent>();
+        uiDocument.RenderElement(new ExampleComponent());
     }
 }
 ```
@@ -106,7 +128,25 @@ A couple of notes...
 - We loaded the default ELEMENTS stylesheet onto the UIDocument using the `AddStyleSheet` helper. This is optional, but highly recommended for a good starting point with styles. For more on styling, including Tailwind-style utility classes, see [Utility Classes](/docs/utility-classes).
 - We used the `OnEnable` method. This is an important detail that allows your UI to update when Unity reloads your game if you make code changes. If your UI is disappearing on reload, this might be why.
 
-If you start your game, you should see your UI on the screen!
+If you prefer to not use a Component for any reason, you can also pass elements directly...
+
+```csharp
+public class GameUI : MonoBehaviour
+{
+    [SerializeField] private UIDocument uiDocument;
+
+    private void OnEnable()
+    {
+        uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+
+        uiDocument.RenderElement(
+            new VerticalGroup(
+                new Label("Hello World")
+            )
+        );
+    }
+}
+```
 
 ## Setting up an ElementPortal
 
