@@ -9,6 +9,7 @@ namespace ELEMENTS.Elements
             : base(children)
         {
             VisualElement.style.flexDirection = FlexDirection.Row;
+            VisualElement.AddToClassList("flex-row");
         }
 
         public T Reverse(bool reverse = true)

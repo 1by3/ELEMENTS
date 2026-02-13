@@ -9,10 +9,6 @@ Label {
     padding: 0;
 }
 
-Label {
-    white-space: normal;
-}
-
 TextField {
     padding: 0;
     margin: 0;
@@ -191,30 +187,55 @@ Button.pill Label {
     color: #64748b;
 }
 
-/* Gap utilities — emulated via child margins + ELEMENTS pseudo-classes */
+/* Gap utilities — direction-aware via child margins + ELEMENTS pseudo-classes */
 
-.gap-0 > * { margin-top: 0; margin-left: 0; }
+/* gap on horizontal groups — margin-left only */
+.flex-row.gap-0 > * { margin-left: 0; }
 
-.gap-1 > * { margin-top: 4px; margin-left: 4px; }
-.gap-1 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-1 > * { margin-left: 4px; }
+.flex-row.gap-1 > .first-child { margin-left: 0; }
 
-.gap-2 > * { margin-top: 8px; margin-left: 8px; }
-.gap-2 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-2 > * { margin-left: 8px; }
+.flex-row.gap-2 > .first-child { margin-left: 0; }
 
-.gap-3 > * { margin-top: 12px; margin-left: 12px; }
-.gap-3 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-3 > * { margin-left: 12px; }
+.flex-row.gap-3 > .first-child { margin-left: 0; }
 
-.gap-4 > * { margin-top: 16px; margin-left: 16px; }
-.gap-4 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-4 > * { margin-left: 16px; }
+.flex-row.gap-4 > .first-child { margin-left: 0; }
 
-.gap-5 > * { margin-top: 20px; margin-left: 20px; }
-.gap-5 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-5 > * { margin-left: 20px; }
+.flex-row.gap-5 > .first-child { margin-left: 0; }
 
-.gap-6 > * { margin-top: 24px; margin-left: 24px; }
-.gap-6 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-6 > * { margin-left: 24px; }
+.flex-row.gap-6 > .first-child { margin-left: 0; }
 
-.gap-8 > * { margin-top: 32px; margin-left: 32px; }
-.gap-8 > .first-child { margin-top: 0; margin-left: 0; }
+.flex-row.gap-8 > * { margin-left: 32px; }
+.flex-row.gap-8 > .first-child { margin-left: 0; }
+
+/* gap on vertical groups — margin-top only */
+.flex-col.gap-0 > * { margin-top: 0; }
+
+.flex-col.gap-1 > * { margin-top: 4px; }
+.flex-col.gap-1 > .first-child { margin-top: 0; }
+
+.flex-col.gap-2 > * { margin-top: 8px; }
+.flex-col.gap-2 > .first-child { margin-top: 0; }
+
+.flex-col.gap-3 > * { margin-top: 12px; }
+.flex-col.gap-3 > .first-child { margin-top: 0; }
+
+.flex-col.gap-4 > * { margin-top: 16px; }
+.flex-col.gap-4 > .first-child { margin-top: 0; }
+
+.flex-col.gap-5 > * { margin-top: 20px; }
+.flex-col.gap-5 > .first-child { margin-top: 0; }
+
+.flex-col.gap-6 > * { margin-top: 24px; }
+.flex-col.gap-6 > .first-child { margin-top: 0; }
+
+.flex-col.gap-8 > * { margin-top: 32px; }
+.flex-col.gap-8 > .first-child { margin-top: 0; }
 
 /* gap-y: vertical gap only */
 .gap-y-0 > * { margin-top: 0; }

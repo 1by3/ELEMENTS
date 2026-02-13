@@ -67,7 +67,7 @@ namespace SampleProject.Scripts
                     new Button(new Label("Options"))
                         .WithContextMenu(optionsMenu)
                         .ClassName("options-button")
-                )
+                ).ClassName("gap-2")
             ).ClassName("main-view").StyleSheet("SampleProject/SampleStyles").WithRightClickMenu(backgroundMenu);
         }
     }

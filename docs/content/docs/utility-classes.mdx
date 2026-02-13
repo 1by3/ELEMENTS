@@ -120,17 +120,28 @@ new HorizontalGroup(
 ).ClassName("gap-x-3"); // 12px between buttons
 ```
 
-### Both axes
+### Direction-aware gap
 
-Use `gap-{n}` to apply spacing on both axes at once:
+Use `gap-{n}` as a shorthand that automatically applies spacing along the correct axis based on the group type:
+
+- On a `HorizontalGroup`, `gap-{n}` applies **horizontal** spacing (`margin-left`)
+- On a `VerticalGroup`, `gap-{n}` applies **vertical** spacing (`margin-top`)
 
 ```csharp
-new Group(
-    new Label("A"),
-    new Label("B"),
-    new Label("C")
-).ClassName("gap-4"); // 16px on both axes
+new HorizontalGroup(
+    new Button(new Label("Cancel")),
+    new Button(new Label("Save")),
+    new Button(new Label("Delete"))
+).ClassName("gap-4"); // 16px horizontal spacing between buttons
+
+new VerticalGroup(
+    new Label("First"),
+    new Label("Second"),
+    new Label("Third")
+).ClassName("gap-4"); // 16px vertical spacing between labels
 ```
+
+Use `gap-x-{n}` or `gap-y-{n}` when you need explicit axis control regardless of direction.
 
 ### Scale
 

@@ -8,6 +8,7 @@ namespace ELEMENTS.Elements
             : base(children)
         {
             VisualElement.style.flexDirection = FlexDirection.Column;
+            VisualElement.AddToClassList("flex-col");
         }
 
         public T Reverse(bool reverse = true)
