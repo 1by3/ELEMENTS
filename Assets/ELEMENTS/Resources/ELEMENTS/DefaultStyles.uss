@@ -319,6 +319,68 @@ Button.pill Label {
     display: flex;
 }
 
+/* Table */
+
+.table {
+    align-self: stretch;
+}
+
+.table-caption {
+    padding: 8px 16px;
+    color: #64748b;
+    font-size: 12px;
+    -unity-text-align: middle-center;
+}
+
+.table-header .table-row {
+    border-bottom-width: 1px;
+    border-bottom-color: #e2e8f0;
+}
+
+.table-head {
+    padding: 8px 16px;
+    -unity-font-style: bold;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.table-head Label {
+    -unity-font-style: bold;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.table-body .table-row {
+    border-bottom-width: 1px;
+    border-bottom-color: #e2e8f0;
+}
+
+.table-body .table-row:hover {
+    background-color: #f1f5f9;
+}
+
+.table-body .table-row.last-child {
+    border-bottom-width: 0;
+}
+
+.table-cell {
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.table-cell Label {
+    font-size: 13px;
+}
+
+.table-footer {
+    border-top-width: 1px;
+    border-top-color: #e2e8f0;
+}
+
+.table-footer .table-cell {
+    -unity-font-style: bold;
+}
+
 /* Context Menu Container */
 .elements-context-menu {
     padding: 4px 0;

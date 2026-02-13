@@ -1,0 +1,260 @@
+---
+title: Table
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+A set of elements for building structured data tables. Modeled after the shadcn Table component, adapted to the ELEMENTS fluent API using flexbox layout.
+
+The table system consists of 8 elements:
+
+| Element | HTML Equivalent | Extends | Purpose |
+|---------|----------------|---------|---------|
+| `Table` | `<table>` | VerticalGroup | Top-level wrapper |
+| `TableCaption` | `<caption>` | BaseElement | Caption text |
+| `TableHeader` | `<thead>` | VerticalGroup | Header section |
+| `TableBody` | `<tbody>` | VerticalGroup | Body section |
+| `TableFooter` | `<tfoot>` | VerticalGroup | Footer section |
+| `TableRow` | `<tr>` | HorizontalGroup | Row |
+| `TableHead` | `<th>` | Group | Header cell |
+| `TableCell` | `<td>` | Group | Body cell |
+
+## Constructor
+
+```csharp
+new Table(
+    new TableCaption("A list of your recent invoices."),
+    new TableHeader(
+        new TableRow(
+            new TableHead("Invoice"),
+            new TableHead("Status"),
+            new TableHead("Method"),
+            new TableHead("Amount")
+        )
+    ),
+    new TableBody(
+        new TableRow(
+            new TableCell("INV001"),
+            new TableCell("Paid"),
+            new TableCell("Credit Card"),
+            new TableCell("$250.00")
+        ),
+        new TableRow(
+            new TableCell("INV002"),
+            new TableCell("Pending"),
+            new TableCell("PayPal"),
+            new TableCell("$150.00")
+        )
+    ),
+    new TableFooter(
+        new TableRow(
+            new TableCell("Total"),
+            new TableCell(""),
+            new TableCell(""),
+            new TableCell("$2,500.00")
+        )
+    )
+);
+```
+
+## Examples
+
+### Column Widths
+
+Cells default to `flexGrow = 1` (equal widths). Use `Flex()` to control per-column widths:
+
+```csharp
+new TableHeader(
+    new TableRow(
+        new TableHead("Name").Flex(2),       // 2x wide
+        new TableHead("Status").Flex(1),     // 1x wide
+        new TableHead("Amount").Flex(1)      // 1x wide
+    )
+),
+new TableBody(
+    new TableRow(
+        new TableCell("John Doe").Flex(2),   // Match header Flex values
+        new TableCell("Active").Flex(1),
+        new TableCell("$100.00").Flex(1)
+    )
+)
+```
+
+### Data-Driven Rows
+
+Use `BindChildren` on TableBody to render rows from reactive data:
+
+```csharp
+var Invoices = new ReactiveProperty<Invoice[]>(Array.Empty<Invoice>());
+
+new Table(
+    new TableHeader(
+        new TableRow(
+            new TableHead("Invoice"),
+            new TableHead("Amount")
+        )
+    ),
+    new TableBody()
+        .BindChildren(
+            Invoices,
+            inv => new TableRow(
+                new TableCell(inv.Id),
+                new TableCell(inv.Amount.ToString("C"))
+            )
+        )
+);
+```
+
+### Text and Observable Constructors
+
+TableHead, TableCell, and TableCaption accept strings or observables:
+
+```csharp
+var Total = new ReactiveProperty<string>("$0.00");
+
+// String shorthand (wraps in Label internally)
+new TableCell("Hello")
+
+// Observable binding
+new TableCell(Total)
+
+// Arbitrary children
+new TableCell(
+    new HorizontalGroup(
+        new Image("icons/check"),
+        new Label("Paid")
+    ).ClassName("gap-1")
+)
+```
+
+### Custom Styling
+
+```csharp
+new Table(
+    new TableHeader(
+        new TableRow(
+            new TableHead("Name"),
+            new TableHead("Role")
+        )
+    ),
+    new TableBody(
+        new TableRow(
+            new TableCell("Alice"),
+            new TableCell("Admin")
+        ).ClassName("highlighted")
+    )
+).ClassName("my-custom-table")
+```
+
+## Table
+
+Top-level wrapper. Extends [VerticalGroup](/docs/elements/vertical-group).
+
+**CSS class:** `table`
+
+```csharp
+new Table(children...);
+```
+
+## TableCaption
+
+Caption text displayed within the table. Extends [BaseElement](/docs/elements/base-element).
+
+**CSS class:** `table-caption`
+
+```csharp
+new TableCaption("Caption text");
+new TableCaption();
+new TableCaption(observable);
+```
+
+<TypeTable
+  type={{
+    Text: {
+      description: "Sets the caption text",
+      type: "(string) => TableCaption",
+    },
+    GetText: {
+      description: "Gets the current caption text",
+      type: "() => string",
+    },
+    BindText: {
+      description: "Binds caption text to an observable",
+      type: "(Observable<string>) => TableCaption",
+    }
+  }}
+/>
+
+## TableHeader
+
+Header section container. Extends [VerticalGroup](/docs/elements/vertical-group).
+
+**CSS class:** `table-header`
+
+```csharp
+new TableHeader(new TableRow(...));
+```
+
+## TableBody
+
+Body section container. Extends [VerticalGroup](/docs/elements/vertical-group).
+
+**CSS class:** `table-body`
+
+```csharp
+new TableBody(row1, row2, row3);
+new TableBody().BindChildren(data, item => new TableRow(...));
+```
+
+## TableFooter
+
+Footer section container. Extends [VerticalGroup](/docs/elements/vertical-group).
+
+**CSS class:** `table-footer`
+
+```csharp
+new TableFooter(new TableRow(...));
+```
+
+## TableRow
+
+Row container with horizontal layout. Extends [HorizontalGroup](/docs/elements/horizontal-group).
+
+**CSS class:** `table-row`
+
+```csharp
+new TableRow(cell1, cell2, cell3);
+```
+
+## TableHead
+
+Header cell. Extends [Group](/docs/elements/group). Sets `flexGrow = 1` by default.
+
+**CSS class:** `table-head`
+
+```csharp
+new TableHead("Column Name");           // String (wraps in Label)
+new TableHead(observable);              // Observable (wraps in Label)
+new TableHead(new Label("Custom"));     // Arbitrary children
+```
+
+## TableCell
+
+Body cell. Extends [Group](/docs/elements/group). Sets `flexGrow = 1` by default.
+
+**CSS class:** `table-cell`
+
+```csharp
+new TableCell("Value");                 // String (wraps in Label)
+new TableCell(observable);              // Observable (wraps in Label)
+new TableCell(new Label("Custom"));     // Arbitrary children
+```
+
+## Default Styles
+
+The table is borderless by default with minimal styling:
+- No outer border or background — clean, open layout
+- Bold muted header text with a bottom border separator
+- Bottom border between body rows (removed on last row)
+- Footer with top border and bold text
+- Caption centered with muted color

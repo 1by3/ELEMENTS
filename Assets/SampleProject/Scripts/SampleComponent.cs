@@ -67,7 +67,49 @@ namespace SampleProject.Scripts
                     new Button(new Label("Options"))
                         .WithContextMenu(optionsMenu)
                         .ClassName("options-button")
-                ).ClassName("gap-2")
+                ).ClassName("gap-2"),
+
+                new VerticalGroup(
+                new Table(
+                    new TableCaption("A list of your recent invoices."),
+                    new TableHeader(
+                        new TableRow(
+                            new TableHead("Invoice"),
+                            new TableHead("Status"),
+                            new TableHead("Method"),
+                            new TableHead("Amount")
+                        )
+                    ),
+                    new TableBody(
+                        new TableRow(
+                            new TableCell("INV001"),
+                            new TableCell("Paid"),
+                            new TableCell("Credit Card"),
+                            new TableCell("$250.00")
+                        ),
+                        new TableRow(
+                            new TableCell("INV002"),
+                            new TableCell("Pending"),
+                            new TableCell("PayPal"),
+                            new TableCell("$150.00")
+                        ),
+                        new TableRow(
+                            new TableCell("INV003"),
+                            new TableCell("Unpaid"),
+                            new TableCell("Bank Transfer"),
+                            new TableCell("$350.00")
+                        )
+                    ),
+                    new TableFooter(
+                        new TableRow(
+                            new TableCell("Total"),
+                            new TableCell(""),
+                            new TableCell(""),
+                            new TableCell("$750.00")
+                        )
+                    )
+                )
+                ).ClassName("table-container")
             ).ClassName("main-view").StyleSheet("SampleProject/SampleStyles").WithRightClickMenu(backgroundMenu);
         }
     }

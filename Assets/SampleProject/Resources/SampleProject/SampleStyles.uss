@@ -23,3 +23,8 @@
 .main-view .decrement-button {
     margin-left: 4px;
 }
+
+.table-container {
+    max-width: 500px;
+    width: 100%;
+}
