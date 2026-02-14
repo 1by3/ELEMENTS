@@ -10,6 +10,8 @@ namespace SampleProject.Scripts
     {
         public readonly ReactiveProperty<int> Count = new(0);
         public readonly ReactiveProperty<bool> AlertOpen = new(false);
+        public readonly ReactiveProperty<bool> DarkMode = new(false);
+        public readonly ReactiveProperty<bool> Notifications = new(true);
 
         public void OpenAlert() => AlertOpen.Value = true;
         public void CloseAlert() => AlertOpen.Value = false;
@@ -74,6 +76,7 @@ namespace SampleProject.Scripts
                     new TableCaption("A list of your recent invoices."),
                     new TableHeader(
                         new TableRow(
+                            new TableHead(""),
                             new TableHead("Invoice"),
                             new TableHead("Status"),
                             new TableHead("Method"),
@@ -82,18 +85,21 @@ namespace SampleProject.Scripts
                     ),
                     new TableBody(
                         new TableRow(
+                            new TableCell(new Checkbox().Value(true)),
                             new TableCell("INV001"),
                             new TableCell("Paid"),
                             new TableCell("Credit Card"),
                             new TableCell("$250.00")
                         ),
                         new TableRow(
+                            new TableCell(new Checkbox()),
                             new TableCell("INV002"),
                             new TableCell("Pending"),
                             new TableCell("PayPal"),
                             new TableCell("$150.00")
                         ),
                         new TableRow(
+                            new TableCell(new Checkbox()),
                             new TableCell("INV003"),
                             new TableCell("Unpaid"),
                             new TableCell("Bank Transfer"),
@@ -109,7 +115,14 @@ namespace SampleProject.Scripts
                         )
                     )
                 )
-                ).ClassName("table-container")
+                ).ClassName("table-container"),
+
+                new HorizontalGroup(
+                    new Checkbox(DarkMode)
+                        .Label("Dark mode"),
+                    new Checkbox(Notifications)
+                        .Label("Enable notifications")
+                ).ClassName("gap-4")
             ).ClassName("main-view").StyleSheet("SampleProject/SampleStyles").WithRightClickMenu(backgroundMenu);
         }
     }

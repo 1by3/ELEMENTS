@@ -1,0 +1,184 @@
+---
+title: Checkbox
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+A toggle input element for boolean values. Wraps Unity's Toggle with shadcn-inspired styling — a clean bordered box that fills dark with a white checkmark when checked.
+
+## Constructor
+
+```csharp
+new Checkbox();
+new Checkbox(reactiveProperty); // Bound to ReactiveProperty<bool>
+```
+
+## Examples
+
+### Two-Way ReactiveProperty Binding
+Checkboxes provide automatic two-way binding with ReactiveProperty:
+
+```csharp
+// Constructor binding (preferred)
+new Checkbox(AcceptTerms)
+    .Label("I accept the terms and conditions");
+
+// Explicit binding
+new Checkbox()
+    .BindValue(AcceptTerms)
+    .Label("I accept the terms and conditions");
+
+// When user toggles, AcceptTerms.Value updates automatically
+// When AcceptTerms.Value changes, the checkbox updates
+```
+
+### Form Fields
+Common form field patterns:
+
+```csharp
+// Simple toggle
+new Checkbox(RememberMe)
+    .Label("Remember me");
+
+// Disabled checkbox
+new Checkbox(LockedOption)
+    .Label("Premium feature")
+    .Disabled(true);
+
+// Checkbox without label
+new Checkbox(IsEnabled);
+```
+
+### Reactive State Management
+Checkboxes can respond to state:
+
+```csharp
+// Conditionally disabled based on other state
+new Checkbox(AcceptTerms)
+    .Label("I accept the terms")
+    .BindDisabled(IsSubmitting);
+
+// Dynamic label
+new Checkbox(DarkMode)
+    .BindLabel(DarkMode.Select(on =>
+        on ? "Dark mode (on)" : "Dark mode (off)"));
+```
+
+### Change Callbacks
+React to value changes without binding:
+
+```csharp
+new Checkbox()
+    .Label("Enable notifications")
+    .OnChange(enabled => Debug.Log($"Notifications: {enabled}"));
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    value: {
+      description: "The current checked state of the checkbox",
+      type: "bool",
+      default: "false",
+    },
+    label: {
+      description: "Text label displayed next to the checkbox",
+      type: "string",
+      default: '""',
+    },
+    disabled: {
+      description: "Whether the checkbox is disabled",
+      type: "bool",
+      default: "false",
+    },
+    visible: {
+      description: "Whether the checkbox is visible",
+      type: "bool",
+      default: "true",
+    },
+    name: {
+      description: "The name identifier for the checkbox",
+      type: "string",
+      default: '""',
+    },
+    pickingMode: {
+      description: "How the checkbox responds to pointer events",
+      type: "PickingMode",
+      default: "PickingMode.Position",
+    }
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    Value: {
+      description: "Sets the checked state",
+      type: "(bool) => Checkbox",
+    },
+    GetValue: {
+      description: "Gets the current checked state",
+      type: "() => bool",
+    },
+    BindValue: {
+      description: "Two-way binds the value to a ReactiveProperty",
+      type: "(ReactiveProperty<bool>) => Checkbox",
+    },
+    Label: {
+      description: "Sets the label text",
+      type: "(string) => Checkbox",
+    },
+    GetLabel: {
+      description: "Gets the current label text",
+      type: "() => string",
+    },
+    BindLabel: {
+      description: "Binds the label to an observable",
+      type: "(Observable<string>) => Checkbox",
+    },
+    OnChange: {
+      description: "Registers a callback for value changes",
+      type: "(Action<bool>) => Checkbox",
+    },
+    Disabled: {
+      description: "Sets the disabled state",
+      type: "(bool = true) => Checkbox",
+    },
+    GetDisabled: {
+      description: "Gets the disabled state",
+      type: "() => bool",
+    },
+    BindDisabled: {
+      description: "Binds disabled state to an observable",
+      type: "(Observable<bool>) => Checkbox",
+    },
+    Visible: {
+      description: "Sets the visibility state",
+      type: "(bool) => Checkbox",
+    },
+    GetVisible: {
+      description: "Gets the visibility state",
+      type: "() => bool",
+    },
+    BindVisible: {
+      description: "Binds visibility to an observable",
+      type: "(Observable<bool>) => Checkbox",
+    },
+    ClassName: {
+      description: "Adds or removes a CSS class",
+      type: "(string, bool = true) => Checkbox",
+    },
+    BindClassName: {
+      description: "Binds CSS class to an observable",
+      type: "(string, Observable<bool>) => Checkbox",
+    },
+    StyleSheet: {
+      description: "Adds a StyleSheet to the checkbox",
+      type: "(StyleSheet) => Checkbox or (string) => Checkbox",
+    }
+  }}
+/>
+
+Checkbox extends [BaseElement](/docs/elements/base-element).

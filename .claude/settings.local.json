@@ -11,7 +11,8 @@
       "WebFetch(domain:openupm.com)",
       "Bash(dir:*)",
       "Bash(git -C \"D:\\\\ELEMENTS\" tag)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "WebFetch(domain:ui.shadcn.com)"
     ]
   }
 }

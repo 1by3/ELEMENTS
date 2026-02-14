@@ -431,3 +431,62 @@ Button.pill Label {
     background-color: #e2e8f0;
     margin: 4px 12px;
 }
+
+/* Checkbox */
+.elements-checkbox {
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.checkbox-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border-width: 1px;
+    border-color: #e2e8f0;
+    align-items: center;
+    justify-content: center;
+    transition-property: background-color, border-color;
+    transition-duration: 0.2s;
+}
+
+.checkbox-check {
+    font-size: 12px;
+    color: #ffffff;
+    display: none;
+    margin: 0;
+    padding: 0;
+    margin-top: -0.7px;
+}
+
+.elements-checkbox.checked .checkbox-box {
+    background-color: #0f172a;
+    border-color: #0f172a;
+}
+
+.elements-checkbox.checked .checkbox-check {
+    display: flex;
+}
+
+.elements-checkbox:hover .checkbox-box {
+    border-color: #64748b;
+}
+
+.elements-checkbox.checked:hover .checkbox-box {
+    background-color: #1e293b;
+    border-color: #1e293b;
+}
+
+.elements-checkbox.unity-disabled {
+    opacity: 0.5;
+}
+
+.checkbox-label {
+    font-size: 13px;
+    margin-left: 8px;
+}
