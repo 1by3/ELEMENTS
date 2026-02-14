@@ -14,24 +14,24 @@ namespace ELEMENTS
         private UIDocument uiDocument;
 
         // IUpdatable registrations
-        private readonly HashSet<IUpdatable> _updatables = new();
-        private IUpdatable[] _updatableSnapshot = Array.Empty<IUpdatable>();
-        private bool _updatableDirty;
+        private readonly HashSet<IUpdatable> updatables = new();
+        private IUpdatable[] updatableSnapshot = Array.Empty<IUpdatable>();
+        private bool updatableDirty;
 
         // IFixedUpdatable registrations
-        private readonly HashSet<IFixedUpdatable> _fixedUpdatables = new();
-        private IFixedUpdatable[] _fixedUpdatableSnapshot = Array.Empty<IFixedUpdatable>();
-        private bool _fixedUpdatableDirty;
+        private readonly HashSet<IFixedUpdatable> fixedUpdatables = new();
+        private IFixedUpdatable[] fixedUpdatableSnapshot = Array.Empty<IFixedUpdatable>();
+        private bool fixedUpdatableDirty;
 
         // Action<float> update callbacks
-        private readonly HashSet<Action<float>> _updateCallbacks = new();
-        private Action<float>[] _updateCallbackSnapshot = Array.Empty<Action<float>>();
-        private bool _updateCallbackDirty;
+        private readonly HashSet<Action<float>> updateCallbacks = new();
+        private Action<float>[] updateCallbackSnapshot = Array.Empty<Action<float>>();
+        private bool updateCallbackDirty;
 
         // Action<float> fixed update callbacks
-        private readonly HashSet<Action<float>> _fixedUpdateCallbacks = new();
-        private Action<float>[] _fixedUpdateCallbackSnapshot = Array.Empty<Action<float>>();
-        private bool _fixedUpdateCallbackDirty;
+        private readonly HashSet<Action<float>> fixedUpdateCallbacks = new();
+        private Action<float>[] fixedUpdateCallbackSnapshot = Array.Empty<Action<float>>();
+        private bool fixedUpdateCallbackDirty;
 
         private void OnEnable()
         {
@@ -44,136 +44,136 @@ namespace ELEMENTS
 
         private void OnDisable()
         {
-            _updatables.Clear();
-            _updatableSnapshot = Array.Empty<IUpdatable>();
-            _updatableDirty = false;
+            updatables.Clear();
+            updatableSnapshot = Array.Empty<IUpdatable>();
+            updatableDirty = false;
 
-            _fixedUpdatables.Clear();
-            _fixedUpdatableSnapshot = Array.Empty<IFixedUpdatable>();
-            _fixedUpdatableDirty = false;
+            fixedUpdatables.Clear();
+            fixedUpdatableSnapshot = Array.Empty<IFixedUpdatable>();
+            fixedUpdatableDirty = false;
 
-            _updateCallbacks.Clear();
-            _updateCallbackSnapshot = Array.Empty<Action<float>>();
-            _updateCallbackDirty = false;
+            updateCallbacks.Clear();
+            updateCallbackSnapshot = Array.Empty<Action<float>>();
+            updateCallbackDirty = false;
 
-            _fixedUpdateCallbacks.Clear();
-            _fixedUpdateCallbackSnapshot = Array.Empty<Action<float>>();
-            _fixedUpdateCallbackDirty = false;
+            fixedUpdateCallbacks.Clear();
+            fixedUpdateCallbackSnapshot = Array.Empty<Action<float>>();
+            fixedUpdateCallbackDirty = false;
 
             if (Current == this) Current = null;
         }
 
         private void Update()
         {
-            if (_updatables.Count == 0 && _updateCallbacks.Count == 0) return;
+            if (updatables.Count == 0 && updateCallbacks.Count == 0) return;
 
             var dt = Time.deltaTime;
 
-            if (_updatableDirty)
+            if (updatableDirty)
             {
-                _updatableSnapshot = new IUpdatable[_updatables.Count];
-                _updatables.CopyTo(_updatableSnapshot);
-                _updatableDirty = false;
+                updatableSnapshot = new IUpdatable[updatables.Count];
+                updatables.CopyTo(updatableSnapshot);
+                updatableDirty = false;
             }
 
-            for (var i = 0; i < _updatableSnapshot.Length; i++)
+            for (var i = 0; i < updatableSnapshot.Length; i++)
             {
-                var u = _updatableSnapshot[i];
-                if (_updatables.Contains(u)) u.OnUpdate(dt);
+                var u = updatableSnapshot[i];
+                if (updatables.Contains(u)) u.OnUpdate(dt);
             }
 
-            if (_updateCallbackDirty)
+            if (updateCallbackDirty)
             {
-                _updateCallbackSnapshot = new Action<float>[_updateCallbacks.Count];
-                _updateCallbacks.CopyTo(_updateCallbackSnapshot);
-                _updateCallbackDirty = false;
+                updateCallbackSnapshot = new Action<float>[updateCallbacks.Count];
+                updateCallbacks.CopyTo(updateCallbackSnapshot);
+                updateCallbackDirty = false;
             }
 
-            for (var i = 0; i < _updateCallbackSnapshot.Length; i++)
+            for (var i = 0; i < updateCallbackSnapshot.Length; i++)
             {
-                var cb = _updateCallbackSnapshot[i];
-                if (_updateCallbacks.Contains(cb)) cb(dt);
+                var cb = updateCallbackSnapshot[i];
+                if (updateCallbacks.Contains(cb)) cb(dt);
             }
         }
 
         private void FixedUpdate()
         {
-            if (_fixedUpdatables.Count == 0 && _fixedUpdateCallbacks.Count == 0) return;
+            if (fixedUpdatables.Count == 0 && fixedUpdateCallbacks.Count == 0) return;
 
             var fdt = Time.fixedDeltaTime;
 
-            if (_fixedUpdatableDirty)
+            if (fixedUpdatableDirty)
             {
-                _fixedUpdatableSnapshot = new IFixedUpdatable[_fixedUpdatables.Count];
-                _fixedUpdatables.CopyTo(_fixedUpdatableSnapshot);
-                _fixedUpdatableDirty = false;
+                fixedUpdatableSnapshot = new IFixedUpdatable[fixedUpdatables.Count];
+                fixedUpdatables.CopyTo(fixedUpdatableSnapshot);
+                fixedUpdatableDirty = false;
             }
 
-            for (var i = 0; i < _fixedUpdatableSnapshot.Length; i++)
+            for (var i = 0; i < fixedUpdatableSnapshot.Length; i++)
             {
-                var u = _fixedUpdatableSnapshot[i];
-                if (_fixedUpdatables.Contains(u)) u.OnFixedUpdate(fdt);
+                var u = fixedUpdatableSnapshot[i];
+                if (fixedUpdatables.Contains(u)) u.OnFixedUpdate(fdt);
             }
 
-            if (_fixedUpdateCallbackDirty)
+            if (fixedUpdateCallbackDirty)
             {
-                _fixedUpdateCallbackSnapshot = new Action<float>[_fixedUpdateCallbacks.Count];
-                _fixedUpdateCallbacks.CopyTo(_fixedUpdateCallbackSnapshot);
-                _fixedUpdateCallbackDirty = false;
+                fixedUpdateCallbackSnapshot = new Action<float>[fixedUpdateCallbacks.Count];
+                fixedUpdateCallbacks.CopyTo(fixedUpdateCallbackSnapshot);
+                fixedUpdateCallbackDirty = false;
             }
 
-            for (var i = 0; i < _fixedUpdateCallbackSnapshot.Length; i++)
+            for (var i = 0; i < fixedUpdateCallbackSnapshot.Length; i++)
             {
-                var cb = _fixedUpdateCallbackSnapshot[i];
-                if (_fixedUpdateCallbacks.Contains(cb)) cb(fdt);
+                var cb = fixedUpdateCallbackSnapshot[i];
+                if (fixedUpdateCallbacks.Contains(cb)) cb(fdt);
             }
         }
 
         public static IDisposable Register(IUpdatable updatable)
         {
-            Current._updatables.Add(updatable);
-            Current._updatableDirty = true;
+            Current.updatables.Add(updatable);
+            Current.updatableDirty = true;
             return new Registration(() =>
             {
                 if (Current == null) return;
-                Current._updatables.Remove(updatable);
-                Current._updatableDirty = true;
+                Current.updatables.Remove(updatable);
+                Current.updatableDirty = true;
             });
         }
 
         public static IDisposable Register(IFixedUpdatable fixedUpdatable)
         {
-            Current._fixedUpdatables.Add(fixedUpdatable);
-            Current._fixedUpdatableDirty = true;
+            Current.fixedUpdatables.Add(fixedUpdatable);
+            Current.fixedUpdatableDirty = true;
             return new Registration(() =>
             {
                 if (Current == null) return;
-                Current._fixedUpdatables.Remove(fixedUpdatable);
-                Current._fixedUpdatableDirty = true;
+                Current.fixedUpdatables.Remove(fixedUpdatable);
+                Current.fixedUpdatableDirty = true;
             });
         }
 
         public static IDisposable RegisterUpdate(Action<float> callback)
         {
-            Current._updateCallbacks.Add(callback);
-            Current._updateCallbackDirty = true;
+            Current.updateCallbacks.Add(callback);
+            Current.updateCallbackDirty = true;
             return new Registration(() =>
             {
                 if (Current == null) return;
-                Current._updateCallbacks.Remove(callback);
-                Current._updateCallbackDirty = true;
+                Current.updateCallbacks.Remove(callback);
+                Current.updateCallbackDirty = true;
             });
         }
 
         public static IDisposable RegisterFixedUpdate(Action<float> callback)
         {
-            Current._fixedUpdateCallbacks.Add(callback);
-            Current._fixedUpdateCallbackDirty = true;
+            Current.fixedUpdateCallbacks.Add(callback);
+            Current.fixedUpdateCallbackDirty = true;
             return new Registration(() =>
             {
                 if (Current == null) return;
-                Current._fixedUpdateCallbacks.Remove(callback);
-                Current._fixedUpdateCallbackDirty = true;
+                Current.fixedUpdateCallbacks.Remove(callback);
+                Current.fixedUpdateCallbackDirty = true;
             });
         }
 
@@ -201,17 +201,17 @@ namespace ELEMENTS
 
         private sealed class Registration : IDisposable
         {
-            private Action _onDispose;
+            private Action onDispose;
 
             public Registration(Action onDispose)
             {
-                _onDispose = onDispose;
+                this.onDispose = onDispose;
             }
 
             public void Dispose()
             {
-                _onDispose?.Invoke();
-                _onDispose = null;
+                onDispose?.Invoke();
+                onDispose = null;
             }
         }
     }

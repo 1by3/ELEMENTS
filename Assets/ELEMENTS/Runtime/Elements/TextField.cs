@@ -8,7 +8,7 @@ namespace ELEMENTS.Elements
     {
         private string placeholderText = "";
         private readonly string placeholderClass = UnityEngine.UIElements.TextField.ussClassName + "__placeholder";
-        private bool _placeholderRegistered;
+        private bool placeholderRegistered;
 
         public TextField()
         {
@@ -42,9 +42,9 @@ namespace ELEMENTS.Elements
         {
             placeholderText = placeholder;
 
-            if (!_placeholderRegistered)
+            if (!placeholderRegistered)
             {
-                _placeholderRegistered = true;
+                placeholderRegistered = true;
                 ((UnityEngine.UIElements.TextField)VisualElement).RegisterCallback<FocusInEvent>(_ => OnFocusIn());
                 ((UnityEngine.UIElements.TextField)VisualElement).RegisterCallback<FocusOutEvent>(_ => OnFocusOut());
             }

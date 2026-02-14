@@ -7,42 +7,53 @@ namespace ELEMENTS
 {
     public abstract class Component : IElement, IDisposable
     {
-        private IElement _renderedElement;
-        private List<IDisposable> _updateRegistrations;
+        protected readonly List<IDisposable> Disposables = new();
+        protected IElement RenderedElement;
+
+        private List<IDisposable> updateRegistrations;
 
         protected abstract IElement Render();
 
         public VisualElement BuildVisualElement()
         {
-            _renderedElement = Render();
+            RenderedElement = Render();
 
+            // ReSharper disable once SuspiciousTypeConversion.Global
             if (this is IUpdatable updatable)
             {
-                _updateRegistrations ??= new List<IDisposable>();
-                _updateRegistrations.Add(ElementPortal.Register(updatable));
+                updateRegistrations ??= new List<IDisposable>();
+                updateRegistrations.Add(ElementPortal.Register(updatable));
             }
 
+            // ReSharper disable once SuspiciousTypeConversion.Global
             if (this is IFixedUpdatable fixedUpdatable)
             {
-                _updateRegistrations ??= new List<IDisposable>();
-                _updateRegistrations.Add(ElementPortal.Register(fixedUpdatable));
+                updateRegistrations ??= new List<IDisposable>();
+                updateRegistrations.Add(ElementPortal.Register(fixedUpdatable));
             }
 
-            return _renderedElement.BuildVisualElement();
+            return RenderedElement.BuildVisualElement();
         }
 
         public virtual void Dispose()
         {
-            if (_updateRegistrations != null)
+            foreach (var d in Disposables)
             {
-                foreach (var reg in _updateRegistrations)
-                    reg.Dispose();
-                _updateRegistrations.Clear();
+                d.Dispose();
             }
 
-            if (_renderedElement is IDisposable disposable)
+            Disposables.Clear();
+
+            if (updateRegistrations != null)
+            {
+                foreach (var reg in updateRegistrations)
+                    reg.Dispose();
+                updateRegistrations.Clear();
+            }
+
+            if (RenderedElement is IDisposable disposable)
                 disposable.Dispose();
-            _renderedElement = null;
+            RenderedElement = null;
         }
     }
 }

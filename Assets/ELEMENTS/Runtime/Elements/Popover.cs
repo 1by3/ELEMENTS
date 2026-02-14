@@ -16,7 +16,7 @@ namespace ELEMENTS.Elements
 
     public class Popover<T> : Group<T> where T : Popover<T>
     {
-        protected readonly ElementPortal portal;
+        protected readonly ElementPortal Portal;
         private readonly VisualElement backdrop;
         private readonly List<Action> onCloseActions = new();
         private bool openBound;
@@ -26,7 +26,7 @@ namespace ELEMENTS.Elements
 
         public Popover(ElementPortal portal, params IElement[] children) : base(children)
         {
-            this.portal = portal;
+            this.Portal = portal;
             RenderInPortal = portal;
             VisualElement.AddToClassList("elements-popover");
 
@@ -119,10 +119,10 @@ namespace ELEMENTS.Elements
         /// </summary>
         public T OpenAtScreenPosition(Vector2 screenPosition)
         {
-            var panelPosition = portal.ScreenToPanel(screenPosition);
+            var panelPosition = Portal.ScreenToPanel(screenPosition);
             // Correct Y coordinate - ScreenToPanel doesn't fully convert for UI Toolkit's coordinate system
             // where Y=0 is at the top, not the bottom
-            var portalBounds = portal.GetPortalBounds();
+            var portalBounds = Portal.GetPortalBounds();
             panelPosition.y = portalBounds.height - panelPosition.y;
             Position(panelPosition);
             BuildVisualElement();
@@ -148,7 +148,7 @@ namespace ELEMENTS.Elements
         private void PositionRelativeToAnchor(VisualElement anchor, AnchorPosition anchorPosition)
         {
             var anchorBounds = anchor.worldBound;
-            var portalBounds = portal.GetPortalBounds();
+            var portalBounds = Portal.GetPortalBounds();
 
             float x, y;
 
@@ -207,8 +207,8 @@ namespace ELEMENTS.Elements
         public override VisualElement BuildVisualElement()
         {
             // Add backdrop to portal before popover
-            portal.RemoveFromPortal(backdrop);
-            portal.AddToPortal(backdrop);
+            Portal.RemoveFromPortal(backdrop);
+            Portal.AddToPortal(backdrop);
 
             return base.BuildVisualElement();
         }

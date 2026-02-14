@@ -7,7 +7,7 @@ namespace ELEMENTS.Elements
 {
     public class Image<T> : BaseElement<T> where T : Image<T>
     {
-        private CancellationTokenSource _cts;
+        private CancellationTokenSource cts;
 
         public Image(Texture2D image)
         {
@@ -27,8 +27,8 @@ namespace ELEMENTS.Elements
         public Image(Task<Texture2D> textureTask)
         {
             VisualElement = new UnityEngine.UIElements.Image();
-            _cts = new CancellationTokenSource();
-            LoadImageAsync(textureTask, _cts.Token);
+            cts = new CancellationTokenSource();
+            LoadImageAsync(textureTask, cts.Token);
         }
 
         public async void LoadImageAsync(Task<Texture2D> textureTask, CancellationToken cancellationToken = default)
@@ -48,9 +48,9 @@ namespace ELEMENTS.Elements
 
         public override void Dispose()
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = null;
+            cts?.Cancel();
+            cts?.Dispose();
+            cts = null;
             base.Dispose();
         }
     }

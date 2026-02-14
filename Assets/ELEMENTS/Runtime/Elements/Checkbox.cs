@@ -7,32 +7,32 @@ namespace ELEMENTS.Elements
 {
     public class Checkbox<T> : BaseElement<T> where T : Checkbox<T>
     {
-        private bool _value;
-        private readonly List<Action<bool>> _changeHandlers = new();
-        private readonly VisualElement _box;
-        private readonly UnityEngine.UIElements.Label _check;
-        private UnityEngine.UIElements.Label _label;
+        private bool value;
+        private readonly List<Action<bool>> changeHandlers = new();
+        private readonly VisualElement box;
+        private readonly UnityEngine.UIElements.Label check;
+        private UnityEngine.UIElements.Label label;
 
         public Checkbox()
         {
             VisualElement.AddToClassList("elements-checkbox");
 
-            _box = new VisualElement();
-            _box.AddToClassList("checkbox-box");
+            box = new VisualElement();
+            box.AddToClassList("checkbox-box");
 
-            _check = new UnityEngine.UIElements.Label("\u2713");
-            _check.AddToClassList("checkbox-check");
+            check = new UnityEngine.UIElements.Label("\u2713");
+            check.AddToClassList("checkbox-check");
 
-            _box.Add(_check);
-            VisualElement.Add(_box);
+            box.Add(check);
+            VisualElement.Add(box);
 
             VisualElement.RegisterCallback<ClickEvent>(evt =>
             {
                 if (GetDisabled()) return;
-                _value = !_value;
-                VisualElement.EnableInClassList("checked", _value);
-                foreach (var handler in _changeHandlers)
-                    handler(_value);
+                value = !value;
+                VisualElement.EnableInClassList("checked", value);
+                foreach (var handler in changeHandlers)
+                    handler(value);
             });
         }
 
@@ -43,14 +43,14 @@ namespace ELEMENTS.Elements
 
         public T Value(bool value)
         {
-            _value = value;
-            VisualElement.EnableInClassList("checked", _value);
+            this.value = value;
+            VisualElement.EnableInClassList("checked", this.value);
             return (T)this;
         }
 
         public bool GetValue()
         {
-            return _value;
+            return value;
         }
 
         public T BindValue(ReactiveProperty<bool> value)
@@ -62,20 +62,20 @@ namespace ELEMENTS.Elements
 
         public T Label(string label)
         {
-            if (_label == null)
+            if (this.label == null)
             {
-                _label = new UnityEngine.UIElements.Label();
-                _label.AddToClassList("checkbox-label");
-                VisualElement.Add(_label);
+                this.label = new UnityEngine.UIElements.Label();
+                this.label.AddToClassList("checkbox-label");
+                VisualElement.Add(this.label);
             }
 
-            _label.text = label;
+            this.label.text = label;
             return (T)this;
         }
 
         public string GetLabel()
         {
-            return _label?.text;
+            return label?.text;
         }
 
         public T BindLabel(Observable<string> label)
@@ -86,13 +86,13 @@ namespace ELEMENTS.Elements
 
         public T OnChange(Action<bool> handler)
         {
-            _changeHandlers.Add(handler);
+            changeHandlers.Add(handler);
             return (T)this;
         }
 
         public override void Dispose()
         {
-            _changeHandlers.Clear();
+            changeHandlers.Clear();
             base.Dispose();
         }
     }
