@@ -71,51 +71,62 @@ namespace SampleProject.Scripts
                         .ClassName("options-button")
                 ).ClassName("gap-2"),
 
-                new VerticalGroup(
-                new Table(
-                    new TableCaption("A list of your recent invoices."),
-                    new TableHeader(
-                        new TableRow(
-                            new TableHead(""),
-                            new TableHead("Invoice"),
-                            new TableHead("Status"),
-                            new TableHead("Method"),
-                            new TableHead("Amount")
+                new HorizontalGroup(
+                    new VerticalGroup(
+                        new Table(
+                            new TableCaption("A list of your recent invoices."),
+                            new TableHeader(
+                                new TableRow(
+                                    new TableHead(""),
+                                    new TableHead("Invoice"),
+                                    new TableHead("Status"),
+                                    new TableHead("Method"),
+                                    new TableHead("Amount")
+                                )
+                            ),
+                            new TableBody(
+                                new TableRow(
+                                    new TableCell(new Checkbox().Value(true)),
+                                    new TableCell("INV001"),
+                                    new TableCell("Paid"),
+                                    new TableCell("Credit Card"),
+                                    new TableCell("$250.00")
+                                ),
+                                new TableRow(
+                                    new TableCell(new Checkbox()),
+                                    new TableCell("INV002"),
+                                    new TableCell("Pending"),
+                                    new TableCell("PayPal"),
+                                    new TableCell("$150.00")
+                                ),
+                                new TableRow(
+                                    new TableCell(new Checkbox()),
+                                    new TableCell("INV003"),
+                                    new TableCell("Unpaid"),
+                                    new TableCell("Bank Transfer"),
+                                    new TableCell("$350.00")
+                                )
+                            ),
+                            new TableFooter(
+                                new TableRow(
+                                    new TableCell("Total"),
+                                    new TableCell(""),
+                                    new TableCell(""),
+                                    new TableCell("$750.00")
+                                )
+                            )
                         )
-                    ),
-                    new TableBody(
-                        new TableRow(
-                            new TableCell(new Checkbox().Value(true)),
-                            new TableCell("INV001"),
-                            new TableCell("Paid"),
-                            new TableCell("Credit Card"),
-                            new TableCell("$250.00")
-                        ),
-                        new TableRow(
-                            new TableCell(new Checkbox()),
-                            new TableCell("INV002"),
-                            new TableCell("Pending"),
-                            new TableCell("PayPal"),
-                            new TableCell("$150.00")
-                        ),
-                        new TableRow(
-                            new TableCell(new Checkbox()),
-                            new TableCell("INV003"),
-                            new TableCell("Unpaid"),
-                            new TableCell("Bank Transfer"),
-                            new TableCell("$350.00")
-                        )
-                    ),
-                    new TableFooter(
-                        new TableRow(
-                            new TableCell("Total"),
-                            new TableCell(""),
-                            new TableCell(""),
-                            new TableCell("$750.00")
-                        )
-                    )
-                )
-                ).ClassName("table-container"),
+                    ).ClassName("table-container"),
+
+                    new VerticalGroup(
+                        new Label("Typography").ClassName("h1"),
+                        new Label("The quick brown fox jumps over the lazy dog."),
+                        new Label("Subheading").ClassName("h2"),
+                        new Label("Body text in Inter Regular for comfortable reading."),
+                        new Label("Section title").ClassName("h3"),
+                        new Label("Smaller body text to demonstrate hierarchy.")
+                    ).ClassName("typography-demo gap-3")
+                ).ClassName("gap-4"),
 
                 new HorizontalGroup(
                     new Checkbox(DarkMode)

@@ -28,3 +28,9 @@
     max-width: 500px;
     width: 100%;
 }
+
+.typography-demo {
+    padding: 32px;
+    max-width: 400px;
+    justify-content: center;
+}

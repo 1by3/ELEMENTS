@@ -1,5 +1,6 @@
-VisualElement {
+*, VisualElement {
     color: #0f172a;
+    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Regular');
 }
 
 VisualElement,
@@ -59,6 +60,10 @@ Button Image {
     width: 16px;
     height: 16px;
     margin-right: 8px;
+}
+
+Button Label {
+    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
 }
 
 Button Image.rightIcon {
@@ -285,6 +290,23 @@ Button.pill Label {
 .gap-x-8 > * { margin-left: 32px; }
 .gap-x-8 > .first-child { margin-left: 0; }
 
+/* Typography utilities */
+
+.h1 {
+    font-size: 32px;
+    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
+}
+
+.h2 {
+    font-size: 24px;
+    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
+}
+
+.h3 {
+    font-size: 20px;
+    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
+}
+
 /* Popover */
 .elements-popover {
     position: absolute;
@@ -399,6 +421,7 @@ Button.pill Label {
     height: auto;
     color: #0f172a;
     background-color: rgba(255, 255, 255, 0);
+    -unity-font: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
     transition-property: background-color;
     transition-duration: 0.1s;
 }

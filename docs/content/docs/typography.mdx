@@ -1,0 +1,44 @@
+---
+title: Typography
+---
+
+ELEMENTS includes two font families and built-in heading utility classes for establishing clear visual hierarchy.
+
+## Font families
+
+| Font | Usage | Weight |
+|------|-------|--------|
+| [Inter](https://rsms.me/inter/) | Body text, UI labels | Regular, Medium |
+| [Lexend](https://www.lexend.com/) | Headings, display text | Bold |
+
+Inter is set as the default font for all elements. Heading classes automatically switch to Lexend-Bold.
+
+## Heading classes
+
+Apply heading styles with `.ClassName("h1")`, `.ClassName("h2")`, or `.ClassName("h3")`:
+
+```csharp
+new VerticalGroup(
+    new Label("Page title").ClassName("h1"),
+    new Label("Section heading").ClassName("h2"),
+    new Label("Subsection").ClassName("h3"),
+    new Label("Body text uses Inter Regular by default.")
+).ClassName("gap-3");
+```
+
+## Scale reference
+
+| Class | Font | Size |
+|-------|------|------|
+| `.h1` | Lexend-Bold | 32px |
+| `.h2` | Lexend-Bold | 24px |
+| `.h3` | Lexend-Bold | 20px |
+| _(default)_ | Inter-Regular | 14px |
+
+## Combining with other classes
+
+Heading classes work with any other utility classes:
+
+```csharp
+new Label("Dashboard").ClassName("h1 mb-4");
+```
