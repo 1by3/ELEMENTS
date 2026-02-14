@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.3] - 2026-02-13
+
+### Added
+- `IUpdatable` and `IFixedUpdatable` interfaces for per-frame update callbacks on components
+- `OnUpdate()` and `OnFixedUpdate()` fluent methods on all elements via `BaseElement`
+- Update/FixedUpdate loop managed by `ElementPortal` with snapshot-based iteration
+
+### Changed
+- `Component` now implements `IDisposable` with recursive child disposal
+- `RenderElement()` extension methods now return `IDisposable` for lifecycle cleanup
+- Loader uses `ElementPortal` update loop instead of `IVisualElementScheduledItem`
+- Image async loading now supports cancellation via `CancellationTokenSource`
+
+### Fixed
+- TextField no longer registers duplicate placeholder focus callbacks on repeated `Placeholder()` calls
+- Group now properly disposes children when `SetChildren()` is called or on disposal
+- Checkbox, MenuItem, and Image now clean up resources on disposal
+
 ## [2.0.0-beta.2] - 2026-02-13
 
 ### Added
