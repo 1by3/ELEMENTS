@@ -1,17 +1,19 @@
+using System;
 using ELEMENTS.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace SampleProject.Scripts.Editor
 {
-    public class SampleEditorWindow : ElementEditorWindow<SampleEditorComponent>
+    public class SampleEditorWindow : EditorWindow
     {
         [MenuItem("ELEMENTS/Sample Window")]
-        public static void ShowPreferences()
+        public static void ShowPreferences() => GetWindow<SampleEditorWindow>().Show();
+
+        private void OnEnable()
         {
-            var window = GetWindow<SampleEditorWindow>();
-            window.titleContent = new GUIContent("ELEMENTS");
-            window.Show();
+            titleContent = new GUIContent("ELEMENTS");
+            this.RenderElement(new SampleEditorComponent());
         }
     }
 }

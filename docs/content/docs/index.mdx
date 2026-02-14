@@ -2,7 +2,7 @@
 title: Getting Started
 ---
 
-ELEMENTS can be easily added to almost any Unity project, so long as you are using **Unity 6** or above. Backwards compatibility is planned, but a low priority at this time.
+ELEMENTS can be easily added to any Unity project, running Unity 6 or above. Unity 6.3+ is recommended to take full advantage of UI Toolkit's shader support and in world UI support.
 
 ## Installation
 
@@ -21,7 +21,7 @@ https://github.com/1by3/ELEMENTS.git?path=Assets/ELEMENTS
 You can pin a specific version by appending a tag:
 
 ```
-https://github.com/1by3/ELEMENTS.git?path=Assets/ELEMENTS#1.0.0
+https://github.com/1by3/ELEMENTS.git?path=Assets/ELEMENTS#2.0.0
 ```
 
 ## Your first Component
@@ -96,8 +96,7 @@ public class GameUI : MonoBehaviour
     private void OnEnable()
     {
         uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
-        uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
-        uiDocument.RenderComponent<ExampleComponent>();
+        uiDocument.RenderElement(new ExampleComponent());
     }
 }
 ```

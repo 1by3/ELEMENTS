@@ -12,7 +12,7 @@ namespace SampleProject.Scripts
         {
             uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
             uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
-            uiDocument.RenderComponent<SampleComponent>();
+            uiDocument.RenderElement(new SampleComponent());
         }
     }
 }
