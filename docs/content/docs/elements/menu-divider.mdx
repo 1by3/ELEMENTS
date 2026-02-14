@@ -20,20 +20,20 @@ Use dividers to organize related menu items into logical groups:
 ```csharp
 new ContextMenu(
     // Edit group
-    new MenuItem("Cut", () => Cut()),
-    new MenuItem("Copy", () => Copy()),
-    new MenuItem("Paste", () => Paste()),
+    new MenuItem(new Label("Cut")).OnClick(_ => Cut()),
+    new MenuItem(new Label("Copy")).OnClick(_ => Copy()),
+    new MenuItem(new Label("Paste")).OnClick(_ => Paste()),
 
     new MenuDivider(),
 
     // Selection group
-    new MenuItem("Select All", () => SelectAll()),
-    new MenuItem("Deselect", () => Deselect()),
+    new MenuItem(new Label("Select All")).OnClick(_ => SelectAll()),
+    new MenuItem(new Label("Deselect")).OnClick(_ => Deselect()),
 
     new MenuDivider(),
 
     // Danger zone
-    new MenuItem("Delete", () => Delete())
+    new MenuItem(new Label("Delete")).OnClick(_ => Delete())
 );
 ```
 
@@ -44,16 +44,16 @@ Show or hide dividers based on application state:
 var HasRecentFiles = new ReactiveProperty<bool>(true);
 
 new ContextMenu(
-    new MenuItem("Save", () => Save()),
-    new MenuItem("Save As...", () => SaveAs()),
+    new MenuItem(new Label("Save")).OnClick(_ => Save()),
+    new MenuItem(new Label("Save As...")).OnClick(_ => SaveAs()),
 
     new MenuDivider()
         .BindVisible(HasRecentFiles),
 
     // Recent files section only shown when there are recent files
-    new MenuItem("Recent File 1", () => OpenRecent(0))
+    new MenuItem(new Label("Recent File 1")).OnClick(_ => OpenRecent(0))
         .BindVisible(HasRecentFiles),
-    new MenuItem("Recent File 2", () => OpenRecent(1))
+    new MenuItem(new Label("Recent File 2")).OnClick(_ => OpenRecent(1))
         .BindVisible(HasRecentFiles)
 );
 ```

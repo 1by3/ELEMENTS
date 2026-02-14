@@ -24,24 +24,24 @@ namespace SampleProject.Scripts
         {
             // Dropdown menu example
             var optionsMenu = new ContextMenu(
-                new MenuItem("Increment", () => Increment()),
-                new MenuItem("Decrement", () => Decrement()),
+                new MenuItem(new Label("Increment")).OnClick(_ => Increment()),
+                new MenuItem(new Label("Decrement")).OnClick(_ => Decrement()),
                 new MenuDivider(),
-                new MenuItem("Show Alert", () => OpenAlert())
+                new MenuItem(new Label("Show Alert")).OnClick(_ => OpenAlert())
             );
 
             // Right-click context menu on image
             var contextMenu = new ContextMenu(
-                new MenuItem("Reset Count", () => Reset()),
-                new MenuItem("Double Count", () => Double())
+                new MenuItem(new Label("Reset Count")).OnClick(_ => Reset()),
+                new MenuItem(new Label("Double Count")).OnClick(_ => Double())
             );
 
             // Background right-click menu (works anywhere on the main view)
             var backgroundMenu = new ContextMenu(
-                new MenuItem("Increment", () => Increment()),
-                new MenuItem("Decrement", () => Decrement()),
+                new MenuItem(new Label("Increment")).OnClick(_ => Increment()),
+                new MenuItem(new Label("Decrement")).OnClick(_ => Decrement()),
                 new MenuDivider(),
-                new MenuItem("Reset", () => Reset())
+                new MenuItem(new Label("Reset")).OnClick(_ => Reset())
             );
 
             return new VerticalGroup(

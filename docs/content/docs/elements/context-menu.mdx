@@ -10,10 +10,10 @@ A floating context menu element that renders in a portal overlay. Used for dropd
 
 ```csharp
 new ContextMenu(
-    new MenuItem("Edit", () => Edit()),
-    new MenuItem("Duplicate", () => Duplicate()),
+    new MenuItem(new Label("Edit")).OnClick(_ => Edit()),
+    new MenuItem(new Label("Duplicate")).OnClick(_ => Duplicate()),
     new MenuDivider(),
-    new MenuItem("Delete", () => Delete())
+    new MenuItem(new Label("Delete")).OnClick(_ => Delete())
 );
 ```
 
@@ -24,9 +24,9 @@ Attach a dropdown menu to a button that opens on click:
 
 ```csharp
 var optionsMenu = new ContextMenu(
-    new MenuItem("Option 1", () => SelectOption(1)),
-    new MenuItem("Option 2", () => SelectOption(2)),
-    new MenuItem("Option 3", () => SelectOption(3))
+    new MenuItem(new Label("Option 1")).OnClick(_ => SelectOption(1)),
+    new MenuItem(new Label("Option 2")).OnClick(_ => SelectOption(2)),
+    new MenuItem(new Label("Option 3")).OnClick(_ => SelectOption(3))
 );
 
 new Button(new Label("Options"))
@@ -38,9 +38,9 @@ Attach a context menu that opens at cursor position on right-click:
 
 ```csharp
 var contextMenu = new ContextMenu(
-    new MenuItem("Cut", () => Cut()),
-    new MenuItem("Copy", () => Copy()),
-    new MenuItem("Paste", () => Paste())
+    new MenuItem(new Label("Cut")).OnClick(_ => Cut()),
+    new MenuItem(new Label("Copy")).OnClick(_ => Copy()),
+    new MenuItem(new Label("Paste")).OnClick(_ => Paste())
 );
 
 new Label("Right-click me")
@@ -52,10 +52,10 @@ Menu items can include icons from Resources:
 
 ```csharp
 new ContextMenu(
-    new MenuItem("Icons/edit", "Edit", () => Edit()),
-    new MenuItem("Icons/copy", "Duplicate", () => Duplicate()),
+    new MenuItem(new Image { image = editIcon }, new Label("Edit")).OnClick(_ => Edit()),
+    new MenuItem(new Image { image = copyIcon }, new Label("Duplicate")).OnClick(_ => Duplicate()),
     new MenuDivider(),
-    new MenuItem("Icons/trash", "Delete", () => Delete())
+    new MenuItem(new Image { image = trashIcon }, new Label("Delete")).OnClick(_ => Delete())
 );
 ```
 
@@ -89,7 +89,7 @@ var recentFiles = new ReactiveProperty<string[]>(new[] { "file1.txt", "file2.txt
 
 new ContextMenu()
     .BindChildren(recentFiles, fileName =>
-        new MenuItem(fileName, () => OpenFile(fileName))
+        new MenuItem(new Label(fileName)).OnClick(_ => OpenFile(fileName))
     );
 ```
 
@@ -98,7 +98,7 @@ Control menu state programmatically:
 
 ```csharp
 var menu = new ContextMenu(
-    new MenuItem("Action", () => DoAction())
+    new MenuItem(new Label("Action")).OnClick(_ => DoAction())
 );
 
 // Open at specific screen position
@@ -119,8 +119,8 @@ Register callbacks for when the menu closes:
 
 ```csharp
 new ContextMenu(
-    new MenuItem("Save", () => Save()),
-    new MenuItem("Cancel", () => Cancel())
+    new MenuItem(new Label("Save")).OnClick(_ => Save()),
+    new MenuItem(new Label("Cancel")).OnClick(_ => Cancel())
 )
 .OnClose(() => Debug.Log("Menu closed"));
 ```

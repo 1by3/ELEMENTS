@@ -4,19 +4,16 @@ title: MenuItem
 
 import { TypeTable } from "fumadocs-ui/components/type-table";
 
-A clickable menu item element for use within ContextMenu. Supports optional icons and automatically closes the parent menu when clicked.
+A clickable menu item element for use within ContextMenu. Accepts child elements (like Label and Image) and automatically closes the parent menu when clicked.
 
 ## Constructor
 
 ```csharp
 // Text only
-new MenuItem("Edit", () => Edit());
+new MenuItem(new Label("Edit")).OnClick(_ => Edit());
 
-// With icon from Resources path
-new MenuItem("Icons/edit", "Edit", () => Edit());
-
-// With Texture2D icon
-new MenuItem(editIcon, "Edit", () => Edit());
+// With icon
+new MenuItem(new Image { image = editIcon }, new Label("Edit")).OnClick(_ => Edit());
 ```
 
 ## Examples
@@ -26,9 +23,9 @@ Simple text menu items with click handlers:
 
 ```csharp
 new ContextMenu(
-    new MenuItem("Cut", () => Cut()),
-    new MenuItem("Copy", () => Copy()),
-    new MenuItem("Paste", () => Paste())
+    new MenuItem(new Label("Cut")).OnClick(_ => Cut()),
+    new MenuItem(new Label("Copy")).OnClick(_ => Copy()),
+    new MenuItem(new Label("Paste")).OnClick(_ => Paste())
 );
 ```
 
@@ -37,17 +34,10 @@ Add icons to menu items for better visual recognition:
 
 ```csharp
 new ContextMenu(
-    new MenuItem("Icons/cut", "Cut", () => Cut()),
-    new MenuItem("Icons/copy", "Copy", () => Copy()),
-    new MenuItem("Icons/paste", "Paste", () => Paste())
+    new MenuItem(new Image { image = cutIcon }, new Label("Cut")).OnClick(_ => Cut()),
+    new MenuItem(new Image { image = copyIcon }, new Label("Copy")).OnClick(_ => Copy()),
+    new MenuItem(new Image { image = pasteIcon }, new Label("Paste")).OnClick(_ => Paste())
 );
-
-// Or using Texture2D
-new MenuItem(myTexture, "Custom Action", () => DoAction());
-
-// Or fluently
-new MenuItem("Edit", () => Edit())
-    .Icon("Icons/edit");
 ```
 
 ### Disabled Menu Items
@@ -57,42 +47,27 @@ Disable menu items based on application state:
 var IsLocked = new ReactiveProperty<bool>(false);
 
 new ContextMenu(
-    new MenuItem("Cut", () => Cut())
+    new MenuItem(new Label("Cut")).OnClick(_ => Cut())
         .Disabled(!hasSelection),
-    new MenuItem("Copy", () => Copy())
+    new MenuItem(new Label("Copy")).OnClick(_ => Copy())
         .Disabled(!hasSelection),
-    new MenuItem("Paste", () => Paste())
+    new MenuItem(new Label("Paste")).OnClick(_ => Paste())
         .Disabled(!hasClipboardContent)
 );
 
 // Or with reactive binding
-new MenuItem("Delete", () => Delete())
+new MenuItem(new Label("Delete")).OnClick(_ => Delete())
     .BindDisabled(IsLocked);
-```
-
-### Dynamic Label
-Update menu item labels dynamically:
-
-```csharp
-var menuItem = new MenuItem("Undo", () => Undo());
-
-// Later, update the label
-menuItem.Label("Undo (Ctrl+Z)");
 ```
 
 ## Properties
 
 <TypeTable
   type={{
-    label: {
-      description: "The text displayed in the menu item",
-      type: "string",
-      default: '""',
-    },
-    icon: {
-      description: "Optional icon displayed before the label",
-      type: "Texture2D",
-      default: "null",
+    children: {
+      description: "Child elements (e.g. Label, Image) displayed in the menu item",
+      type: "IElement[]",
+      default: "[]",
     },
     disabled: {
       description: "Whether the menu item is disabled",
@@ -117,20 +92,16 @@ menuItem.Label("Undo (Ctrl+Z)");
 <TypeTable
   type={{
     OnClick: {
-      description: "Sets the click handler (replaces previous handler)",
-      type: "(Action) => MenuItem",
+      description: "Sets the click handler",
+      type: "(EventCallback<ClickEvent>) => MenuItem",
     },
-    Icon: {
-      description: "Sets the icon from a Texture2D or Resources path",
-      type: "(Texture2D) => MenuItem or (string) => MenuItem",
+    SetChildren: {
+      description: "Replaces all child elements",
+      type: "(params IElement[]) => MenuItem",
     },
-    Label: {
-      description: "Sets the label text",
-      type: "(string) => MenuItem",
-    },
-    GetLabel: {
-      description: "Gets the current label text",
-      type: "() => string",
+    BindChildren: {
+      description: "Binds children to an observable array with converter function",
+      type: "<TChild>(Observable<TChild[]>, Func<TChild, IElement>) => MenuItem",
     },
     Disabled: {
       description: "Sets the disabled state",
@@ -171,7 +142,7 @@ menuItem.Label("Undo (Ctrl+Z)");
 
 - **Auto-close**: When a MenuItem is clicked, it automatically closes its parent ContextMenu
 - **Disabled state**: Disabled menu items do not trigger click handlers and show reduced opacity
-- **Icon positioning**: Icons are displayed to the left of the label text
+- **Children as content**: Icons, labels, and other elements are passed as children, following the same pattern as Button
 
 ## CSS Classes
 
@@ -179,4 +150,4 @@ menuItem.Label("Undo (Ctrl+Z)");
 - `.elements-menu-item:hover` - Hover state styling
 - `.elements-menu-item.unity-disabled` - Disabled state styling
 
-MenuItem extends [BaseElement](/docs/elements/base-element).
+MenuItem extends [Button](/docs/elements/button) which extends [Group](/docs/elements/group) which extends [BaseElement](/docs/elements/base-element).
