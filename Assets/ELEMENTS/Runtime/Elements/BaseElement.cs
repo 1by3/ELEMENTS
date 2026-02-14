@@ -145,6 +145,18 @@ namespace ELEMENTS.Elements
             return RegisterCallback(handler);
         }
 
+        public T OnUpdate(Action<float> callback)
+        {
+            Disposables.Add(ElementPortal.RegisterUpdate(callback));
+            return (T)(object)this;
+        }
+
+        public T OnFixedUpdate(Action<float> callback)
+        {
+            Disposables.Add(ElementPortal.RegisterFixedUpdate(callback));
+            return (T)(object)this;
+        }
+
         public virtual void Dispose()
         {
             foreach (var disposable in Disposables)

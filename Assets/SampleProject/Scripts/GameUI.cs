@@ -9,19 +9,19 @@ namespace SampleProject.Scripts
     {
         [SerializeField] private UIDocument uiDocument;
 
-        private IDisposable _ui;
+        private IDisposable ui;
 
         private void OnEnable()
         {
             uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
             uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
-            _ui = uiDocument.RenderElement(new SampleComponent());
+            ui = uiDocument.RenderElement(new SampleComponent());
         }
 
         private void OnDisable()
         {
-            _ui?.Dispose();
-            _ui = null;
+            ui?.Dispose();
+            ui = null;
         }
     }
 }

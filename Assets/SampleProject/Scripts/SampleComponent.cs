@@ -68,7 +68,8 @@ namespace SampleProject.Scripts
                         .ClassName("alert-button"),
                     new Button(new Label("Options"))
                         .WithContextMenu(optionsMenu)
-                        .ClassName("options-button")
+                        .ClassName("options-button"),
+                    new Loader()
                 ).ClassName("gap-2"),
 
                 new HorizontalGroup(
