@@ -1,0 +1,131 @@
+---
+title: Disposal
+---
+
+When elements are removed from your UI, they may hold onto resources like R3 subscriptions, scheduled animations, async operations, or delegate references. ELEMENTS provides a disposal model that propagates cleanup through the element tree so you can release everything with a single call.
+
+## Storing a disposal handle
+
+`RenderElement` returns an `IDisposable` that you can store and dispose later. This is the primary way to clean up a rendered UI.
+
+```csharp
+public class GameUI : MonoBehaviour
+{
+    [SerializeField] private UIDocument uiDocument;
+
+    private IDisposable _ui;
+
+    private void OnEnable()
+    {
+        _ui = uiDocument.RenderElement(new GameHUD());
+    }
+
+    private void OnDisable()
+    {
+        _ui?.Dispose();
+        _ui = null;
+    }
+}
+```
+
+This works with all `RenderElement` overloads — on `UIDocument`, `VisualElement`, and `EditorWindow`.
+
+## How recursive disposal works
+
+Disposing a root element disposes the entire tree beneath it:
+
+- **Groups** (`HorizontalGroup`, `VerticalGroup`, `ScrollView`, `Button`, etc.) dispose all children that implement `IDisposable`, then clear the child list, then dispose their own subscriptions and remove themselves from the hierarchy.
+- **Components** dispose their rendered element tree. Since a Component's `Render()` typically returns a Group containing other elements and Components, disposal cascades through the full tree.
+- **BaseElement** disposes all R3 subscriptions tracked in `Disposables`, removes the `VisualElement` from the hierarchy, and nulls it.
+
+```
+Dispose(root Component)
+  └─ Dispose(rendered VerticalGroup)
+       ├─ Dispose(child Label)        → disposes subscriptions, removes VisualElement
+       ├─ Dispose(child UserList)     → Component, recurses into its rendered tree
+       └─ Dispose(child Button)       → Group, disposes its children first
+```
+
+You don't need to manually dispose individual elements inside a tree. The parent owns its children.
+
+## Replacing children
+
+When you call `SetChildren()` on a Group, the old children are disposed before the new ones are added. This means dynamic lists bound with `BindChildren` automatically clean up previous elements when the data changes.
+
+```csharp
+new VerticalGroup()
+    .BindChildren(users, user => new UserRow(user));
+// Each time 'users' emits, old UserRow elements are disposed
+```
+
+## What gets cleaned up
+
+| Resource | Cleaned up by |
+|----------|--------------|
+| R3 subscriptions (`.Subscribe`, `.BindText`, `.BindVisible`, etc.) | `BaseElement.Dispose()` via the `Disposables` list |
+| Child elements in a Group | `Group.Dispose()` and `SetChildren()` |
+| Rendered tree of a Component | `Component.Dispose()` |
+| Loader scheduler | `Loader.Dispose()` pauses the scheduler |
+| Image async loading | `Image.Dispose()` cancels the pending task |
+| Checkbox change handlers | `Checkbox.Dispose()` clears the handler list |
+| MenuItem parent menu reference | `MenuItem.Dispose()` nulls the delegate |
+
+## Writing disposable Components
+
+If your Component holds resources beyond what `Render()` returns, override `Dispose()`:
+
+```csharp
+public class LiveFeed : Component
+{
+    private readonly WebSocket _socket;
+
+    public LiveFeed(string url)
+    {
+        _socket = new WebSocket(url);
+        _socket.Connect();
+    }
+
+    protected override IElement Render()
+    {
+        return new VerticalGroup(
+            new Label("Live data...")
+        );
+    }
+
+    public override void Dispose()
+    {
+        _socket?.Close();
+        base.Dispose(); // disposes the rendered element tree
+    }
+}
+```
+
+Always call `base.Dispose()` to ensure the rendered tree is cleaned up.
+
+## Writing disposable elements
+
+Custom elements that extend `BaseElement<T>` can override `Dispose()` to clean up their own resources. Add subscriptions to the `Disposables` list when possible — they are automatically disposed by the base class. For other resources, override `Dispose()`:
+
+```csharp
+public class Ticker<T> : BaseElement<T> where T : Ticker<T>
+{
+    private readonly IVisualElementScheduledItem _scheduler;
+
+    public Ticker()
+    {
+        _scheduler = VisualElement.schedule.Execute(Tick).Every(1000);
+    }
+
+    public override void Dispose()
+    {
+        _scheduler.Pause();
+        base.Dispose();
+    }
+}
+```
+
+Order matters — clean up your own resources *before* calling `base.Dispose()`, since the base class nulls `VisualElement`.
+
+## Elements without disposal
+
+Not every element needs disposal. Simple leaf elements like `Label` or `Image` (loaded from a path) hold no resources beyond their `VisualElement`. These still implement `IDisposable` through `BaseElement<T>`, so they participate in tree disposal, but they have nothing extra to clean up. You don't need to add `Dispose()` overrides to elements that have no resources to release.

@@ -22,8 +22,8 @@ namespace ELEMENTS.Elements
 
         public override void Dispose()
         {
-            base.Dispose();
             scheduler.Pause();
+            base.Dispose();
         }
     }
 

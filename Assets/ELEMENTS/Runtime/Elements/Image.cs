@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace ELEMENTS.Elements
 {
     public class Image<T> : BaseElement<T> where T : Image<T>
     {
+        private CancellationTokenSource _cts;
+
         public Image(Texture2D image)
         {
             VisualElement = new UnityEngine.UIElements.Image
@@ -24,20 +27,31 @@ namespace ELEMENTS.Elements
         public Image(Task<Texture2D> textureTask)
         {
             VisualElement = new UnityEngine.UIElements.Image();
-            LoadImageAsync(textureTask);
+            _cts = new CancellationTokenSource();
+            LoadImageAsync(textureTask, _cts.Token);
         }
 
-        public async void LoadImageAsync(Task<Texture2D> textureTask)
+        public async void LoadImageAsync(Task<Texture2D> textureTask, CancellationToken cancellationToken = default)
         {
             try
             {
                 var texture = await textureTask;
+                if (cancellationToken.IsCancellationRequested) return;
                 ((UnityEngine.UIElements.Image)VisualElement).image = texture;
             }
             catch (Exception ex)
             {
+                if (cancellationToken.IsCancellationRequested) return;
                 Debug.LogException(ex);
             }
+        }
+
+        public override void Dispose()
+        {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
+            base.Dispose();
         }
     }
 

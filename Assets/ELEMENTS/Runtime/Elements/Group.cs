@@ -17,12 +17,30 @@ namespace ELEMENTS.Elements
 
         public T SetChildren(params IElement[] children)
         {
+            foreach (var child in Children)
+            {
+                if (child is IDisposable disposable)
+                    disposable.Dispose();
+            }
+
             Children.Clear();
             Children.AddRange(children);
             VisualElement.Clear();
             BuildVisualElement();
 
             return (T)this;
+        }
+
+        public override void Dispose()
+        {
+            foreach (var child in Children)
+            {
+                if (child is IDisposable disposable)
+                    disposable.Dispose();
+            }
+
+            Children.Clear();
+            base.Dispose();
         }
 
         public T BindChildren<TChild>(Observable<TChild[]> array, Func<TChild, IElement> converter)

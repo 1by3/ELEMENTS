@@ -7,16 +7,18 @@ namespace ELEMENTS.Extensions
 {
     public static class UIDocumentExtensions
     {
-        public static void RenderElement(this UIDocument uiDocument, IElement rootElement, bool additive = false)
+        public static IDisposable RenderElement(this UIDocument uiDocument, IElement rootElement, bool additive = false)
         {
             if (!additive) uiDocument.rootVisualElement.Clear();
             uiDocument.rootVisualElement.Add(rootElement.BuildVisualElement());
+            return rootElement as IDisposable;
         }
 
-        public static void RenderElement(this UIDocument uiDocument, Component rootComponent, bool additive = false)
+        public static IDisposable RenderElement(this UIDocument uiDocument, Component rootComponent, bool additive = false)
         {
             if (!additive) uiDocument.rootVisualElement.Clear();
             uiDocument.rootVisualElement.Add(rootComponent.BuildVisualElement());
+            return rootComponent;
         }
 
         public static void AddStyleSheet(this UIDocument uiDocument, string resourcePath)

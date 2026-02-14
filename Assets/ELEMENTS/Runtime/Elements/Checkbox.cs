@@ -89,6 +89,12 @@ namespace ELEMENTS.Elements
             _changeHandlers.Add(handler);
             return (T)this;
         }
+
+        public override void Dispose()
+        {
+            _changeHandlers.Clear();
+            base.Dispose();
+        }
     }
 
     public class Checkbox : Checkbox<Checkbox>

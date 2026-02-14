@@ -17,6 +17,12 @@ namespace ELEMENTS.Elements
         {
             parentCloseAction = menu.CloseFromChild;
         }
+
+        public override void Dispose()
+        {
+            parentCloseAction = null;
+            base.Dispose();
+        }
     }
 
     public class MenuItem : MenuItem<MenuItem>

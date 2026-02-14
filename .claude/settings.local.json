@@ -12,7 +12,9 @@
       "Bash(dir:*)",
       "Bash(git -C \"D:\\\\ELEMENTS\" tag)",
       "Bash(cd:*)",
-      "WebFetch(domain:ui.shadcn.com)"
+      "WebFetch(domain:ui.shadcn.com)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
     ]
   }
 }

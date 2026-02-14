@@ -10,6 +10,7 @@
     "---Advanced topics---",
     "advanced/components",
     "advanced/rendering",
+    "advanced/disposal",
     "advanced/input",
     "---Reference---",
     "elements"
