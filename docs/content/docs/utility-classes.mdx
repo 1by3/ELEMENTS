@@ -38,6 +38,7 @@ public class GameUI : MonoBehaviour
     private void OnEnable()
     {
         uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+        uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
         uiDocument.AddStyleSheet("Path/To/ZoboUI/Generated");
         uiDocument.RenderComponent<MyComponent>();
     }

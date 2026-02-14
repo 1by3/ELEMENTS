@@ -130,35 +130,25 @@ You now have a dynamic and interactive UI built with ELEMENTS!
 
 ## Rendering your UI
 
-The easiest way to render your UI is to create an Element Portal. An Element Portal is a wrapper around a UI Toolkit `UIDocument`. It sets up the container structure for ELEMENTS to function correctly, particularly elements like `Dialog` and `Alert`.
-
-Start by creating your own Element Portal class...
+The simplest way to render your UI is from a `MonoBehaviour` using the `RenderComponent` extension method on a `UIDocument`...
 
 ```csharp
-public class MyElementPortal : ElementPortal
+public class GameUI : MonoBehaviour
 {
-}
-```
+    [SerializeField] private UIDocument uiDocument;
 
-The `ElementPortal` class dervies from `MonoBehaviour` so you can now drag this script onto an object in your scene. Also create a `UIDocument` on that same object, and connect it to the element portal component.
-
-Next, render the component you built above inside of the portal...
-
-```csharp
-public class GameElementPortal : ElementPortal
-{
-  protected override void OnEnable()
-  {
-    base.OnEnable();
-    StyleSheet("ELEMENTS/DefaultStyles");
-    RenderComponent<ExampleViewModel, ExampleView>();
-  }
+    private void OnEnable()
+    {
+        uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+        uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
+        uiDocument.RenderComponent<ExampleComponent>();
+    }
 }
 ```
 
 A couple of notes...
 
-- We called the `StyleSheet` method and passed it the resource path to the default ELEMENTS stylesheet. This is optional, but highly recommended for a good starting point with styles.
+- We loaded the default ELEMENTS stylesheet onto the UIDocument using the `AddStyleSheet` helper. This is optional, but highly recommended for a good starting point with styles.
 - We used the `OnEnable` method. This is an important detail that allows your UI to update when Unity reloads your game if you make code changes. If your UI is disappearing on reload, this might be why.
 
 If you start your game, you should see your UI on the screen!

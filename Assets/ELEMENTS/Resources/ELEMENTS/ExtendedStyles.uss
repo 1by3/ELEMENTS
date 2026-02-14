@@ -1,0 +1,262 @@
+*, VisualElement {
+    color: #0f172a;
+    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Regular');
+}
+
+.unity-text-field__placeholder > .unity-base-text-field__input {
+    color: #94a3b8;
+}
+
+TextField TextInput {
+    border-radius: 8px;
+    border-color: #e2e8f0;
+    border-width: 1px;
+    background-color: #ffffff;
+    transition-property: background-color, border-color, border-left-width, border-right-width, border-top-width, border-bottom-width;
+    transition-duration: 0.2s;
+}
+
+TextField:focus TextInput {
+    border-color: #64748b;
+}
+
+Button {
+    border-radius: 8px;
+    border-color: #e2e8f0;
+    border-width: 1px;
+    background-color: #ffffff;
+    transition-property: background-color, border-color;
+    transition-duration: 0.2s;
+}
+
+Button:hover {
+    background-color: #f1f5f9;
+}
+
+Button.unity-disabled:hover {
+    background-color: #ffffff;
+}
+
+Button Label {
+    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
+}
+
+Button.ghost {
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+}
+
+Button.ghost:hover {
+    background-color: #f1f5f9;
+}
+
+Button.ghost.unity-disabled:hover {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+Button.pill {
+    border-radius: 18px;
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+}
+
+Button.pill:hover {
+    background-color: #e2e8f0;
+    border-color: #e2e8f0;
+}
+
+Button.pill.unity-disabled:hover {
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+}
+
+Button.pill Label {
+    color: #334155;
+}
+
+.elements-dialog {
+    background-color: rgba(0, 0, 0, 0);
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
+.elements-dialog.open {
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.elements-dialog .elements-dialog-content {
+    background-color: #ffffff;
+    border-radius: 16px;
+    opacity: 0;
+    scale: 0.8;
+    transition-property: scale, opacity;
+    transition-duration: 0.2s;
+}
+
+.elements-dialog.open .elements-dialog-content {
+    scale: 1;
+    opacity: 1;
+}
+
+.elements-alert .title {
+    font-size: 16px;
+    -unity-font-style: bold;
+}
+
+.elements-alert .message {
+    color: #64748b;
+}
+
+/* Typography utilities */
+
+.h1 {
+    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
+}
+
+.h2 {
+    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
+}
+
+.h3 {
+    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
+}
+
+/* Popover */
+.elements-popover {
+    opacity: 0;
+    scale: 0.95;
+    transition-property: opacity, scale;
+    transition-duration: 0.15s;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #e2e8f0;
+}
+
+.elements-popover.open {
+    opacity: 1;
+    scale: 1;
+}
+
+.elements-popover-backdrop {
+    background-color: transparent;
+}
+
+/* Table */
+
+.table-caption {
+    color: #64748b;
+    font-size: 12px;
+    -unity-text-align: middle-center;
+}
+
+.table-header .table-row {
+    border-bottom-width: 1px;
+    border-bottom-color: #e2e8f0;
+}
+
+.table-head {
+    -unity-font-style: bold;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.table-head Label {
+    -unity-font-style: bold;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.table-body .table-row {
+    border-bottom-width: 1px;
+    border-bottom-color: #e2e8f0;
+}
+
+.table-body .table-row:hover {
+    background-color: #f1f5f9;
+}
+
+.table-cell {
+    font-size: 13px;
+}
+
+.table-cell Label {
+    font-size: 13px;
+}
+
+.table-footer {
+    border-top-width: 1px;
+    border-top-color: #e2e8f0;
+}
+
+.table-footer .table-cell {
+    -unity-font-style: bold;
+}
+
+/* Menu Item */
+.elements-menu-item {
+    border-radius: 4px;
+    color: #0f172a;
+    background-color: rgba(255, 255, 255, 0);
+    -unity-font: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
+    transition-property: background-color;
+    transition-duration: 0.1s;
+}
+
+.elements-menu-item:hover {
+    background-color: #f1f5f9;
+}
+
+.elements-menu-item.unity-disabled {
+    opacity: 0.5;
+}
+
+.elements-menu-item.unity-disabled:hover {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.elements-menu-item > Label {
+    color: #0f172a;
+}
+
+/* Menu Divider */
+.elements-menu-divider {
+    background-color: #e2e8f0;
+}
+
+/* Checkbox */
+.checkbox-box {
+    border-radius: 4px;
+    background-color: #ffffff;
+    border-width: 1px;
+    border-color: #e2e8f0;
+    transition-property: background-color, border-color;
+    transition-duration: 0.2s;
+}
+
+.checkbox-check {
+    font-size: 12px;
+    color: #ffffff;
+}
+
+.elements-checkbox.checked .checkbox-box {
+    background-color: #0f172a;
+    border-color: #0f172a;
+}
+
+.elements-checkbox:hover .checkbox-box {
+    border-color: #64748b;
+}
+
+.elements-checkbox.checked:hover .checkbox-box {
+    background-color: #1e293b;
+    border-color: #1e293b;
+}
+
+.elements-checkbox.unity-disabled {
+    opacity: 0.5;
+}
+
+.checkbox-label {
+    font-size: 13px;
+}

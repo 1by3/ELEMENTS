@@ -11,6 +11,7 @@ namespace SampleProject.Scripts
         private void OnEnable()
         {
             uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+            uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
             uiDocument.RenderComponent<SampleComponent>();
         }
     }

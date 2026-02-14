@@ -17,6 +17,7 @@ namespace ELEMENTS
             uiDocument = GetComponent<UIDocument>();
             uiDocument.rootVisualElement.pickingMode = PickingMode.Ignore;
             uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+            uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
         }
 
         private void OnDisable()

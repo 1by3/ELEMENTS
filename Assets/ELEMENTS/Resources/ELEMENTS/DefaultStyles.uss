@@ -1,8 +1,3 @@
-*, VisualElement {
-    color: #0f172a;
-    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Regular');
-}
-
 VisualElement,
 Button,
 Label {
@@ -15,23 +10,9 @@ TextField {
     margin: 0;
 }
 
-.unity-text-field__placeholder > .unity-base-text-field__input {
-    color: #94a3b8;
-}
-
 TextField TextInput {
     padding: 8px;
-    border-radius: 8px;
-    border-color: #e2e8f0;
-    border-width: 1px;
-    background-color: #ffffff;
     height: auto;
-    transition-property: background-color, border-color, border-left-width, border-right-width, border-top-width, border-bottom-width;
-    transition-duration: 0.2s;
-}
-
-TextField:focus TextInput {
-    border-color: #64748b;
 }
 
 Button {
@@ -39,31 +20,13 @@ Button {
     align-items: center;
     justify-content: center;
     padding: 8px 16px;
-    border-radius: 8px;
-    border-color: #e2e8f0;
-    border-width: 1px;
-    background-color: #ffffff;
     height: auto;
-    transition-property: background-color, border-color;
-    transition-duration: 0.2s;
-}
-
-Button:hover {
-    background-color: #f1f5f9;
-}
-
-Button.unity-disabled:hover {
-    background-color: #ffffff;
 }
 
 Button Image {
     width: 16px;
     height: 16px;
     margin-right: 8px;
-}
-
-Button Label {
-    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
 }
 
 Button Image.rightIcon {
@@ -79,39 +42,6 @@ Button.icon {
 Button.icon Image {
     margin-right: 0;
     margin-left: 0;
-}
-
-Button.ghost {
-    background-color: rgba(255, 255, 255, 0);
-    border-color: rgba(255, 255, 255, 0);
-}
-
-Button.ghost:hover {
-    background-color: #f1f5f9;
-}
-
-Button.ghost.unity-disabled:hover {
-    background-color: rgba(255, 255, 255, 0);
-}
-
-Button.pill {
-    border-radius: 18px;
-    background-color: #f1f5f9;
-    border-color: #f1f5f9;
-}
-
-Button.pill:hover {
-    background-color: #e2e8f0;
-    border-color: #e2e8f0;
-}
-
-Button.pill.unity-disabled:hover {
-    background-color: #f1f5f9;
-    border-color: #f1f5f9;
-}
-
-Button.pill Label {
-    color: #334155;
 }
 
 .tab-list .tab-item {
@@ -143,38 +73,21 @@ Button.pill Label {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0);
     align-items: center;
     justify-content: center;
     display: none;
     visibility: hidden;
-
-    transition-property: background-color;
-    transition-duration: 0.2s;
 }
 
 .elements-dialog.open {
     display: flex;
     visibility: visible;
-    background-color: rgba(0, 0, 0, 0.35);
 }
 
 .elements-dialog .elements-dialog-content {
-    background-color: #ffffff;
-    border-radius: 16px;
     padding: 32px;
     max-width: 500px;
     width: 100%;
-
-    opacity: 0;
-    scale: 0.8;
-    transition-property: scale, opacity;
-    transition-duration: 0.2s;
-}
-
-.elements-dialog.open .elements-dialog-content {
-    scale: 1;
-    opacity: 1;
 }
 
 .elements-alert Button {
@@ -182,14 +95,11 @@ Button.pill Label {
 }
 
 .elements-alert .title {
-    font-size: 16px;
-    -unity-font-style: bold;
     margin-bottom: 8px;
 }
 
 .elements-alert .message {
     margin-bottom: 16px;
-    color: #64748b;
 }
 
 /* Gap utilities — direction-aware via child margins + ELEMENTS pseudo-classes */
@@ -294,37 +204,24 @@ Button.pill Label {
 
 .h1 {
     font-size: 32px;
-    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
 }
 
 .h2 {
     font-size: 24px;
-    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
 }
 
 .h3 {
     font-size: 20px;
-    -unity-font-definition: resource('ELEMENTS/Fonts/Lexend/Lexend-Bold');
 }
 
 /* Popover */
 .elements-popover {
     position: absolute;
     display: none;
-    opacity: 0;
-    scale: 0.95;
-    transition-property: opacity, scale;
-    transition-duration: 0.15s;
-    background-color: #ffffff;
-    border-radius: 8px;
-    border-width: 1px;
-    border-color: #e2e8f0;
 }
 
 .elements-popover.open {
     display: flex;
-    opacity: 1;
-    scale: 1;
 }
 
 .elements-popover-backdrop {
@@ -333,7 +230,6 @@ Button.pill Label {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: transparent;
     display: none;
 }
 
@@ -349,36 +245,10 @@ Button.pill Label {
 
 .table-caption {
     padding: 8px 16px;
-    color: #64748b;
-    font-size: 12px;
-    -unity-text-align: middle-center;
-}
-
-.table-header .table-row {
-    border-bottom-width: 1px;
-    border-bottom-color: #e2e8f0;
 }
 
 .table-head {
     padding: 8px 16px;
-    -unity-font-style: bold;
-    font-size: 12px;
-    color: #64748b;
-}
-
-.table-head Label {
-    -unity-font-style: bold;
-    font-size: 12px;
-    color: #64748b;
-}
-
-.table-body .table-row {
-    border-bottom-width: 1px;
-    border-bottom-color: #e2e8f0;
-}
-
-.table-body .table-row:hover {
-    background-color: #f1f5f9;
 }
 
 .table-body .table-row.last-child {
@@ -387,20 +257,6 @@ Button.pill Label {
 
 .table-cell {
     padding: 8px 16px;
-    font-size: 13px;
-}
-
-.table-cell Label {
-    font-size: 13px;
-}
-
-.table-footer {
-    border-top-width: 1px;
-    border-top-color: #e2e8f0;
-}
-
-.table-footer .table-cell {
-    -unity-font-style: bold;
 }
 
 /* Context Menu Container */
@@ -416,26 +272,8 @@ Button.pill Label {
     justify-content: flex-start;
     padding: 8px 12px;
     margin: 0 4px;
-    border-radius: 4px;
     border-width: 0;
     height: auto;
-    color: #0f172a;
-    background-color: rgba(255, 255, 255, 0);
-    -unity-font: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
-    transition-property: background-color;
-    transition-duration: 0.1s;
-}
-
-.elements-menu-item:hover {
-    background-color: #f1f5f9;
-}
-
-.elements-menu-item.unity-disabled {
-    opacity: 0.5;
-}
-
-.elements-menu-item.unity-disabled:hover {
-    background-color: rgba(255, 255, 255, 0);
 }
 
 .elements-menu-item > Image {
@@ -446,7 +284,6 @@ Button.pill Label {
 }
 
 .elements-menu-item > Label {
-    color: #0f172a;
     flex-grow: 1;
     -unity-text-align: middle-left;
 }
@@ -454,7 +291,6 @@ Button.pill Label {
 /* Menu Divider */
 .elements-menu-divider {
     height: 1px;
-    background-color: #e2e8f0;
     margin: 4px 12px;
 }
 
@@ -471,48 +307,21 @@ Button.pill Label {
 .checkbox-box {
     width: 16px;
     height: 16px;
-    border-radius: 4px;
-    background-color: #ffffff;
-    border-width: 1px;
-    border-color: #e2e8f0;
     align-items: center;
     justify-content: center;
-    transition-property: background-color, border-color;
-    transition-duration: 0.2s;
 }
 
 .checkbox-check {
-    font-size: 12px;
-    color: #ffffff;
     display: none;
     margin: 0;
     padding: 0;
     margin-top: -0.7px;
 }
 
-.elements-checkbox.checked .checkbox-box {
-    background-color: #0f172a;
-    border-color: #0f172a;
-}
-
 .elements-checkbox.checked .checkbox-check {
     display: flex;
 }
 
-.elements-checkbox:hover .checkbox-box {
-    border-color: #64748b;
-}
-
-.elements-checkbox.checked:hover .checkbox-box {
-    background-color: #1e293b;
-    border-color: #1e293b;
-}
-
-.elements-checkbox.unity-disabled {
-    opacity: 0.5;
-}
-
 .checkbox-label {
-    font-size: 13px;
     margin-left: 8px;
 }
