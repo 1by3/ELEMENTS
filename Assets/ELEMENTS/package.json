@@ -1,6 +1,6 @@
 {
   "name": "co.1by3.elements",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "displayName": "ELEMENTS",
   "description": "A code-first, component based UI framework for Unity",
   "unity": "6000.0",

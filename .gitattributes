@@ -160,5 +160,8 @@ Assets/Plugins/**       linguist-vendored
 # Exclude docs images from LFS (Vercel doesn't support LFS by default)
 docs/public/**          -filter
 
+# Exclude package assets from LFS (Unity Package Manager doesn't support LFS)
+Assets/ELEMENTS/**      -filter
+
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
