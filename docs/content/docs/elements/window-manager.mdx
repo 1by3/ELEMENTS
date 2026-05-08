@@ -1,0 +1,89 @@
+---
+title: WindowManager
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+Owns a collection of [Window](/docs/elements/window) instances, handles their lifecycle (creation, persistence, disposal), z-order, and placement. Use one `WindowManager` per panel/viewport. Windows are obtained via the `GetWindow<T>(id)` factory, which returns the existing instance on subsequent calls (singleton-per-(type, id)).
+
+Position and size are persisted to `PlayerPrefs` under a configurable prefix. A separate index key tracks all stored window ids so `ClearAllStoredPlacements()` can remove them without scanning all of `PlayerPrefs`.
+
+## Constructor
+
+```csharp
+var manager = new WindowManager();
+parent.Add(manager.BuildVisualElement());
+```
+
+## Examples
+
+### Single manager, multiple windows
+
+```csharp
+var manager = new WindowManager();
+rootPanel.Add(manager.BuildVisualElement());
+
+manager.GetWindow<InventoryWindow>();          // id defaults to "Common"
+manager.GetWindow<ChatWindow>("guild");
+manager.GetWindow<ChatWindow>("party");        // distinct second instance of ChatWindow
+```
+
+### Custom preference prefix (per-save-slot windows)
+
+```csharp
+var manager = new WindowManager { PreferenceKeyPrefix = $"Save{slotId}.Window" };
+```
+
+### Reset all stored placements
+
+```csharp
+manager.ClearAllStoredPlacements();   // clears persisted positions/sizes; existing windows are not closed
+```
+
+### Programmatic close
+
+```csharp
+var inventory = manager.GetWindow<InventoryWindow>();
+inventory.Close();
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    PreferenceKeyPrefix: {
+      description: "Prefix used for PlayerPrefs keys when persisting window placement.",
+      type: "string",
+      default: '"ELEMENTS.Window"',
+    },
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    GetWindow: {
+      description: "Returns the existing window of type T with this id, or constructs and attaches a new one. Triggers persisted-placement load or anchored cascade placement on first call for a given (type, id).",
+      type: "<T>(string id = \"Common\") where T : Window, new() => T",
+    },
+    ClearStoredPlacement: {
+      description: "Removes the persisted placement for one window id.",
+      type: "(string fullId) => void",
+    },
+    ClearAllStoredPlacements: {
+      description: "Removes all persisted placements created by this manager (uses an index key — does not scan PlayerPrefs).",
+      type: "() => void",
+    },
+    Dispose: {
+      description: "Disposes all owned windows and clears internal state.",
+      type: "() => void",
+    },
+  }}
+/>
+
+## CSS Classes
+
+- `.elements-window-manager` — Manager root (an absolutely-positioned container that fills its parent).
+
+WindowManager extends [Component](/docs/advanced/components).

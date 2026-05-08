@@ -260,3 +260,88 @@ Button.pill Label {
 .checkbox-label {
     font-size: 13px;
 }
+
+/* Window System — theme */
+
+.elements-window {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #e2e8f0;
+    transition-property: border-color, border-left-width, border-right-width, border-top-width, border-bottom-width;
+    transition-duration: 0.15s;
+}
+
+.elements-window-title-bar {
+    border-bottom-width: 1px;
+    border-bottom-color: #e2e8f0;
+}
+
+.elements-window-title {
+    font-size: 12px;
+    color: #0f172a;
+    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
+    margin-left: 4px;
+    margin-right: 20px;
+}
+
+.elements-window-close-button {
+    border-radius: 10px;
+    font-size: 8px;
+}
+
+.elements-window-close-button Label {
+    -unity-font-definition: resource('ELEMENTS/Fonts/Inter/Inter-Medium');
+    font-size: 10px;
+    color: #64748b;
+}
+
+/* Active resize-edge highlight — slate accent matching ELEMENTS focus color */
+
+.elements-window.elements-window-hover-l {
+    border-left-width: 3px;
+    border-left-color: #64748b;
+}
+
+.elements-window.elements-window-hover-r {
+    border-right-width: 3px;
+    border-right-color: #64748b;
+}
+
+.elements-window.elements-window-hover-t {
+    border-top-width: 3px;
+    border-top-color: #64748b;
+}
+
+.elements-window.elements-window-hover-b {
+    border-bottom-width: 3px;
+    border-bottom-color: #64748b;
+}
+
+.elements-window.elements-window-hover-tl {
+    border-top-width: 3px;
+    border-top-color: #64748b;
+    border-left-width: 3px;
+    border-left-color: #64748b;
+}
+
+.elements-window.elements-window-hover-tr {
+    border-top-width: 3px;
+    border-top-color: #64748b;
+    border-right-width: 3px;
+    border-right-color: #64748b;
+}
+
+.elements-window.elements-window-hover-bl {
+    border-bottom-width: 3px;
+    border-bottom-color: #64748b;
+    border-left-width: 3px;
+    border-left-color: #64748b;
+}
+
+.elements-window.elements-window-hover-br {
+    border-bottom-width: 3px;
+    border-bottom-color: #64748b;
+    border-right-width: 3px;
+    border-right-color: #64748b;
+}

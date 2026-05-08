@@ -1,0 +1,258 @@
+---
+title: Window
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+An abstract draggable, resizable window component. Subclass `Window` and implement `RenderContent()` to define the body. Windows are created via `WindowManager.GetWindow<T>()` and support edge snapping (8px), resize-buddy propagation (adjacent docked windows resize together when you drag the seam), z-order management via `BringToFront`, anchored cascade placement, and per-window placement persistence to `PlayerPrefs`.
+
+Window extends `Component` (not `Group`) because it owns reactive state, lifecycle hooks, and a complex render tree built around an abstract `RenderContent()` hook.
+
+## Constructor
+
+```csharp
+public class InventoryWindow : Window
+{
+    public InventoryWindow()
+    {
+        Title.Value = "Inventory";
+        StartingSize = new Vector2(320, 240);
+        StartingPosition = WindowStartPosition.TopLeft;
+        MinSize = new Vector2(200, 120);
+    }
+
+    protected override IElement RenderContent()
+    {
+        return new VerticalGroup(
+            new Label("Inventory items go here").ClassName("h3")
+        ).Padding(8);
+    }
+}
+```
+
+Open it via the manager:
+
+```csharp
+windowManager.GetWindow<InventoryWindow>("primary");
+```
+
+## Examples
+
+### Basic Window
+A minimal window with text content:
+
+```csharp
+public class HelloWindow : Window
+{
+    public HelloWindow()
+    {
+        Title.Value = "Hello";
+        StartingSize = new Vector2(280, 160);
+    }
+
+    protected override IElement RenderContent() =>
+        new Label("Hello, World!").Padding(16);
+}
+```
+
+### Custom Title Bar
+Override `RenderTitleBarChildren()` to add controls. The close button is added automatically — return only the *additional* children:
+
+```csharp
+public class ToolWindow : Window
+{
+    protected override IElement[] RenderTitleBarChildren()
+    {
+        return new IElement[]
+        {
+            new Image("Icons/tool"),
+            new Label(Title).ClassName("elements-window-title"),
+            new Button(new Label("?"))
+                .ClassName("elements-window-close-button")
+                .OnClick(_ => OpenHelp())
+        };
+    }
+
+    protected override IElement RenderContent() => new Label("Tool content");
+}
+```
+
+### Multiple Windows + Manager
+The manager owns the lifecycle:
+
+```csharp
+var manager = new WindowManager();
+parent.Add(manager.BuildVisualElement());
+
+manager.GetWindow<InventoryWindow>("primary");
+manager.GetWindow<MapWindow>("primary");
+manager.GetWindow<ChatWindow>("guild");
+```
+
+### Reactive Title and Persistence Opt-Out
+
+```csharp
+public class EditorWindow : Window
+{
+    public EditorWindow(ReactiveProperty<string> documentName)
+    {
+        OptOutOfPlacementMemory = true;          // always opens at StartingPosition
+        StartingPosition = WindowStartPosition.Center;
+        BindTitle(documentName.Select(n => $"Editing — {n}"));
+    }
+
+    protected override IElement RenderContent() => new Label("Document body");
+}
+```
+
+### Fluent Configuration
+
+```csharp
+public class QuickWindow : Window
+{
+    public QuickWindow()
+    {
+        WithStartingSize(420, 280)
+            .WithMinSize(240, 160)
+            .StartAt(WindowStartPosition.TopRight)
+            .WithoutPlacementMemory();
+    }
+
+    protected override IElement RenderContent() => new Label("Quick");
+}
+```
+
+## Properties
+
+<TypeTable
+  type={{
+    Title: {
+      description: "Reactive title shown in the title bar.",
+      type: "ReactiveProperty<string>",
+      default: '"Window"',
+    },
+    Position: {
+      description: "Reactive top-left position in panel coordinates. Updated automatically by drag.",
+      type: "ReactiveProperty<Vector2>",
+      default: "(50, 50)",
+    },
+    Size: {
+      description: "Reactive width/height. Updated automatically by resize.",
+      type: "ReactiveProperty<Vector2>",
+      default: "(320, 200)",
+    },
+    MinSize: {
+      description: "Minimum allowed size. Enforced live during resize.",
+      type: "Vector2",
+      default: "(160, 80)",
+    },
+    MaxSize: {
+      description: "Maximum allowed size.",
+      type: "Vector2",
+      default: "(∞, ∞)",
+    },
+    StartingSize: {
+      description: "Size used on first open when no persisted size exists. Read at GetWindow time — set in subclass constructor.",
+      type: "Vector2",
+      default: "(320, 200)",
+    },
+    StartingPosition: {
+      description: "Anchor used on first open. Cascades 24px per subsequent window with the same anchor. Read at GetWindow time.",
+      type: "WindowStartPosition",
+      default: "Center",
+    },
+    OptOutOfPlacementMemory: {
+      description: "When true, position/size are not persisted and the window always opens at StartingPosition/StartingSize.",
+      type: "bool",
+      default: "false",
+    },
+  }}
+/>
+
+## Methods
+
+<TypeTable
+  type={{
+    BringToFront: {
+      description: "Raises this window above all others owned by the same manager. Called automatically on PointerDown.",
+      type: "() => void",
+    },
+    Close: {
+      description: "Closes the window via its manager (disposes and removes from the manager's registry).",
+      type: "() => void",
+    },
+    BindTitle: {
+      description: "Subscribes the Title ReactiveProperty to an observable so external state drives the title bar.",
+      type: "(Observable<string>) => Window",
+    },
+    WithMinSize: {
+      description: "Fluent setter for MinSize.",
+      type: "(float x, float y) => Window",
+    },
+    WithMaxSize: {
+      description: "Fluent setter for MaxSize.",
+      type: "(float x, float y) => Window",
+    },
+    WithStartingSize: {
+      description: "Fluent setter for StartingSize. Must be called before GetWindow to affect first-open size.",
+      type: "(float x, float y) => Window",
+    },
+    StartAt: {
+      description: "Fluent setter for StartingPosition. Must be called before GetWindow to take effect.",
+      type: "(WindowStartPosition) => Window",
+    },
+    WithoutPlacementMemory: {
+      description: "Fluent: sets OptOutOfPlacementMemory = true.",
+      type: "() => Window",
+    },
+    RenderContent: {
+      description: "Override to define the window body. Called once during Render.",
+      type: "abstract () => IElement",
+    },
+    RenderTitleBarChildren: {
+      description: "Override to customize title bar children. The close button is always appended automatically. Default returns a single Label bound to Title.",
+      type: "virtual () => IElement[]",
+    },
+  }}
+/>
+
+## CSS Classes
+
+- `.elements-window` — Window root container
+- `.elements-window-content` — Wrapper around the user's `RenderContent()` output
+- `.elements-window-title-bar` — Title bar HorizontalGroup
+- `.elements-window-title` — Title Label
+- `.elements-window-close-button` — Close Button
+- `.elements-window-resize-handle` — Base class on all 8 resize handles
+- `.elements-window-resize-l` / `-r` / `-t` / `-b` — Edge handles
+- `.elements-window-resize-tl` / `-tr` / `-bl` / `-br` — Corner handles
+- `.elements-window-hover-l` / `-r` / `-t` / `-b` / `-tl` / `-tr` / `-bl` / `-br` — Applied to the window root while a resize handle is hovered or active; drives the highlighted edge.
+
+## WindowStartPosition Enum
+
+<TypeTable
+  type={{
+    Center: {
+      description: "Centered in the manager's container.",
+      type: "WindowStartPosition",
+    },
+    TopLeft: {
+      description: "Top-left corner of the manager's container.",
+      type: "WindowStartPosition",
+    },
+    TopRight: {
+      description: "Top-right corner.",
+      type: "WindowStartPosition",
+    },
+    BottomLeft: {
+      description: "Bottom-left corner.",
+      type: "WindowStartPosition",
+    },
+    BottomRight: {
+      description: "Bottom-right corner.",
+      type: "WindowStartPosition",
+    },
+  }}
+/>
+
+Window extends [Component](/docs/advanced/components).

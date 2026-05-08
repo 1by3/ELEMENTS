@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.6] - 2026-05-08
+
+### Added
+- `Window` component: abstract draggable, resizable window with reactive `Title`/`Position`/`Size`, 8-handle resize (edges + corners), edge snapping, resize-buddy propagation between docked windows, and customizable title bar via `RenderTitleBarChildren()`
+- `WindowManager` component: singleton-per-(type, id) factory (`GetWindow<T>`), `PlayerPrefs` placement persistence, anchored cascade placement, and z-order control
+- `WindowStartPosition` enum: `Center`, `TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`
+- Fluent helpers on `Window`: `WithMinSize`, `WithMaxSize`, `WithStartingSize`, `StartAt`, `WithoutPlacementMemory`, `BindTitle`
+- Default and themed styles for windows (`.elements-window-*` classes) in `DefaultStyles.uss` / `ExtendedStyles.uss`
+- Documentation pages for `Window` and `WindowManager`
+
 ## [2.0.0-beta.5] - 2026-02-14
 
 ### Fixed
