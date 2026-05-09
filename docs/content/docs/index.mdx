@@ -8,7 +8,7 @@ ELEMENTS can be easily added to any Unity project, running Unity 6 or above. Uni
 
 ### Install R3
 
-ELEMENTS depends on [R3](https://github.com/Cysharp/R3). Install it from NuGet using [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) — search for "R3" and install the latest stable version.
+Install NuGet using [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) and then use it to install [R3](https://github.com/Cysharp/R3).
 
 ### Install ELEMENTS
 
@@ -93,9 +93,10 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
 
-    private void OnEnable()
+    private void Start()
     {
         uiDocument.AddStyleSheet("ELEMENTS/DefaultStyles");
+        uiDocument.AddStyleSheet("ELEMENTS/ExtendedStyles");
         uiDocument.RenderElement(new ExampleComponent());
     }
 }
@@ -104,7 +105,7 @@ public class GameUI : MonoBehaviour
 A couple of notes...
 
 - We loaded the default ELEMENTS stylesheet onto the UIDocument using the `AddStyleSheet` helper. This is optional, but highly recommended for a good starting point with styles. For more on styling, including Tailwind-style utility classes, see [Utility Classes](/docs/utility-classes).
-- We used the `OnEnable` method. This is an important detail that allows your UI to update when Unity reloads your game if you make code changes. If your UI is disappearing on reload, this might be why.
+- We also loaded the ELEMENTS extended styles, which is a nice clean starting point until you add your own styles.
 
 If you start your game, you should see your UI on the screen!
 
