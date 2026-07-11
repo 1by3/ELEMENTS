@@ -59,7 +59,26 @@ namespace ELEMENTS.Elements
 
             if (savedPos.HasValue)
             {
+                // A stored placement can be entirely off-screen if the panel shrank since
+                // it was saved (resized game view, different resolution) — clamp it back in.
+                var savedBounds = GetContainerBounds();
+                if (savedBounds.width > 0 && savedBounds.height > 0)
+                {
+                    window.ApplyPlacement(ClampToBounds(savedPos.Value, startingSize, savedBounds), startingSize);
+                    return;
+                }
+
+                // Bounds not laid out yet: apply verbatim now, re-clamp when geometry arrives.
                 window.ApplyPlacement(savedPos.Value, startingSize);
+                EventCallback<GeometryChangedEvent> onGeoSaved = null;
+                onGeoSaved = _ =>
+                {
+                    var b = GetContainerBounds();
+                    if (b.width <= 0 || b.height <= 0) return;
+                    ve.UnregisterCallback(onGeoSaved);
+                    window.ApplyPlacement(ClampToBounds(savedPos.Value, startingSize, b), startingSize);
+                };
+                ve.RegisterCallback(onGeoSaved);
                 return;
             }
 
@@ -85,6 +104,13 @@ namespace ELEMENTS.Elements
                 window.ApplyPlacement(pos, startingSize);
             };
             ve.RegisterCallback(onGeo);
+        }
+
+        private static Vector2 ClampToBounds(Vector2 pos, Vector2 size, Rect bounds)
+        {
+            var maxX = Mathf.Max(0f, bounds.width - size.x);
+            var maxY = Mathf.Max(0f, bounds.height - size.y);
+            return new Vector2(Mathf.Clamp(pos.x, 0f, maxX), Mathf.Clamp(pos.y, 0f, maxY));
         }
 
         private static Vector2 ComputeAnchoredPosition(WindowStartPosition anchor, Rect bounds, Vector2 size, int cascadeIndex)
@@ -220,7 +246,10 @@ namespace ELEMENTS.Elements
         protected override IElement Render()
         {
             var group = new HorizontalGroup()
-                .ClassName("elements-window-manager");
+                .ClassName("elements-window-manager")
+                // The container spans its whole parent; without Ignore it swallows every
+                // click aimed at whatever sits beneath it. Windows pick for themselves.
+                .PickingMode(UnityEngine.UIElements.PickingMode.Ignore);
             container = group;
 
             // Re-parent any windows that were opened before Render ran.
