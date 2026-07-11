@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.8] - 2026-07-11
+
+### Fixed
+- `WindowManager` container no longer captures pointer events across its whole parent (`PickingMode.Ignore`); windows still pick for themselves
+- Restored window placements are clamped into the container bounds, so a position persisted on a larger panel can no longer leave a window stranded off-screen
+
 ## [2.0.0-beta.6] - 2026-05-08
 
 ### Added
